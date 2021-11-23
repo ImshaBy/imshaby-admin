@@ -8,7 +8,7 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import parse from 'date-fns/parse';
 
 import DateTimePicker from '../datapicker';
-import { CloseIcon, YoutubeIcon } from '../icons';
+import { CloseIcon, YoutubeIcon, RoratyIcon } from '../icons';
 import Modal from '../modal';
 
 import {
@@ -30,6 +30,7 @@ const CreateModal = () => {
   const [startDateValid, setStartDateValid] = useState<boolean>(true);
   const [isMassPeriodic, setMassPeriodic] = useState<boolean>(false);
   const [online, setOnline] = useState<boolean>(false);
+  const [roraty, setRoraty] = useState<boolean>(false);
   const [langCode, setLangCode] = useState<string>(DEFAULT_LANG);
   const [notes, setNotes] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -65,6 +66,7 @@ const CreateModal = () => {
     setDays(mass.days ? mass.days : []);
     setMassPeriodic(!!mass.days?.length);
     setOnline(!!mass.online);
+    setRoraty(!!mass.roraty);
     setLangCode(mass.langCode || '');
     setNotes(mass.notes || '');
   }, [mass]);
@@ -80,6 +82,7 @@ const CreateModal = () => {
     setDays([]);
     setMassPeriodic(false);
     setOnline(false);
+    setRoraty(false);
     setLangCode(DEFAULT_LANG);
     setNotes('');
     setSubmitted(false);
@@ -153,6 +156,7 @@ const CreateModal = () => {
       notes,
       time,
       online,
+      roraty,
       id: mass?.id,
     };
 
@@ -319,6 +323,21 @@ const CreateModal = () => {
               </>
               )
             }
+              <section className="form__row form__row--small-margin">
+                <div className="form__col">
+                  <div className="form__field">
+                    <label className="checkbox">
+                  <input type="checkbox" className="checkbox__input" checked={roraty} onChange={() => setRoraty(!roraty)} />
+                  <span className="checkbox__text">
+                      {' '}
+                      Рараты
+                      <RoratyIcon className="checkbox__roraty" />
+                    </span>
+                </label>
+                    <span className="form__hint form__hint--padding-left">Пазначыць Імшу як раратнюю</span>
+                  </div>
+                </div>
+              </section>
 
               <section className="form__row form__row--small-margin">
                 <div className="form__col">

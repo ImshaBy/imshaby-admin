@@ -247,6 +247,14 @@ a, path {
       fill: var(--main-icon-color);
     }
   }
+  &__roraty {
+    width: 26px;
+    height: 18px;
+    margin-left: 10px;
+    path{
+      fill: var(--main-icon-color);
+    }
+  }
 }
 
 .radio {
