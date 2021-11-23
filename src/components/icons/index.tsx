@@ -9,6 +9,7 @@ import { ReactComponent as LeftArrowSVG } from './icons/left-arrow.svg';
 import { ReactComponent as RightArrowSVG } from './icons/right-arrow.svg';
 import { ReactComponent as InfinitySVG } from './icons/infinity.svg';
 import { ReactComponent as YoutubeSVG } from './icons/youtube.svg';
+import { ReactComponent as RoratySVG } from './icons/roraty.svg';
 import { ReactComponent as DeleteSVG } from './icons/delete.svg';
 import { ReactComponent as EditSVG } from './icons/edit.svg';
 import { ReactComponent as PauseSVG } from './icons/pause.svg';
@@ -35,6 +36,7 @@ export const LeftArrowIcon = ({ className } : props) => <LeftArrowSVG className=
 export const RightArrowIcon = ({ className } : props) => <RightArrowSVG className={className} />;
 export const InfinityIcon = ({ className } : props) => <InfinitySVG className={className} />;
 export const YoutubeIcon = ({ className } : props) => <YoutubeSVG className={className} />;
+export const RoratyIcon = ({ className } : props) => <RoratySVG className={className} />;
 export const DeleteIcon = ({ className } : props) => <DeleteSVG className={className} />;
 export const EditIcon = ({ className } : props) => <EditSVG className={className} />;
 export const PauseIcon = ({ className } : props) => <PauseSVG className={className} />;

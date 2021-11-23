@@ -15,6 +15,7 @@ export type Mass = {
   endDate?: string;
   singleStartTimestamp?: number;
   online?: boolean | null;
+  roraty?: boolean | null;
 };
 
 type Localization = {
