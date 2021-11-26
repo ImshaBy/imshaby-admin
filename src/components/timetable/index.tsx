@@ -188,7 +188,7 @@ const TimeTable = ({ schedule }: props) => {
                   <table className="timetable__body">
                     <tbody>
                     {
-                      schedule[tab].massHours.map((massHours, k) => (
+                      schedule[tab] && schedule[tab].massHours.map((massHours, k) => (
                         <TimeTableLine
                           massHours={massHours}
                           key={k}
