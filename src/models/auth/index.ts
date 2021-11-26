@@ -33,9 +33,13 @@ export const createAuthClientFx = createEffect(async () => {
 
 export const fetchTokenFx = createEffect(() => {
   try {
-    return client?.getTokenSilently();
+    let token = client?.getTokenSilently();
+    if(token){
+      return token;
+    }
+    return "dummy"
   } catch (e) {
-    return new Error(e);
+    return 'Error: ' + e;
   }
 });
 

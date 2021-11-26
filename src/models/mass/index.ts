@@ -35,7 +35,7 @@ export const createMassFx = createEffect(async (mass: Mass | null) => {
     const { data } = await api?.post('mass', mass);
     return data
   }catch (e) {
-    throw Error(e)
+    throw Error("not possible to create mass due to server error!")
   }
 
 });
@@ -47,7 +47,7 @@ export const updateMassFx = createEffect(async (mass: Mass | null) => {
     const { data } = await api?.put(`mass/${mass.id}`, mass);
     return data
   }catch (e) {
-    throw Error(e)
+    throw Error("Not possible to update mass due to server error")
   }
 });
 

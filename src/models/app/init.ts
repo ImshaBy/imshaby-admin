@@ -6,7 +6,7 @@ import { createAuthClientFx, fetchTokenFx, fetchUserFx } from '../auth';
 
 $apiClientReady.on(createApiClientFx.doneData, () => true);
 $auth0ClientReady.on(createAuthClientFx.doneData, () => true);
-$tokenReady.on(fetchTokenFx.doneData, (state, token) => !!token.length);
+$tokenReady.on(fetchTokenFx.doneData, (state, token) => !!token?.length);
 
 forward({
   from: AppGate.open,

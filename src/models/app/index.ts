@@ -15,7 +15,7 @@ export const $appInitialized = combine(
 
 export let api: AxiosInstance = axios.create();
 
-export const createApiClientFx = createEffect(async (token: string): Promise<boolean> => {
+export const createApiClientFx = createEffect(async (token: string): Promise<void> => {
   try {
     api = axios.create({
       baseURL: process.env.REACT_APP_API_URL,
@@ -24,9 +24,9 @@ export const createApiClientFx = createEffect(async (token: string): Promise<boo
         'Content-Type': 'application/json',
       },
     });
-    return true;
+    // return true;
   } catch (e) {
     console.error(e);
-    return false;
+    // return false;
   }
 });
