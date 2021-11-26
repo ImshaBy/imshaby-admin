@@ -28,6 +28,7 @@ export type MassHoursData = {
   lastModifiedDate: string;
   needUpdate: boolean;
   online: boolean;
+  rorate: boolean;
   parish: {
     address: string;
     gps: null;

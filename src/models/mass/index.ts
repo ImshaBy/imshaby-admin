@@ -31,6 +31,7 @@ export const createMassFx = createEffect(async (mass: Mass | null) => {
   if (!mass) return;
 
   try {
+
     const { data } = await api?.post('mass', mass);
     return data
   }catch (e) {
