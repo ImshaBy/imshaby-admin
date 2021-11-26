@@ -28,6 +28,7 @@ const DateTimePicker = ({
         locale={be}
         dateFormat="dd/MM/yyyy"
         selected={selected}
+        onKeyDown={(e) => { e.preventDefault(); }}
         onChange={handleChange}
         minDate={minDate}
         maxDate={maxDate}
