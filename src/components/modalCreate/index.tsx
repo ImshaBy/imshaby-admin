@@ -30,7 +30,7 @@ const CreateModal = () => {
   const [startDateValid, setStartDateValid] = useState<boolean>(true);
   const [isMassPeriodic, setMassPeriodic] = useState<boolean>(false);
   const [online, setOnline] = useState<boolean>(false);
-  const [roraty, setRoraty] = useState<boolean>(false);
+  const [rorate, setRorate] = useState<boolean>(false);
   const [langCode, setLangCode] = useState<string>(DEFAULT_LANG);
   const [notes, setNotes] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -66,7 +66,7 @@ const CreateModal = () => {
     setDays(mass.days ? mass.days : []);
     setMassPeriodic(!!mass.days?.length);
     setOnline(!!mass.online);
-    setRoraty(!!mass.roraty);
+    setRorate(!!mass.rorate);
     setLangCode(mass.langCode || '');
     setNotes(mass.notes || '');
   }, [mass]);
@@ -82,7 +82,7 @@ const CreateModal = () => {
     setDays([]);
     setMassPeriodic(false);
     setOnline(false);
-    setRoraty(false);
+    setRorate(false);
     setLangCode(DEFAULT_LANG);
     setNotes('');
     setSubmitted(false);
@@ -141,6 +141,7 @@ const CreateModal = () => {
         notes,
         langCode,
         online,
+        rorate,
         id: mass?.id,
       };
 
@@ -156,7 +157,7 @@ const CreateModal = () => {
       notes,
       time,
       online,
-      roraty,
+      rorate,
       id: mass?.id,
     };
 
@@ -198,7 +199,7 @@ const CreateModal = () => {
                 <div className="form__col form__col--small">
                   <div className={`form__label ${!timeValid && submitted ? 'form__label--invalid' : ''}`}>Час</div>
                   <div className="from__field">
-                    <input type="text" onChange={handleChangeTime} value={time} placeholder="09:00" />
+                    <input type="text"  onChange={handleChangeTime} value={time} placeholder="09:00" maxLength={5} />
                   </div>
                 </div>
                 {
@@ -327,7 +328,7 @@ const CreateModal = () => {
                 <div className="form__col">
                   <div className="form__field">
                     <label className="checkbox">
-                  <input type="checkbox" className="checkbox__input" checked={roraty} onChange={() => setRoraty(!roraty)} />
+                  <input type="checkbox" className="checkbox__input" checked={rorate} onChange={() => setRorate(!rorate)} />
                   <span className="checkbox__text">
                       {' '}
                       Рараты

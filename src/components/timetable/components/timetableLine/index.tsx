@@ -2,7 +2,7 @@ import React from 'react';
 import format from 'date-fns/format';
 
 import Repeat from '../../../repeat';
-import { InfinityIcon, YoutubeIcon, DeleteIcon, EditIcon } from '../../../icons';
+import { InfinityIcon, YoutubeIcon, DeleteIcon, EditIcon, RoratyIcon } from '../../../icons';
 
 import { changeMassMode, editMass } from '../../../../models/mass';
 import { MassMode } from '../../../../models/mass/types';
@@ -42,6 +42,7 @@ const mobileLayout = (massHours: MassHours, onDelete: (item: MassHoursData) => v
                 <div className={`timetable__online ${item.needUpdate ? 'timetable__needUpdate' : 'timetable__updated'}`}>
                   <span className="timetableMobile__time">{massHours.hour}</span>
                   {item.online && <YoutubeIcon className="timetable__icon timetableMobile__icon" />}
+                  {item.rorate && <RoratyIcon className="timetable__icon timetableMobile__icon" />}
                 </div>
 
               </div>
@@ -121,6 +122,9 @@ const tabletLayout = (massHours: MassHours, onDelete: (item: MassHoursData) => v
         <tr className="timetable__line" key={i}>
           <td className={`timetable__online ${item.needUpdate ? 'timetable__needUpdate' : 'timetable__updated'}`}>
             {item.online && <YoutubeIcon className="timetable__icon" />}
+          </td>
+          <td className={`timetable__roraty`}>
+            {item.rorate && <RoratyIcon className="timetable__icon timetableMobile__icon" />}
           </td>
           <td className="timetable__time">{massHours.hour}</td>
           <td className="timetable__lang">{item.langCode}</td>

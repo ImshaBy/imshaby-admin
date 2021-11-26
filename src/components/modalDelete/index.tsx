@@ -3,7 +3,7 @@ import format from 'date-fns/format';
 import be from 'date-fns/locale/be';
 import parse from 'date-fns/parse';
 
-import { CloseIcon, InfinityIcon, YoutubeIcon } from '../icons';
+import { CloseIcon, InfinityIcon, RoratyIcon, YoutubeIcon } from '../icons';
 import Repeat from '../repeat';
 import Modal from '../modal';
 
@@ -103,6 +103,8 @@ const DeleteModal = ({
                   <div className="success__value">
                     {format(date, 'HH.mm')}
                     {mass.online && <YoutubeIcon className="success__youtube" />}
+                    {mass.rorate && <RoratyIcon className="success__youtube" />}
+
                   </div>
                 </li>
                 <li className="success__item">

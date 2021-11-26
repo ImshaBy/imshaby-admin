@@ -4,7 +4,7 @@ import format from 'date-fns/format';
 import parse from 'date-fns/parse';
 import be from 'date-fns/locale/be';
 
-import { InfinityIcon, YoutubeIcon } from '../icons';
+import { InfinityIcon, YoutubeIcon, RoratyIcon } from '../icons';
 import Repeat from '../repeat';
 import Modal from '../modal';
 
@@ -86,6 +86,7 @@ const CreateModalResult = () => {
                   <div className="success__value">
                     {time}
                     {mass.online && <YoutubeIcon className="success__youtube" />}
+                    {mass.rorate && <RoratyIcon className="success__roraty" />}
                   </div>
                 </li>
                 <li className="success__item">

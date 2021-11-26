@@ -42,6 +42,12 @@
       width: 45px;
     }
   }
+  &__roraty {
+    position: relative;
+    @include tablet {
+      width: 45px;
+    }
+  }
   &__time {
     width: 65px;
     text-align: left;
@@ -145,7 +151,7 @@
     min-width: 20px;
   }
   &__roraty {
-    min-width: 20px;
+    min-width: 5px;
   }
 
   &__actions {

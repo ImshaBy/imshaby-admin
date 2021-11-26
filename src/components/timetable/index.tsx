@@ -68,6 +68,7 @@ const TimeTable = ({ schedule }: props) => {
                 <tr>
                   <td className="timetable__date">Дзень тыдня</td>
                   <td className="timetable__online" />
+                  <td className="timetable__roraty" />
                   <td className="timetable__time">Час</td>
                   <td className="timetable__lang">Мова Імшы</td>
                   <td className="timetable__comments">Каментарый</td>
