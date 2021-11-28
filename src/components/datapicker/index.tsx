@@ -11,6 +11,12 @@ interface IProps {
   maxDate?: Date | null,
 }
 
+const ReadonlyInput = ({ value, onClick }: any) => (
+  <button onClick={onClick}>📅{' ' + value}
+  </button>
+);
+
+
 const DateTimePicker = ({
   onChange, selected, minDate, maxDate,
 }: IProps) => {
@@ -30,6 +36,7 @@ const DateTimePicker = ({
         selected={selected}
         onKeyDown={(e) => { e.preventDefault(); }}
         onChange={handleChange}
+        customInput={<ReadonlyInput />}
         minDate={minDate}
         maxDate={maxDate}
       />
