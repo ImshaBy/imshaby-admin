@@ -4,7 +4,7 @@ on:
     push:
        branches:
             - no-mass-mode
-      # tags:
+      ## tags:
       #   - v*
 
 jobs:
