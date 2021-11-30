@@ -2,17 +2,19 @@ name: Deploy to Production
 
 on:
     push:
-      tags:
-        - v*
+       branches:
+            - no-mass-mode
+      ## tags:
+      #   - v*
 
 jobs:
     build:
         runs-on: ubuntu-latest
         env:
             REACT_APP_API_URL: ${{secrets.REACT_APP_API_URL_PRD}}
-            REACT_APP_AUTH_DOMAIN: ${{secrets.REACT_APP_AUTH_DOMAIN}}
-            REACT_APP_AUTH_CLIENT_ID: ${{secrets.REACT_APP_AUTH_CLIENT_ID}}
-            REACT_APP_AUTH_AUDIENCE: ${{secrets.REACT_APP_AUTH_AUDIENCE}}
+            REACT_APP_AUTH_DOMAIN: ${{secrets.REACT_APP_AUTH_DOMAIN_PRD}}
+            REACT_APP_AUTH_CLIENT_ID: ${{secrets.REACT_APP_AUTH_CLIENT_ID_PRD}}
+            REACT_APP_AUTH_AUDIENCE: ${{secrets.REACT_APP_AUTH_AUDIENCE_PRD}}
         steps:
             - uses: actions/checkout@v2
 
