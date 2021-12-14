@@ -2,10 +2,10 @@ name: Deploy to Production
 
 on:
     push:
-       branches:
-            - no-mass-mode
-      ### tags:
-      #   - v*
+      #  branches:
+      #       - no-mass-mode
+      tags:
+        - v*
 
 jobs:
     build:
