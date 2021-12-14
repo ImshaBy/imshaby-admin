@@ -102,7 +102,7 @@ const CreateModalResult = () => {
                   <div className="success__value">
                     {
                       !mass.endDate && mass.days
-                        ? <InfinityIcon className="success__infinity" />
+                        ? <span>{period} па <InfinityIcon className="success__infinity" /></span>
                         : <span>{period}</span>
                     }
                   </div>
