@@ -21,7 +21,7 @@ const NOTES_LIMIT = 300;
 const DEFAULT_LANG = 'беларуская';
 
 const CreateModal = () => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [time, setTime] = useState<string>('');
   const [timeValid, setTimeValid] = useState<boolean>(false);
@@ -59,7 +59,7 @@ const CreateModal = () => {
       setStartDate(parse(mass.startDate, 'MM/dd/yyyy', new Date()));
       setTime(mass.time || '');
     } else {
-      setStartDate(null);
+      setStartDate(new Date());
       setTime(mass.time || '');
     }
     setEndDate(mass.endDate ? new Date(mass.endDate) : null);
@@ -76,7 +76,7 @@ const CreateModal = () => {
   }, [days, time, startDate]);
 
   const resetForm = () => {
-    setStartDate(null);
+    setStartDate(new Date());
     setEndDate(null);
     setTime('');
     setDays([]);
@@ -89,7 +89,7 @@ const CreateModal = () => {
   };
 
   const handleChangeStartDate = (date: Date | null) => {
-    setStartDate(date);
+    setStartDate(date ? date : new Date());
   };
   const handleChangeEndDate = (date: Date | null) => {
     setEndDate(date);
@@ -191,7 +191,7 @@ const CreateModal = () => {
             <section className="form">
               <section className="form__row form__row--column">
                 <div className="form__col form__col--large">
-                  <div className={`form__label ${!startDateValid && submitted ? 'form__label--invalid' : ''}`}>Дата</div>
+                  <div className={`form__label ${!startDateValid && submitted ? 'form__label--invalid' : ''}`}>Iмша ў раскладзе з</div>
                   <div className="form__field">
                     <DateTimePicker selected={startDate} onChange={handleChangeStartDate} minDate={new Date()} maxDate={endDate} />
                   </div>

@@ -9,8 +9,12 @@ import {
   logoutFx, LogoutGate,
 } from '.';
 
-$user
-  .on(fetchUserFx.doneData, (state, { parish_id }) => ({ ...state, parish_id }));
+// $user
+//   .on(fetchUserFx.doneData, (state, { parish_id }) => {
+//     ({ ...state, parish_id })
+//   } );
+
+  $user.on(fetchUserFx.doneData, (_, user) => user);
 
 $token
   .on(fetchTokenFx.doneData, (state, token) => token);
