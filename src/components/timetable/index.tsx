@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useStore } from 'effector-react';
 import { useMediaQuery } from 'react-responsive';
 import { useToasts } from 'react-toast-notifications';
-import { setHours, setMinutes } from 'date-fns';
+import { setHours, setMinutes, setSeconds } from 'date-fns';
 import format from 'date-fns/format';
 import be from 'date-fns/locale/be';
 import isToday from 'date-fns/isToday';
@@ -43,6 +43,7 @@ const TimeTable = ({ schedule }: props) => {
     const [hour, minute] = massHours.hour.split(':');
     let date = setHours(day.date, Number(hour));
     date = setMinutes(date, Number(minute));
+    date = setSeconds(date, 0);
     setSelectedDay(date);
     setSelectedMass(massHoursData);
     setVisibleDelete(true);

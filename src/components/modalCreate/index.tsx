@@ -4,6 +4,8 @@ import format from 'date-fns/format';
 import getTime from 'date-fns/getTime';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
+import setSeconds from 'date-fns/setSeconds';
+
 import fromUnixTime from 'date-fns/fromUnixTime';
 import parse from 'date-fns/parse';
 
@@ -135,6 +137,7 @@ const CreateModal = () => {
       const hourTime = time.split(':');
       let date = setHours(startDate, Number(hourTime[0]));
       date = setMinutes(date, Number(hourTime[1]));
+      date = setSeconds(date, 0);
 
       const data = {
         singleStartTimestamp: getTime(date) / 1000,
