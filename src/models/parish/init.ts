@@ -1,23 +1,31 @@
-import { sample } from 'effector';
+import { sample, forward } from 'effector';
 import {
-  $parish, fetchParishFx, ParishGate, updateParish, updateParishFx,
+  $parish, $parishes, changeParish, fetchParishesByCityIdFx, fetchParishFx, ParishGate, updateParish, updateParishFx,
 } from './index';
-import { $user } from '../auth';
+import { $app } from '../app';
 import { approveScheduleFx } from '../schedule';
+import { changeCity } from '../city';
 
+$parishes
+  .on(fetchParishesByCityIdFx.doneData, (_, parishes) => parishes);
 $parish
   .on(fetchParishFx.doneData, (_, parish) => parish);
 
 sample({
-  clock: [ParishGate.open, approveScheduleFx.doneData],
-  source: $user,
+  clock: [changeParish, approveScheduleFx.doneData, ParishGate.open],
+  source: $app,
   fn: (params) => params.parish_id,
   target: fetchParishFx,
 });
 
 sample({
   clock: updateParish,
-  source: $user,
+  source: $app,
   fn: (params, data) => ({ parish_id: params.parish_id, parish: data }),
   target: updateParishFx,
 });
+
+forward({
+  from: changeCity,
+  to: fetchParishesByCityIdFx
+})

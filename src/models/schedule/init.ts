@@ -8,7 +8,7 @@ import {
   fetchWeekScheduleFx, updateScheduleDate,
 } from './index';
 
-import { $user } from '../auth';
+import { $app } from '../app';
 import { createMassFx, deleteMassFx, updateMassFx } from '../mass';
 
 $schedule
@@ -20,7 +20,7 @@ $scheduleDate
 sample({
   clock: [fetchWeekSchedule, updateMassFx.doneData, createMassFx.doneData, deleteMassFx.doneData, approveScheduleFx.doneData],
   source: {
-    user: $user,
+    user: $app,
     scheduleDate: $scheduleDate,
   },
   fn: (params) => ({ parish_id: params.user.parish_id, date: params.scheduleDate }),
@@ -29,7 +29,7 @@ sample({
 
 sample({
   clock: approveSchedule,
-  source: $user,
+  source: $app,
   fn: (user) => user.parish_id,
   target: approveScheduleFx,
 });

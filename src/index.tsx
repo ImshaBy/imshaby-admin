@@ -6,29 +6,24 @@ import { useGate, useStore } from 'effector-react';
 import reportWebVitals from './reportWebVitals';
 
 import LoginPage from './pages/login';
-import LogoutPage from './pages/logout';
 import SchedulePage from './pages/schedule';
 import ParishPage from './pages/parish';
 
 import PrivateRoute from './components/PrivateRoute';
 import Snackbar from './components/snackbar';
-import Loading from './components/loading';
 
-import { $appInitialized, AppGate } from './models/app';
+import { AppGate } from './models/app';
 import './models/init';
 
 import './styles/style.scss';
 
 const App = () => {
   useGate(AppGate);
-  const appInitialized = useStore($appInitialized);
 
-  if (!appInitialized) return <Loading />;
   return (
     <Router>
       <Switch>
         <Route path="/login" component={LoginPage} />
-        <Route path="/logout" component={LogoutPage} />
         <PrivateRoute path="/schedule" component={SchedulePage} />
         <PrivateRoute path="/parish" component={ParishPage} />
         <PrivateRoute path="/" component={SchedulePage} />

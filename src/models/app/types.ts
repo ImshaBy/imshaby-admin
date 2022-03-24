@@ -1,5 +1,4 @@
 export type App = {
-  token: boolean,
-  apiClient: boolean,
-  auth0Client: boolean
+  city_id: string,
+  parish_id: string,
 };

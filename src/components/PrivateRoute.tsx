@@ -1,9 +1,8 @@
 import React from 'react';
 import { useStore } from 'effector-react';
 import { Route } from 'react-router-dom';
-import { $user } from '../models/auth';
-import { $appInitialized } from '../models/app';
-import Loading from './loading';
+import { $app } from '../models/app';
+import LoginPage from '../pages/login';
 
 interface IPrivateRoute {
   component: React.ComponentType,
@@ -11,13 +10,12 @@ interface IPrivateRoute {
 }
 
 const PrivateRoute = ({ component, path }: IPrivateRoute) => {
-  const appInitialized = useStore($appInitialized);
-  const { parish_id } = useStore($user);
+  const { parish_id, city_id } = useStore($app);
 
-  if (appInitialized && parish_id) {
+  if (parish_id && city_id) {
     return <Route component={(component)} path={path} exact />;
   }
-  return <Loading />;
+  return <LoginPage />;
 };
 
 export default PrivateRoute;

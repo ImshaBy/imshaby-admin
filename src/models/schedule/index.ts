@@ -1,8 +1,10 @@
+import axios from 'axios';
 import { createEffect, createEvent, createStore } from 'effector';
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
-import { api } from '../app';
 import { ScheduleResponse, WeekSchedule } from './types';
+
+const { REACT_APP_API_URL } = process.env;
 
 export const $schedule = createStore<WeekSchedule | null>(null);
 export const $scheduleDate = createStore<Date>(new Date());
@@ -15,7 +17,7 @@ export const approveSchedule = createEvent();
 export const fetchWeekScheduleFx = createEffect(async (params: { parish_id: string, date: Date }) => {
   const date = format(params.date, 'dd-MM-yyyy');
 
-  const res = await api?.get(`mass/week?parishId=${params.parish_id}&date=${date}`);
+  const res = await axios.get(`${REACT_APP_API_URL}mass/week?parishId=${params.parish_id}&date=${date}`);
 
   if (!res?.data) return new Error('Week schedule not found');
 
@@ -26,7 +28,7 @@ export const fetchWeekScheduleFx = createEffect(async (params: { parish_id: stri
 });
 
 export const approveScheduleFx = createEffect(async (parish_id: string) => {
-  const res = await api?.put(`mass?parishId=${parish_id}`, {});
+  const res = await axios.put(`${REACT_APP_API_URL}mass?parishId=${parish_id}`, {});
 
   if (!res?.data) return new Error('Approve schedule has been failed');
 

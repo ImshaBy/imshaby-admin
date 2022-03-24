@@ -1,29 +1,11 @@
-import { forward } from 'effector';
-import {
-  AppGate, createApiClientFx, $apiClientReady, $auth0ClientReady, $tokenReady,
-} from '.';
-import { createAuthClientFx, fetchTokenFx, fetchUserFx } from '../auth';
+import { $app, $appLocalStorage, logout } from './index';
+import { changeCity } from '../city';
+import { changeParish } from '../parish';
 
-$apiClientReady.on(createApiClientFx.doneData, () => true);
-$auth0ClientReady.on(createAuthClientFx.doneData, () => true);
-$tokenReady.on(fetchTokenFx.doneData, (state, token) => !!token?.length);
+$app
+  .on(changeCity, (app, city_id) => ({ city_id, parish_id: app.parish_id }))
+  .on(changeParish, (app, parish_id) => ({ parish_id, city_id: app.city_id }))
+  .on(logout, (app, params) => ({ city_id: '', parish_id: '' }));
+  // .reset(logout); => problem with updating $appLocalStorage
 
-forward({
-  from: AppGate.open,
-  to: createAuthClientFx,
-});
-
-forward({
-  from: createAuthClientFx.doneData,
-  to: fetchTokenFx,
-});
-
-forward({
-  from: fetchTokenFx.doneData,
-  to: createApiClientFx,
-});
-
-forward({
-  from: fetchTokenFx.doneData,
-  to: fetchUserFx,
-});
+$app.watch($appLocalStorage);

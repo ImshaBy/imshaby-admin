@@ -9,7 +9,7 @@ import { Parish } from '../components/parish';
 import Schedule from '../components/schedule';
 
 import { $parish, ParishGate } from '../models/parish';
-import { logout } from '../models/auth';
+import { logout } from '../models/app';
 
 const SchedulePage = () => {
   const parish = useStore($parish);
