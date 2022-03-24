@@ -8,7 +8,7 @@ import Section from '../components/section';
 import SectionHeader from '../components/sectionHeader';
 
 import { $parish, ParishGate } from '../models/parish';
-import { logout } from '../models/auth';
+import { logout } from '../models/app';
 
 const ParishPage = () => {
   const parish = useStore($parish);

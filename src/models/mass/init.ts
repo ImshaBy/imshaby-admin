@@ -14,7 +14,7 @@ import {
   updateMassStore,
 } from './index';
 import { MassMode } from './types';
-import { $user } from '../auth';
+import { $app } from '../app';
 import { $parish } from '../parish';
 
 $mass
@@ -54,7 +54,7 @@ guard({
   target: attach({
     source: {
       mass: $mass,
-      user: $user,
+      user: $app,
       parish: $parish,
     },
     mapParams: (params, data) => ({
@@ -73,7 +73,7 @@ guard({
   target: attach({
     source: {
       mass: $mass,
-      user: $user,
+      user: $app,
       parish: $parish,
     },
     mapParams: (params, data) => ({

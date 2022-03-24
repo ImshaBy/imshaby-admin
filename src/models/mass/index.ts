@@ -1,6 +1,8 @@
+import axios from 'axios';
 import { createEffect, createEvent, createStore } from 'effector';
-import { api } from '../app';
 import { Mass, MassError, MassMode, Period } from './types';
+
+const { REACT_APP_API_URL } = process.env;
 
 export const $mass = createStore<Mass | null>(null);
 export const $massError = createStore<MassError>({ error: false });
@@ -19,7 +21,7 @@ export const resetMassDeleted = createEvent<boolean>();
 export const resetMassMode = createEvent();
 
 export const getMassFx = createEffect(async (mass_id: string) => {
-  const res = await api?.get(`mass/${mass_id}`);
+  const res = await axios.get(`${REACT_APP_API_URL}mass/${mass_id}`);
   if (!res?.data) return new Error('Getting Mass has been failed');
   return {
     ...res.data,
@@ -31,8 +33,7 @@ export const createMassFx = createEffect(async (mass: Mass | null) => {
   if (!mass) return;
 
   try {
-
-    const { data } = await api?.post('mass', mass);
+    const { data } = await axios.post(`${REACT_APP_API_URL}mass`, mass);
     return data
   }catch (e) {
     throw Error("not possible to create mass due to server error!")
@@ -44,7 +45,7 @@ export const updateMassFx = createEffect(async (mass: Mass | null) => {
   if (!mass) return;
 
   try {
-    const { data } = await api?.put(`mass/${mass.id}`, mass);
+    const { data } = await axios.put(`${REACT_APP_API_URL}mass/${mass.id}`, mass);
     return data
   }catch (e) {
     throw Error("Not possible to update mass due to server error")
@@ -61,7 +62,7 @@ export const deleteMassFx = createEffect(async (params: { mass_id: string, perio
     url.append('to', period.to);
   }
 
-  const res = await api?.delete(`mass/${mass_id}?${url}`);
+  const res = await axios.delete(`${REACT_APP_API_URL}mass/${mass_id}?${url}`);
   if (!res?.data) return new Error('Deleting Mass has been failed');
 
   return res.data;
