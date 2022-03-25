@@ -29,7 +29,7 @@ export const fetchParishFx = createEffect(async (parish_id: string) => {
 });
 
 export const fetchParishesByCityIdFx = createEffect(async (city_id: string) => {
-  const res = await axios.get(`https://api2.qa.imsha.by/api/parish`, {
+  const res = await axios.get(`${REACT_APP_API_URL}parish`, {
     params: {
       filter: `cityId==${city_id}`
     },
