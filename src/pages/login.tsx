@@ -5,6 +5,8 @@ import { $cities, changeCity } from '../models/city';
 import { $parishes, changeParish } from '../models/parish';
 import SectionHeader from '../components/sectionHeader';
 import Section from '../components/section';
+import Header from '../components/header';
+
 
 const LoginPage = () => {
   const cities = useStore($cities);
@@ -23,6 +25,7 @@ const LoginPage = () => {
 
   return (
     <>
+      <Header />
       <Section
         header={
           <SectionHeader title={'Login Page'} />
