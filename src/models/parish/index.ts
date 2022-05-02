@@ -7,6 +7,7 @@ import { Parish } from './types';
 const { REACT_APP_API_URL } = process.env;
 
 const DATE_MASK = 'dd-MM-yyyy HH:mm:ss';
+const LIMIT = 50;
 
 export const ParishGate = createGate();
 export const $parish = createStore<Parish | null>(null);
@@ -31,7 +32,8 @@ export const fetchParishFx = createEffect(async (parish_id: string) => {
 export const fetchParishesByCityIdFx = createEffect(async (city_id: string) => {
   const res = await axios.get(`${REACT_APP_API_URL}parish`, {
     params: {
-      filter: `cityId==${city_id}`
+      filter: `cityId==${city_id}`,
+      limit: LIMIT
     },
     data: {}, // bugfix: https://github.com/axios/axios/issues/86#issuecomment-405930811
   });
