@@ -1,8 +1,9 @@
 import React from 'react';
+import { CookiesProvider } from 'react-cookie';
 import ReactDOM from 'react-dom';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ToastProvider } from 'react-toast-notifications';
-import { useGate, useStore } from 'effector-react';
+import { useGate } from 'effector-react';
 import reportWebVitals from './reportWebVitals';
 
 import LoginPage from './pages/login';
@@ -39,7 +40,9 @@ ReactDOM.render(
     components={{ Toast: Snackbar }}
     placement="bottom-center"
   >
-    <App />
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
   </ToastProvider>,
   document.querySelector('#root'),
 );
