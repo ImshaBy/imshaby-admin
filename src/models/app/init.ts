@@ -1,4 +1,4 @@
-import { $app, $appLocalStorage, logout, changeUser } from './index';
+import { $app, logout, changeUser } from './index';
 import { changeCity } from '../city';
 import { changeParish } from '../parish';
 import { Cookies } from 'react-cookie';
@@ -18,4 +18,3 @@ $app
     }
   });
 
-$app.watch($appLocalStorage);

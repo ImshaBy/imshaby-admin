@@ -1,0 +1,76 @@
+@import "./src/styles/_mixin";
+
+.login_form_container {
+  width: 500px;
+  padding: 65px 55px 50px 55px;
+  background-color: #fff;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.login {
+  width: 100%;
+  display: block;
+  position: relative;
+  &__title {
+    display: block;
+    font-size: 30px;
+    color: #555;
+    line-height: 1.2;
+    text-align: center;
+    padding-bottom: 65px;
+  }
+
+  &__message {
+    width: 100%;
+    margin: 0 0 10px 0;
+    padding: 5px 10px 5px 15px;
+    color: #000;
+    position: absolute;
+    top: 45px;
+    &.error {
+      color: var(--error)
+    }
+  }
+
+  & .email {
+    position: relative;
+    width: 100%;
+    border: 1px solid #e6e6e6;
+
+    &__input {
+      height: 68px;
+      padding: 0 25px;
+      display: block;
+      width: 100%;
+      background: 0 0;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+  }
+
+  &__signin {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+    &__btn {
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      justify-content: center;
+      color: #fff;
+      width: 100%;
+      height: 60px;
+      cursor: pointer;
+      background-color: var(--normal-btn-background);
+      text-transform: uppercase;
+      transition: all .1s;
+
+      &:hover {
+        background-color: var(--hover-btn-background);
+      }
+    }
+  }
+}

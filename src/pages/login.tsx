@@ -5,6 +5,8 @@ import SectionHeader from '../components/sectionHeader';
 import Section from '../components/section';
 import Header from '../components/header';
 
+import LoginForm from '../components/loginForm';
+
 import {Auth} from '../utils/auth';
 
 type QueryParams = {
@@ -14,9 +16,13 @@ type QueryParams = {
 import qs from "qs";
 import { useCookies } from 'react-cookie';
 
+
+
 const LoginPage = () => {
   const app = useStore($app);
   const [cookies, setCookie] = useCookies();
+  const [msg, setMsg] = useState('');
+  const [isError, setIsError] = useState(false);
   
   useGate(LoginGate);
   
@@ -27,9 +33,13 @@ const LoginPage = () => {
 
   useEffect(() => {
     const setAccessToken = async (email_code: string) => {
-      const access_token = await auth.getAccessToken(
+      const [access_token, error] = await auth.getAccessToken(
         email_code,
       );
+      if (error)
+        setIsError(true);
+        setMsg(error);
+
       if (access_token && access_token.token) {
         setCookie(
           'access_token',
@@ -41,16 +51,20 @@ const LoginPage = () => {
         )
       }
     }
-
     if (query.code && !app.user) {
       setAccessToken(query.code);
     }
+    
 
   }, [query.code])
 
   useEffect(() => {
     const getUserdata = async () => {
-      const user =  await auth.getUserData(cookies.access_token || "");
+      const [user, error] =  await auth.getUserData(cookies.access_token || "");
+      if (error)
+        setIsError(true);
+        setMsg(error);
+        
       if (user) {
         changeUser(user);
       }
@@ -65,10 +79,18 @@ const LoginPage = () => {
   const handleSubmit = async (event: any) => {
     // Prevent page reload
     event.preventDefault();
+    setIsError(false);
+    setMsg('')
     // Send magic link to the provided email
-    await auth.sendMagicLink(event.target.email.value);
+    const [_, error] = await auth.sendMagicLink(event.target.email.value);
+    if (error){
+      setIsError(true);
+      setMsg(error);
+      return;
+    }
+    setMsg("Email sent successfully");
   };
-
+  
   return (
     <>
       <Header />
@@ -77,17 +99,7 @@ const LoginPage = () => {
           <SectionHeader title={'Login Page'} />
         }
         content={
-          <>
-            <form onSubmit={handleSubmit}>
-              <div className="input-container">
-                <label>Email </label>
-                <input type="text" name="email" required />
-              </div>
-              <div className="button-container">
-                <input type="submit" />
-              </div>
-            </form>
-          </>
+          <LoginForm onSubmit={handleSubmit} message={msg} isError={isError} />
         }
       />
     </>
