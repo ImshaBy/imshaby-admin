@@ -14,7 +14,6 @@ import {
   updateMassStore,
 } from './index';
 import { MassMode } from './types';
-import { $app } from '../app';
 import { $parish } from '../parish';
 
 $mass
@@ -54,12 +53,11 @@ guard({
   target: attach({
     source: {
       mass: $mass,
-      user: $app,
       parish: $parish,
     },
-    mapParams: (params, data) => ({
+    mapParams: (_, data) => ({
       ...data.mass,
-      parishId: data.user.parish_id,
+      parishId: data.parish?.id,
       cityId: data.parish?.cityId,
     }),
     effect: createMassFx,
@@ -73,12 +71,11 @@ guard({
   target: attach({
     source: {
       mass: $mass,
-      user: $app,
       parish: $parish,
     },
-    mapParams: (params, data) => ({
+    mapParams: (_, data) => ({
       ...data.mass,
-      parishId: data.user.parish_id,
+      parishId: data.parish?.id,
       cityId: data.parish?.cityId,
     }),
     effect: updateMassFx,

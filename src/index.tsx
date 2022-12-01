@@ -6,9 +6,9 @@ import { ToastProvider } from 'react-toast-notifications';
 import { useGate } from 'effector-react';
 import reportWebVitals from './reportWebVitals';
 
-import LoginPage from './pages/login';
 import SchedulePage from './pages/schedule';
 import ParishPage from './pages/parish';
+import CallbackPage from './pages/callback';
 
 import PrivateRoute from './components/PrivateRoute';
 import Snackbar from './components/snackbar';
@@ -24,7 +24,9 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/login" component={LoginPage} />
+        {/* <Route path="/login" component={LoginPage} />  */}
+        {/* <PrivateRoute path="/select" component={SelectPage}/> */}
+        <Route path="/callback/:code" component={CallbackPage}  />
         <PrivateRoute path="/schedule" component={SchedulePage} />
         <PrivateRoute path="/parish" component={ParishPage} />
         <PrivateRoute path="/" component={SchedulePage} />

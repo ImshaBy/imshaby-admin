@@ -26,9 +26,9 @@ const Header = () => (
           <HomeIcon className="icon" />
           <span>парафія</span>
         </NavLink>
-        <NavLink to="/login" className="link" activeClassName="link__active">
+        <NavLink to="/select" className="link" activeClassName="link__active">
           <LogoIcon className="icon" />
-          <span>admin</span>
+          <span>Select</span>
         </NavLink>
       </section>
 

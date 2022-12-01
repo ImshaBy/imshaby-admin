@@ -3,6 +3,7 @@ import { createStore, createEffect, createEvent } from 'effector';
 import { createGate } from 'effector-react';
 import parse from 'date-fns/parse';
 import { Parish } from './types';
+import Qs from 'qs';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -16,13 +17,24 @@ export const $parishes = createStore<Parish[]>([]);
 export const changeParish = createEvent<string>();
 export const updateParish = createEvent<Parish>();
 
-export const fetchParishFx = createEffect(async (parish_id: string) => {
+export const fetchParishFx = createEffect(async (keys: string[] | string) => {
   console.log('fetchParishFxfetchParishFxfetchParishFx');
-  const res = await axios.get(`${REACT_APP_API_URL}parish/${parish_id}`);
+  if (typeof(keys)==='string') keys = [keys];
+  const res = await axios.get(`${REACT_APP_API_URL}parish`, {
+    params: {
+      filter: keys.map(key => `key==${key}`),
+      limit: 1
+    },
+    paramsSerializer(params) {
+        return Qs.stringify(params, {indices: false});
+        // 'a=b&a=c&a=d'
+    },
+    data: {}, // bugfix: https://github.com/axios/axios/issues/86#issuecomment-405930811
+  });
 
   if (!res?.data) return new Error('Parish not found');
 
-  const parish = { ...res.data };
+  const parish = { ...res.data[0] };
   parish.lastMassActualDate = parse(parish.lastMassActualDate, DATE_MASK, new Date());
   parish.lastModifiedDate = parse(parish.lastModifiedDate, DATE_MASK, new Date());
 

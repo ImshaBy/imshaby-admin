@@ -2,12 +2,13 @@ import axios from 'axios';
 import { createEffect, createEvent, createStore } from 'effector';
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
+import { startOfWeek } from 'date-fns';
 import { ScheduleResponse, WeekSchedule } from './types';
 
 const { REACT_APP_API_URL } = process.env;
 
 export const $schedule = createStore<WeekSchedule | null>(null);
-export const $scheduleDate = createStore<Date>(new Date());
+export const $scheduleDate = createStore<Date>(startOfWeek(new Date(), { weekStartsOn: 1 }));
 
 export const updateScheduleDate = createEvent<Date>();
 export const fetchWeekSchedule = createEvent();

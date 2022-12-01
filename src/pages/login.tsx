@@ -6,57 +6,19 @@ import Section from '../components/section';
 import Header from '../components/header';
 
 import LoginForm from '../components/loginForm';
-
 import {Auth} from '../utils/auth';
-
-type QueryParams = {
-  code?: string,
-}
-
-import qs from "qs";
 import { useCookies } from 'react-cookie';
-
 
 
 const LoginPage = () => {
   const app = useStore($app);
-  const [cookies, setCookie] = useCookies();
+  const [cookies, _] = useCookies();
   const [msg, setMsg] = useState('');
   const [isError, setIsError] = useState(false);
   
   useGate(LoginGate);
   
   const auth = new Auth();
-  const query: QueryParams = qs.parse(
-    location.search, { ignoreQueryPrefix: true }
-  );
-
-  useEffect(() => {
-    const setAccessToken = async (email_code: string) => {
-      const [access_token, error] = await auth.getAccessToken(
-        email_code,
-      );
-      if (error)
-        setIsError(true);
-        setMsg(error);
-
-      if (access_token && access_token.token) {
-        setCookie(
-          'access_token',
-          access_token.token,
-          {
-            path: '/',
-            maxAge: 3600,
-          }
-        )
-      }
-    }
-    if (query.code && !app.user) {
-      setAccessToken(query.code);
-    }
-    
-
-  }, [query.code])
 
   useEffect(() => {
     const getUserdata = async () => {

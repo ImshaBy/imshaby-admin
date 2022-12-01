@@ -10,6 +10,7 @@ import {
 
 import { $app } from '../app';
 import { createMassFx, deleteMassFx, updateMassFx } from '../mass';
+import { $parish } from '../parish';
 
 $schedule
   .on(fetchWeekScheduleFx.doneData, (_, schedule) => schedule);
@@ -20,16 +21,16 @@ $scheduleDate
 sample({
   clock: [fetchWeekSchedule, updateMassFx.doneData, createMassFx.doneData, deleteMassFx.doneData, approveScheduleFx.doneData],
   source: {
-    user: $app,
+    parish: $parish,
     scheduleDate: $scheduleDate,
   },
-  fn: (params) => ({ parish_id: params.user.parish_id, date: params.scheduleDate }),
+  fn: (params) => ({ parish_id: params.parish ? params.parish.id : '', date: params.scheduleDate }),
   target: fetchWeekScheduleFx,
 });
 
 sample({
   clock: approveSchedule,
-  source: $app,
-  fn: (user) => user.parish_id,
+  source: $parish,
+  fn: (parish) => parish ? parish.id : '',
   target: approveScheduleFx,
 });

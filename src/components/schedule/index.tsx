@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useStore } from 'effector-react';
 import compareDesc from 'date-fns/compareDesc';
+import { startOfWeek } from 'date-fns';
 
 import Pagination from '../pagination';
 import Loading from '../loading';
@@ -50,7 +51,7 @@ const Schedule = () => {
             <Pagination schedule={weekSchedule} changeDate={handleChangeDate} isCurrentWeek={isCurrentWeek} />
           </div>
           <div className="schedule__currentWeek">
-            <button className="btn btn-empty" onClick={() => handleChangeDate(new Date())} disabled={isCurrentWeek}>
+            <button className="btn btn-empty" onClick={() => handleChangeDate(startOfWeek(new Date(), { weekStartsOn: 1 }))} disabled={isCurrentWeek}>
               Бягучы тыдзень
             </button>
           </div>

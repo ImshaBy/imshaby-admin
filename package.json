@@ -21,6 +21,7 @@
     "effector": "^21.8.10",
     "effector-localstorage": "^0.5.3",
     "effector-react": "^21.3.1",
+    "moment": "^2.29.4",
     "node-sass": "4.14.1",
     "qs": "^6.11.0",
     "react": "^17.0.1",

@@ -5,6 +5,7 @@ export type Parish = {
   name: string;
   address: string;
   gps: null;
+  key: string,
   updatePeriodInDays: number;
   localizedInfo: {
     ru: Localization;

@@ -11,6 +11,9 @@ $parishes
 $parish
   .on(fetchParishFx.doneData, (_, parish) => parish);
 
+$app
+  .on(changeParish, (app, parish_id) => ({...app, parish_id}));
+
 sample({
   clock: [changeParish, approveScheduleFx.doneData, ParishGate.open],
   source: $app,
@@ -20,8 +23,8 @@ sample({
 
 sample({
   clock: updateParish,
-  source: $app,
-  fn: (params, data) => ({ parish_id: params.parish_id, parish: data }),
+  source: $parish,
+  fn: (params, data) => ({ parish_id: params ? params.key : '', parish: data }),
   target: updateParishFx,
 });
 
