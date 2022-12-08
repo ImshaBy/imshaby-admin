@@ -9,6 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import SchedulePage from './pages/schedule';
 import ParishPage from './pages/parish';
 import CallbackPage from './pages/callback';
+import SelectPage from './pages/select';
 
 import PrivateRoute from './components/PrivateRoute';
 import Snackbar from './components/snackbar';
@@ -25,8 +26,8 @@ const App = () => {
     <Router>
       <Switch>
         {/* <Route path="/login" component={LoginPage} />  */}
-        {/* <PrivateRoute path="/select" component={SelectPage}/> */}
         <Route path="/callback/:code" component={CallbackPage}  />
+        <PrivateRoute path="/select" component={SelectPage}/>
         <PrivateRoute path="/schedule" component={SchedulePage} />
         <PrivateRoute path="/parish" component={ParishPage} />
         <PrivateRoute path="/" component={SchedulePage} />

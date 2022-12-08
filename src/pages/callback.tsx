@@ -39,7 +39,7 @@ const CallbackPage = ({history}: RouteComponentProps) => {
       }
     }
 
-    if (code && !app.user) {
+    if (code) {
       setAccessToken(code)
     }
     history.push('/')

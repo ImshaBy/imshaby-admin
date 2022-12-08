@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useGate, useStore } from 'effector-react';
-import { changeUser, LoginGate, $app } from '../models/app';
+import { setUser, LoginGate, $app } from '../models/app';
 import SectionHeader from '../components/sectionHeader';
 import Section from '../components/section';
 import Header from '../components/header';
@@ -28,7 +28,7 @@ const LoginPage = () => {
         setMsg(error);
         
       if (user) {
-        changeUser(user);
+        setUser(user);
       }
     }
 

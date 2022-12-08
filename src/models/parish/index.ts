@@ -13,6 +13,7 @@ const LIMIT = 50;
 export const ParishGate = createGate();
 export const $parish = createStore<Parish | null>(null);
 export const $parishes = createStore<Parish[]>([]);
+export const $users_parishes = createStore<Parish[]>([]);
 
 export const changeParish = createEvent<string>();
 export const updateParish = createEvent<Parish>();
