@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useStore } from 'effector-react';
-
-import { EmailIcon, LinkIcon, MarkerIcon, PhoneIcon } from '../icons';
-
-import { Parish } from '../../models/parish/types';
-import { $parish, updateParish } from '../../models/parish';
-
 import './style.scss';
 
+import { useStore } from 'effector-react';
+import React, { useState } from 'react';
+
+import { $parish, updateParish } from '../../models/parish';
+import { Parish } from '../../models/parish/types';
+import {
+  LinkIcon, MarkerIcon,
+} from '../icons';
 
 const ParishEdit = () => {
   const parish = useStore($parish);
@@ -63,39 +63,43 @@ const ParishEdit = () => {
                 <span className="parishInfo__address">{parish.address}</span>
               </div>
             </li>
-            {/*<li className="parishInfo__item">*/}
-            {/*  <div className="parishInfo__name">*/}
-            {/*    <PhoneIcon className="parishInfo__icon" />*/}
-            {/*    {' '}*/}
-            {/*    Тэлефон*/}
-            {/*  </div>*/}
-            {/*  <div className="parishInfo__field">*/}
-            {/*    <a href={`tel:${phone}`} className="parishInfo__value">{phone}</a>*/}
-            {/*    <input type="text" className="parishInfo__input" value={phone} onChange={(e) => setPhone(e.target.value)} />*/}
-            {/*  </div>*/}
-            {/*</li>*/}
-            {/*<li className="parishInfo__item">*/}
-            {/*  <div className="parishInfo__name">*/}
-            {/*    <PhoneIcon className="parishInfo__icon" />*/}
-            {/*    {' '}*/}
-            {/*    Вэбсайт*/}
-            {/*  </div>*/}
-            {/*  <div className="parishInfo__field">*/}
-            {/*    <a href={`${website}`} className="parishInfo__value" target="_blank">{website}</a>*/}
-            {/*    <input type="text" className="parishInfo__input" value={website} onChange={(e) => setWebsite(e.target.value)} />*/}
-            {/*  </div>*/}
-            {/*</li>*/}
-            {/*<li className="parishInfo__item">*/}
-            {/*  <div className="parishInfo__name">*/}
-            {/*    <EmailIcon className="parishInfo__icon" />*/}
-            {/*    {' '}*/}
-            {/*    Эл. пошта*/}
-            {/*  </div>*/}
-            {/*  <div className="parishInfo__field">*/}
-            {/*    <a href={`mailto:${email}`} className="parishInfo__value">{email}</a>*/}
-            {/*    <input type="text" className="parishInfo__input" value={email} onChange={(e) => setEmail(e.target.value)} />*/}
-            {/*  </div>*/}
-            {/*</li>*/}
+            {/* <li className="parishInfo__item"> */}
+            {/*  <div className="parishInfo__name"> */}
+            {/*    <PhoneIcon className="parishInfo__icon" /> */}
+            {/*    {' '} */}
+            {/*    Тэлефон */}
+            {/*  </div> */}
+            {/*  <div className="parishInfo__field"> */}
+            {/*    <a href={`tel:${phone}`} className="parishInfo__value">{phone}</a> */}
+            {/* eslint-disable-next-line max-len */}
+            {/*    <input type="text" className="parishInfo__input" value={phone} onChange={(e) => setPhone(e.target.value)} /> */}
+            {/*  </div> */}
+            {/* </li> */}
+            {/* <li className="parishInfo__item"> */}
+            {/*  <div className="parishInfo__name"> */}
+            {/*    <PhoneIcon className="parishInfo__icon" /> */}
+            {/*    {' '} */}
+            {/*    Вэбсайт */}
+            {/*  </div> */}
+            {/*  <div className="parishInfo__field"> */}
+            {/* eslint-disable-next-line max-len */}
+            {/*    <a href={`${website}`} className="parishInfo__value" target="_blank">{website}</a> */}
+            {/* eslint-disable-next-line max-len */}
+            {/*    <input type="text" className="parishInfo__input" value={website} onChange={(e) => setWebsite(e.target.value)} /> */}
+            {/*  </div> */}
+            {/* </li> */}
+            {/* <li className="parishInfo__item"> */}
+            {/*  <div className="parishInfo__name"> */}
+            {/*    <EmailIcon className="parishInfo__icon" /> */}
+            {/*    {' '} */}
+            {/*    Эл. пошта */}
+            {/*  </div> */}
+            {/*  <div className="parishInfo__field"> */}
+            {/*    <a href={`mailto:${email}`} className="parishInfo__value">{email}</a> */}
+            {/* eslint-disable-next-line max-len */}
+            {/*    <input type="text" className="parishInfo__input" value={email} onChange={(e) => setEmail(e.target.value)} /> */}
+            {/*  </div> */}
+            {/* </li> */}
 
             <li className="parishInfo__item">
               <div className="parishInfo__name">
@@ -104,15 +108,15 @@ const ParishEdit = () => {
                 Спасылка на анлайн-трансляцыю
               </div>
               <div className="parishInfo__field">
-                <a href={`${broadcastUrl}`} className="parishInfo__value" target="_blank">{broadcastUrl}</a>
+                <a href={`${broadcastUrl}`} className="parishInfo__value" target="_blank" rel="noreferrer">{broadcastUrl}</a>
                 <input type="text" className="parishInfo__input" value={broadcastUrl} onChange={(e) => setBroadcastUrl(e.target.value)} />
               </div>
             </li>
           </ul>
 
           <section className="parishInfo__footer">
-            { editMode && <button className="btn btn-empty" onClick={handleCloseEdit}>Адмена</button> }
-            <button className="btn" onClick={handleEdit}>Змяніць</button>
+            { editMode && <button type="button" className="btn btn-empty" onClick={handleCloseEdit}>Адмена</button> }
+            <button type="button" className="btn" onClick={handleEdit}>Змяніць</button>
           </section>
 
         </section>

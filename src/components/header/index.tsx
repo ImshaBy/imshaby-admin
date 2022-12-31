@@ -1,10 +1,13 @@
+import './style.scss';
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import {
-  LogoIcon, BulbIcon, ClockIcon, HomeIcon,
-} from '../icons';
 
-import './style.scss';
+import {
+  ClockIcon,
+  HomeIcon,
+  LogoIcon,
+} from '../icons';
 
 const Header = () => (
   <header className="header">
@@ -28,16 +31,16 @@ const Header = () => (
         </NavLink>
         <NavLink to="/select" className="link" activeClassName="link__active">
           <LogoIcon className="icon" />
-          <span>Select</span>
+          <span>Спіс парафій</span>
         </NavLink>
       </section>
 
-      {/*<section className="help">*/}
-      {/*  <NavLink to="/help" className="link" activeClassName="link__active">*/}
-      {/*    <BulbIcon className="icon" />*/}
-      {/*    <span>дапамога</span>*/}
-      {/*  </NavLink>*/}
-      {/*</section>*/}
+      {/* <section className="help"> */}
+      {/*  <NavLink to="/help" className="link" activeClassName="link__active"> */}
+      {/*    <BulbIcon className="icon" /> */}
+      {/*    <span>дапамога</span> */}
+      {/*  </NavLink> */}
+      {/* </section> */}
 
     </section>
   </header>

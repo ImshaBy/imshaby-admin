@@ -1,4 +1,7 @@
 import { sample } from 'effector';
+
+import { createMassFx, deleteMassFx, updateMassFx } from '../mass';
+import { $parish } from '../parish';
 import {
   $schedule,
   $scheduleDate,
@@ -8,18 +11,20 @@ import {
   fetchWeekScheduleFx, updateScheduleDate,
 } from './index';
 
-import { $app } from '../app';
-import { createMassFx, deleteMassFx, updateMassFx } from '../mass';
-import { $parish } from '../parish';
-
 $schedule
   .on(fetchWeekScheduleFx.doneData, (_, schedule) => schedule);
 
 $scheduleDate
-  .on(updateScheduleDate, (state, payload) => payload);
+  .on(updateScheduleDate, (_, payload) => payload);
 
 sample({
-  clock: [fetchWeekSchedule, updateMassFx.doneData, createMassFx.doneData, deleteMassFx.doneData, approveScheduleFx.doneData],
+  clock: [
+    fetchWeekSchedule,
+    updateMassFx.doneData,
+    createMassFx.doneData,
+    deleteMassFx.doneData,
+    approveScheduleFx.doneData,
+  ],
   source: {
     parish: $parish,
     scheduleDate: $scheduleDate,
@@ -31,6 +36,6 @@ sample({
 sample({
   clock: approveSchedule,
   source: $parish,
-  fn: (parish) => parish ? parish.id : '',
+  fn: (parish) => (parish ? parish.id : ''),
   target: approveScheduleFx,
 });

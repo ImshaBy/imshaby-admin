@@ -1,18 +1,27 @@
-import { sample, forward } from 'effector';
-import {
-  $parish, $parishes, changeParish, fetchParishesByCityIdFx, fetchParishFx, ParishGate, updateParish, updateParishFx,
-} from './index';
+import { sample } from 'effector';
+
 import { $app } from '../app';
-import { approveScheduleFx } from '../schedule';
 import { changeCity } from '../city';
+import { approveScheduleFx } from '../schedule';
+import {
+  $parish,
+  $parishes,
+  $selectParishes,
+  changeParish,
+  fetchParishesFiltersFx,
+  fetchParishFx,
+  getUserParishesFx,
+  ParishGate,
+  updateParish,
+  updateParishFx,
+} from './index';
 
 $parishes
-  .on(fetchParishesByCityIdFx.doneData, (_, parishes) => parishes);
+  .on(fetchParishesFiltersFx.doneData, (_, parishes) => parishes);
 $parish
   .on(fetchParishFx.doneData, (_, parish) => parish);
-
-$app
-  .on(changeParish, (app, parish_id) => ({...app, parish_id}));
+$selectParishes
+  .on(getUserParishesFx.doneData, (_, state) => state);
 
 sample({
   clock: [changeParish, approveScheduleFx.doneData, ParishGate.open],
@@ -28,7 +37,8 @@ sample({
   target: updateParishFx,
 });
 
-forward({
-  from: changeCity,
-  to: fetchParishesByCityIdFx
-})
+sample({
+  clock: changeCity,
+  fn: (cityId) => ({ cityId }),
+  target: fetchParishesFiltersFx,
+});

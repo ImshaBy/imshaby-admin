@@ -1,42 +1,59 @@
-import React from 'react';
-import { useEvent, useStore } from 'effector-react';
-import { Select, MenuItem } from '@mui/material';
+import { useGate, useStore } from 'effector-react';
+import React, { useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 
 import Header from '../components/header';
 import Loading from '../components/loading';
 import Section from '../components/section';
 import SectionHeader from '../components/sectionHeader';
+import Select from '../components/select';
+import { $app, logout, SelectGate } from '../models/app';
+import { $selectParishes, changeParish } from '../models/parish';
 
-import { $app, logout } from '../models/app';
-import { $parish, changeParish } from '../models/parish';
+const SelectPage = ({ history }: RouteComponentProps) => {
+  useGate(SelectGate);
 
-const SelectPage = () => {
   const app = useStore($app);
+  const parishes = useStore($selectParishes);
 
-  
-  if (!app.user) return <Loading />
+  const [parish, setParish] = useState('');
+  const { addToast } = useToasts();
 
-  const parishes = Object.values<any>(app.user.user?.data?.parishes);
+  useEffect(() => {
+    setParish(app.parish_id);
+  }, [app]);
+
+  const handleBtnClick = () => {
+    changeParish(parish);
+    addToast('Парафія зменена');
+    history.push('/schedule');
+  };
+
+  if (!parishes) return <Loading />;
+
   return (
     <>
       <Header />
       <Section
         header={
-          <SectionHeader title={'Select parish'} action callback={logout} />
+          <SectionHeader title="Абярыце парафію" action callback={logout} />
         }
-        content={
+        content={(
           <>
             <Select
-              value={app.parish_id}
-              onChange={(e: {target: {value: string}}) => changeParish(e.target.value)}
-            >
-              { [...parishes, app.user.user?.data?.defaultParish].map((value: string) => <MenuItem value={value}>{value}</MenuItem>)}
-            </Select>
+              value={parish}
+              options={parishes}
+              onChange={(e) => setParish(e.target.value)}
+              btnClick={handleBtnClick}
+              btnDisabled={!parish || parish === app.parish_id}
+              btnTitle="Змяніць"
+            />
           </>
-        }
+        )}
       />
     </>
   );
-}
+};
 
 export default SelectPage;

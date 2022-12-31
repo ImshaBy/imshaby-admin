@@ -1,11 +1,14 @@
 @import "./src/styles/_mixin";
 
 .login_form_container {
-  width: 500px;
   padding: 65px 55px 50px 55px;
   background-color: #fff;
   margin: 0 auto;
   overflow: hidden;
+  
+  @include mobile() {
+    padding: 65px 0 55px;
+  }
 }
 
 .login {

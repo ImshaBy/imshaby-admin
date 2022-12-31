@@ -32,9 +32,9 @@ export enum MassMode {
   EDIT,
   CREATE,
   HIDDEN,
-};
+}
 
 export type MassError = {
   error: boolean;
   message?: string;
-}
+};

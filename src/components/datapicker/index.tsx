@@ -1,8 +1,8 @@
+import './stylesheets/datepicker.scss';
+
+import be from 'date-fns/locale/be';
 import React, { SyntheticEvent } from 'react';
 import DatePicker from 'react-datepicker';
-import be from 'date-fns/locale/be';
-
-import './stylesheets/datepicker.scss';
 
 interface IProps {
   onChange: (date: Date | null) => void;
@@ -12,10 +12,11 @@ interface IProps {
 }
 
 const ReadonlyInput = ({ value, onClick }: any) => (
-  <button onClick={onClick}>📅{' ' + value}
+  <button type="button" onClick={onClick}>
+    📅
+    {` ${value}`}
   </button>
 );
-
 
 const DateTimePicker = ({
   onChange, selected, minDate, maxDate,

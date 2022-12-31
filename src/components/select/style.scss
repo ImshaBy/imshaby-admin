@@ -1,0 +1,28 @@
+@import "./src/styles/_mixin";
+
+.select {
+  &__container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__select {
+    margin-bottom: 20px;
+    & .MuiSelect- {
+        &select {
+            white-space: normal !important;
+        }
+    }
+  }
+
+  &__btn {
+    &.MuiButton- {
+      &root {
+        background-color: var(--normal-btn-background);
+        &:hover {
+          background-color: var(--hover-btn-background);
+        }
+      }
+    }
+  }
+}

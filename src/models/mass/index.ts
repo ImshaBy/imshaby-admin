@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { createEffect, createEvent, createStore } from 'effector';
-import { Mass, MassError, MassMode, Period } from './types';
+
+import {
+  Mass, MassError, MassMode, Period,
+} from './types';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -30,25 +33,24 @@ export const getMassFx = createEffect(async (mass_id: string) => {
 });
 
 export const createMassFx = createEffect(async (mass: Mass | null) => {
-  if (!mass) return;
+  if (!mass) return {};
 
   try {
     const { data } = await axios.post(`${REACT_APP_API_URL}mass`, mass);
-    return data
-  }catch (e) {
-    throw Error("not possible to create mass due to server error!")
+    return data;
+  } catch (e) {
+    throw Error('not possible to create mass due to server error!');
   }
-
 });
 
 export const updateMassFx = createEffect(async (mass: Mass | null) => {
-  if (!mass) return;
+  if (!mass) return {};
 
   try {
     const { data } = await axios.put(`${REACT_APP_API_URL}mass/${mass.id}`, mass);
-    return data
-  }catch (e) {
-    throw Error("Not possible to update mass due to server error")
+    return data;
+  } catch (e) {
+    throw Error('Not possible to update mass due to server error');
   }
 });
 

@@ -33,3 +33,11 @@ type Localization = {
   name: string;
   address: string;
 };
+
+export type Filters = {
+  key?: string[] | string,
+  cityId?: string,
+  address?: string,
+  name?: string,
+  id?: string[] | string,
+};

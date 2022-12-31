@@ -1,68 +1,54 @@
+import { useGate } from 'effector-react';
 import React, { useEffect, useState } from 'react';
-import { useGate, useStore } from 'effector-react';
-import { setUser, LoginGate, $app } from '../models/app';
-import SectionHeader from '../components/sectionHeader';
-import Section from '../components/section';
+import { useToasts } from 'react-toast-notifications';
+
 import Header from '../components/header';
-
 import LoginForm from '../components/loginForm';
-import {Auth} from '../utils/auth';
-import { useCookies } from 'react-cookie';
-
+import Section from '../components/section';
+import SectionHeader from '../components/sectionHeader';
+import { LoginGate } from '../models/app';
+import Auth from '../utils/auth';
 
 const LoginPage = () => {
-  const app = useStore($app);
-  const [cookies, _] = useCookies();
-  const [msg, setMsg] = useState('');
-  const [isError, setIsError] = useState(false);
-  
   useGate(LoginGate);
-  
   const auth = new Auth();
-
-  useEffect(() => {
-    const getUserdata = async () => {
-      const [user, error] =  await auth.getUserData(cookies.access_token || "");
-      if (error)
-        setIsError(true);
-        setMsg(error);
-        
-      if (user) {
-        setUser(user);
-      }
-    }
-
-    if (!app.user && cookies.access_token) {
-      getUserdata();
-    }
-    
-  }, [cookies])
+  const [msg, setMsg] = useState('');
+  const { addToast } = useToasts();
 
   const handleSubmit = async (event: any) => {
     // Prevent page reload
     event.preventDefault();
-    setIsError(false);
-    setMsg('')
+    setMsg('');
+
     // Send magic link to the provided email
-    const [_, error] = await auth.sendMagicLink(event.target.email.value);
-    if (error){
-      setIsError(true);
-      setMsg(error);
-      return;
+    try {
+      await auth.sendMagicLink(event.target.email.value);
+      setMsg('Спасылка адправлена на пошту');
+    } catch (err) {
+      if (err instanceof Error) {
+        setMsg(err.message);
+      } else {
+        setMsg('Невядомая памылка');
+      }
     }
-    setMsg("Email sent successfully");
   };
-  
+
+  useEffect(() => {
+    if (msg) addToast(msg);
+  }, [msg]);
+
   return (
     <>
       <Header />
       <Section
         header={
-          <SectionHeader title={'Login Page'} />
+          <SectionHeader title="Login Page" />
         }
-        content={
-          <LoginForm onSubmit={handleSubmit} message={msg} isError={isError} />
-        }
+        content={(
+          <>
+            <LoginForm onSubmit={handleSubmit} />
+          </>
+        )}
       />
     </>
   );

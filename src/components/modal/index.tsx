@@ -1,7 +1,10 @@
-import React, { useEffect, ReactNode, useRef, MutableRefObject } from 'react';
-import { useOutsideClick } from '../../utils/useClickOutside';
-
 import './style.scss';
+
+import React, {
+  ReactNode, useEffect, useRef,
+} from 'react';
+
+import useOutsideClick from '../../utils/useOutsideClick';
 
 interface IProps {
   visible: boolean;

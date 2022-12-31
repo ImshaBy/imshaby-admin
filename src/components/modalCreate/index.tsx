@@ -1,22 +1,21 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useStore } from 'effector-react';
 import format from 'date-fns/format';
+import fromUnixTime from 'date-fns/fromUnixTime';
 import getTime from 'date-fns/getTime';
+import parse from 'date-fns/parse';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import setSeconds from 'date-fns/setSeconds';
-
-import fromUnixTime from 'date-fns/fromUnixTime';
-import parse from 'date-fns/parse';
-
-import DateTimePicker from '../datapicker';
-import { CloseIcon, YoutubeIcon, RoratyIcon } from '../icons';
-import Modal from '../modal';
+import { useStore } from 'effector-react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import {
-  $mass, $massMode, $massUpdated, resetMassMode, saveMass, updateMassStore, $massError
+  $mass, $massError,
+  $massMode, $massUpdated, resetMassMode, saveMass, updateMassStore,
 } from '../../models/mass';
 import { Mass, MassMode } from '../../models/mass/types';
+import DateTimePicker from '../datapicker';
+import { CloseIcon, RoratyIcon, YoutubeIcon } from '../icons';
+import Modal from '../modal';
 
 const TIME_REGEXP = '^([01]\\d|2[0-3]):([0-5]\\d\\b)';
 const NOTES_LIMIT = 300;
@@ -42,6 +41,31 @@ const CreateModal = () => {
   const massUpdated = useStore($massUpdated);
   const massError = useStore($massError);
   const visible = massMode !== MassMode.HIDDEN && !massUpdated;
+
+  const resetForm = () => {
+    setStartDate(new Date());
+    setEndDate(null);
+    setTime('');
+    setDays([]);
+    setMassPeriodic(false);
+    setOnline(false);
+    setRorate(false);
+    setLangCode(DEFAULT_LANG);
+    setNotes('');
+    setSubmitted(false);
+  };
+
+  const validate = (): boolean => {
+    const isTimeValid = new RegExp(TIME_REGEXP).test(time);
+    const isDaysValid = isMassPeriodic ? !!days.length : true;
+    const startDateForSingleMass = !isMassPeriodic ? !!startDate : true;
+
+    setTimeValid(isTimeValid);
+    setDaysValid(isDaysValid);
+    setStartDateValid(startDateForSingleMass);
+
+    return isTimeValid && isDaysValid && startDateForSingleMass;
+  };
 
   useEffect(() => {
     setSubmitted(false);
@@ -77,21 +101,8 @@ const CreateModal = () => {
     validate();
   }, [days, time, startDate]);
 
-  const resetForm = () => {
-    setStartDate(new Date());
-    setEndDate(null);
-    setTime('');
-    setDays([]);
-    setMassPeriodic(false);
-    setOnline(false);
-    setRorate(false);
-    setLangCode(DEFAULT_LANG);
-    setNotes('');
-    setSubmitted(false);
-  };
-
   const handleChangeStartDate = (date: Date | null) => {
-    setStartDate(date ? date : new Date());
+    setStartDate(date || new Date());
   };
   const handleChangeEndDate = (date: Date | null) => {
     setEndDate(date);
@@ -113,18 +124,6 @@ const CreateModal = () => {
     if (NOTES_LIMIT - e.target.value.length >= 0) {
       setNotes(e.target.value);
     }
-  };
-
-  const validate = (): boolean => {
-    const timeValid = new RegExp(TIME_REGEXP).test(time);
-    const daysValid = isMassPeriodic ? !!days.length : true;
-    const startDateForSingleMass = !isMassPeriodic ? !!startDate : true;
-
-    setTimeValid(timeValid);
-    setDaysValid(daysValid);
-    setStartDateValid(startDateForSingleMass);
-
-    return timeValid && daysValid && startDateForSingleMass;
   };
 
   const handleCreate = () => {
@@ -180,11 +179,11 @@ const CreateModal = () => {
         <section className="modal__section">
           <header className="modal__header">
             {
-            massMode === MassMode.CREATE
-              ? <span className="modal__title">Дадаць Імшу</span>
-              : <span className="modal__title">Змяніць Імшу</span>
-          }
-            <button className="modal__header-close" onClick={() => resetMassMode()}>
+              massMode === MassMode.CREATE
+                ? <span className="modal__title">Дадаць Імшу</span>
+                : <span className="modal__title">Змяніць Імшу</span>
+            }
+            <button type="button" className="modal__header-close" onClick={() => resetMassMode()}>
               <CloseIcon className="modal__header-closeIcon" />
             </button>
           </header>
@@ -196,24 +195,30 @@ const CreateModal = () => {
                 <div className="form__col form__col--large">
                   <div className={`form__label ${!startDateValid && submitted ? 'form__label--invalid' : ''}`}>Iмша ў раскладзе з</div>
                   <div className="form__field">
-                    <DateTimePicker selected={startDate} onChange={handleChangeStartDate} minDate={new Date()} maxDate={endDate} />
+                    <DateTimePicker
+                      selected={startDate}
+                      onChange={handleChangeStartDate}
+                      minDate={new Date()}
+                      maxDate={endDate}
+                    />
                   </div>
                 </div>
                 <div className="form__col form__col--small">
                   <div className={`form__label ${!timeValid && submitted ? 'form__label--invalid' : ''}`}>Час</div>
                   <div className="from__field">
-                    <input type="text"  onChange={handleChangeTime} value={time} placeholder="09:00" maxLength={5} />
+                    <input type="text" onChange={handleChangeTime} value={time} placeholder="09:00" maxLength={5} />
                   </div>
                 </div>
                 {
-                  massError.error && <>
-                    <section className="modal__error">
-                      <span className="modal__error-text">{massError.message}</span>
-                    </section>
-                  </>
+                  massError.error && (
+                    <>
+                      <section className="modal__error">
+                        <span className="modal__error-text">{massError.message}</span>
+                      </section>
+                    </>
+                  )
                 }
               </section>
-
 
               <section className="form__row">
                 <div className="form__col">
@@ -234,16 +239,18 @@ const CreateModal = () => {
                   <label className="form__label">Каментарый (неабавязковае поле)</label>
                   <div className="form__field">
                     <textarea
-                  rows={2}
-                  value={notes}
-                  onChange={handleChangeNotes}
-                />
+                      rows={2}
+                      value={notes}
+                      onChange={handleChangeNotes}
+                    />
                     <span className="form__hint form__hint--right">
-                  Засталося {' '}
-                    {NOTES_LIMIT - notes.length}
-                  {' '}
-                  знакаў
-                  </span>
+                      Засталося
+                      {' '}
+                      {' '}
+                      {NOTES_LIMIT - notes.length}
+                      {' '}
+                      знакаў
+                    </span>
                   </div>
                 </div>
               </section>
@@ -252,92 +259,96 @@ const CreateModal = () => {
                 <div className="form__col">
                   <div className="form__field">
                     <label className="checkbox">
-                  <input type="checkbox" className="checkbox__input" checked={isMassPeriodic} onChange={() => setMassPeriodic(!isMassPeriodic)} />
-                  <span className="checkbox__text">Паўтараць Імшу</span>
-                </label>
+                      <input type="checkbox" className="checkbox__input" checked={isMassPeriodic} onChange={() => setMassPeriodic(!isMassPeriodic)} />
+                      <span className="checkbox__text">Паўтараць Імшу</span>
+                    </label>
                   </div>
                 </div>
               </section>
 
               {
-              isMassPeriodic && (
-              <>
-                <section className="form__row form__row--small-margin">
-                  <div className="form__col">
-                    <div className={`form__label ${!daysValid && submitted ? 'form__label--invalid' : ''}`}>Дні</div>
-                    <div className="form__field">
-                      <div className="days">
-                        <ul className="days__list">
-                          <li
-                            className={`days__item ${days.includes(1) ? 'days__item--active' : ''}`}
-                            onClick={handleSelectDay(1)}
-                          >
-                            Пн
-                          </li>
-                          <li
-                            className={`days__item ${days.includes(2) ? 'days__item--active' : ''}`}
-                            onClick={handleSelectDay(2)}
-                          >
-                            Ат
-                          </li>
-                          <li
-                            className={`days__item ${days.includes(3) ? 'days__item--active' : ''}`}
-                            onClick={handleSelectDay(3)}
-                          >
-                            Ср
-                          </li>
-                          <li
-                            className={`days__item ${days.includes(4) ? 'days__item--active' : ''}`}
-                            onClick={handleSelectDay(4)}
-                          >
-                            Чц
-                          </li>
-                          <li
-                            className={`days__item ${days.includes(5) ? 'days__item--active' : ''}`}
-                            onClick={handleSelectDay(5)}
-                          >
-                            Пт
-                          </li>
-                          <li
-                            className={`days__item ${days.includes(6) ? 'days__item--active' : ''}`}
-                            onClick={handleSelectDay(6)}
-                          >
-                            Сб
-                          </li>
-                          <li
-                            className={`days__item ${days.includes(7) ? 'days__item--active' : ''}`}
-                            onClick={handleSelectDay(7)}
-                          >
-                            Нд
-                          </li>
-                        </ul>
+                isMassPeriodic && (
+                  <>
+                    <section className="form__row form__row--small-margin">
+                      <div className="form__col">
+                        <div className={`form__label ${!daysValid && submitted ? 'form__label--invalid' : ''}`}>Дні</div>
+                        <div className="form__field">
+                          <div className="days">
+                            <ul className="days__list">
+                              <li
+                                className={`days__item ${days.includes(1) ? 'days__item--active' : ''}`}
+                                onClick={handleSelectDay(1)}
+                              >
+                                Пн
+                              </li>
+                              <li
+                                className={`days__item ${days.includes(2) ? 'days__item--active' : ''}`}
+                                onClick={handleSelectDay(2)}
+                              >
+                                Ат
+                              </li>
+                              <li
+                                className={`days__item ${days.includes(3) ? 'days__item--active' : ''}`}
+                                onClick={handleSelectDay(3)}
+                              >
+                                Ср
+                              </li>
+                              <li
+                                className={`days__item ${days.includes(4) ? 'days__item--active' : ''}`}
+                                onClick={handleSelectDay(4)}
+                              >
+                                Чц
+                              </li>
+                              <li
+                                className={`days__item ${days.includes(5) ? 'days__item--active' : ''}`}
+                                onClick={handleSelectDay(5)}
+                              >
+                                Пт
+                              </li>
+                              <li
+                                className={`days__item ${days.includes(6) ? 'days__item--active' : ''}`}
+                                onClick={handleSelectDay(6)}
+                              >
+                                Сб
+                              </li>
+                              <li
+                                className={`days__item ${days.includes(7) ? 'days__item--active' : ''}`}
+                                onClick={handleSelectDay(7)}
+                              >
+                                Нд
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </section>
-                <section className="form__row">
-                  <div className="form__col">
-                    <div className="form__label form__label--no-margin">Скончыць (неабавязковае поле)</div>
-                    <span className="form__hint">Калі тэрмін дзеяння невядомы — пакіньце поле пустым</span>
-                    <div className="form__field">
-                      <DateTimePicker selected={endDate} onChange={handleChangeEndDate} minDate={startDate || new Date()} />
-                    </div>
-                  </div>
-                </section>
-              </>
-              )
-            }
+                    </section>
+                    <section className="form__row">
+                      <div className="form__col">
+                        <div className="form__label form__label--no-margin">Скончыць (неабавязковае поле)</div>
+                        <span className="form__hint">Калі тэрмін дзеяння невядомы — пакіньце поле пустым</span>
+                        <div className="form__field">
+                          <DateTimePicker
+                            selected={endDate}
+                            onChange={handleChangeEndDate}
+                            minDate={startDate || new Date()}
+                          />
+                        </div>
+                      </div>
+                    </section>
+                  </>
+                )
+              }
               <section className="form__row form__row--small-margin">
                 <div className="form__col">
                   <div className="form__field">
                     <label className="checkbox">
-                  <input type="checkbox" className="checkbox__input" checked={rorate} onChange={() => setRorate(!rorate)} />
-                  <span className="checkbox__text">
-                      {' '}
-                      Рараты
-                      <RoratyIcon className="checkbox__roraty" />
-                    </span>
-                </label>
+                      <input type="checkbox" className="checkbox__input" checked={rorate} onChange={() => setRorate(!rorate)} />
+                      <span className="checkbox__text">
+                        {' '}
+                        Рараты
+                        <RoratyIcon className="checkbox__roraty" />
+                      </span>
+                    </label>
                     <span className="form__hint form__hint--padding-left">Пазначыць Імшу як раратнюю</span>
                   </div>
                 </div>
@@ -347,13 +358,13 @@ const CreateModal = () => {
                 <div className="form__col">
                   <div className="form__field">
                     <label className="checkbox">
-                  <input type="checkbox" className="checkbox__input" checked={online} onChange={() => setOnline(!online)} />
-                  <span className="checkbox__text">
-                      {' '}
-                      Відэа трансляцыя
-                      <YoutubeIcon className="checkbox__youtube" />
-                    </span>
-                </label>
+                      <input type="checkbox" className="checkbox__input" checked={online} onChange={() => setOnline(!online)} />
+                      <span className="checkbox__text">
+                        {' '}
+                        Відэа трансляцыя
+                        <YoutubeIcon className="checkbox__youtube" />
+                      </span>
+                    </label>
                     <span className="form__hint form__hint--padding-left">Спасылка на трансляцыю ў раздзеле «Парафія»</span>
                   </div>
                 </div>
@@ -364,12 +375,12 @@ const CreateModal = () => {
           </section>
 
           <footer className="modal__footer">
-            <button className="btn btn-empty" onClick={() => resetMassMode()}>Адмена</button>
+            <button type="button" className="btn btn-empty" onClick={() => resetMassMode()}>Адмена</button>
             {
-            massMode === MassMode.CREATE
-              ? <button className="btn" onClick={handleCreate}>Дадаць Імшу</button>
-              : <button className="btn" onClick={handleCreate}>Змяніць Імшу</button>
-          }
+              massMode === MassMode.CREATE
+                ? <button type="button" className="btn" onClick={handleCreate}>Дадаць Імшу</button>
+                : <button type="button" className="btn" onClick={handleCreate}>Змяніць Імшу</button>
+            }
 
           </footer>
         </section>
