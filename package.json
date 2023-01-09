@@ -19,7 +19,7 @@
     "@types/qs": "^6.9.7",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "date-fns": "^2.16.1",
     "effector": "^21.8.10",
     "effector-localstorage": "^0.5.3",
