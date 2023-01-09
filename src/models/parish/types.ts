@@ -5,6 +5,7 @@ export type Parish = {
   name: string;
   address: string;
   gps: null;
+  key: string,
   updatePeriodInDays: number;
   localizedInfo: {
     ru: Localization;
@@ -31,4 +32,12 @@ export type Parish = {
 type Localization = {
   name: string;
   address: string;
+};
+
+export type Filters = {
+  key?: string[] | string,
+  cityId?: string,
+  address?: string,
+  name?: string,
+  id?: string[] | string,
 };

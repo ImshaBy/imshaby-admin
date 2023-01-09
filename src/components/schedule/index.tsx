@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useStore } from 'effector-react';
+import './style.scss';
+
+import { startOfWeek } from 'date-fns';
 import compareDesc from 'date-fns/compareDesc';
+import { useStore } from 'effector-react';
+import React, { useEffect, useState } from 'react';
 
-import Pagination from '../pagination';
-import Loading from '../loading';
-import TimeTable from '../timetable';
-import CreateModal from '../modalCreate';
-import CreateModalResult from '../modalCreate/result';
-
-import { $schedule, fetchWeekSchedule, updateScheduleDate } from '../../models/schedule';
 import { changeMassMode, resetMass } from '../../models/mass';
 import { MassMode } from '../../models/mass/types';
-
-import './style.scss';
+import { $schedule, fetchWeekSchedule, updateScheduleDate } from '../../models/schedule';
+import Loading from '../loading';
+import CreateModal from '../modalCreate';
+import CreateModalResult from '../modalCreate/result';
+import Pagination from '../pagination';
+import TimeTable from '../timetable';
 
 const Schedule = () => {
   const [isCurrentWeek, setCurrentWeek] = useState<boolean>(false);
@@ -44,13 +44,17 @@ const Schedule = () => {
       <section className="schedule">
         <header className="schedule__header">
           <div className="schedule__add">
-            <button className="schedule__btn btn" onClick={handleMassCreateOpen}>Дадаць Імшу</button>
+            <button type="button" className="schedule__btn btn" onClick={handleMassCreateOpen}>Дадаць Імшу</button>
           </div>
           <div className="schedule__pagination">
-            <Pagination schedule={weekSchedule} changeDate={handleChangeDate} isCurrentWeek={isCurrentWeek} />
+            <Pagination
+              schedule={weekSchedule}
+              changeDate={handleChangeDate}
+              isCurrentWeek={isCurrentWeek}
+            />
           </div>
           <div className="schedule__currentWeek">
-            <button className="btn btn-empty" onClick={() => handleChangeDate(new Date())} disabled={isCurrentWeek}>
+            <button type="button" className="btn btn-empty" onClick={() => handleChangeDate(startOfWeek(new Date(), { weekStartsOn: 1 }))} disabled={isCurrentWeek}>
               Бягучы тыдзень
             </button>
           </div>

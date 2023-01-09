@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 const ESCAPE_KEY = 'Escape';
 
-export const useOutsideClick = (ref: React.RefObject<any>, callback: () => void) => {
+const useOutsideClick = (ref: React.RefObject<any>, callback: () => void) => {
   const handleClick = (e: MouseEvent) => {
     if (ref.current && !ref.current.contains(e.target)) {
       callback();
@@ -26,3 +26,5 @@ export const useOutsideClick = (ref: React.RefObject<any>, callback: () => void)
     };
   }, []);
 };
+
+export default useOutsideClick;

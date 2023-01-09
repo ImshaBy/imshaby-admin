@@ -1,17 +1,16 @@
-import React from 'react';
-import { useStore } from 'effector-react';
-import { useToasts } from 'react-toast-notifications';
-import { formatDate } from '../../utils/formatDate';
-
-import { LimitTimer } from '../limitTimer';
-import Loading from '../loading';
-
-import { approveSchedule } from '../../models/schedule';
-import { $parish } from '../../models/parish';
-
 import './style.scss';
 
-export const Parish = () => {
+import { useStore } from 'effector-react';
+import React from 'react';
+import { useToasts } from 'react-toast-notifications';
+
+import { $parish } from '../../models/parish';
+import { approveSchedule } from '../../models/schedule';
+import formatDate from '../../utils/formatDate';
+import LimitTimer from '../limitTimer';
+import Loading from '../loading';
+
+const Parish = () => {
   const parish = useStore($parish);
   const { addToast } = useToasts();
 
@@ -37,7 +36,7 @@ export const Parish = () => {
           </div>
 
           <div className="parishApprovePeriod">
-            <button className="btn" onClick={handleApprove}>
+            <button type="button" className="btn" onClick={handleApprove}>
               Падцвердзіць актуальнасць раскладу
             </button>
           </div>
@@ -47,8 +46,9 @@ export const Parish = () => {
           <div className="parish__value">{formatDate(parish.updatePeriodInDays)}</div>
         </section>
 
-
       </section>
     </section>
   );
 };
+
+export default Parish;

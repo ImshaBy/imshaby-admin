@@ -7,11 +7,16 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.2.0",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fusionauth/typescript-client": "^1.41.0",
+    "@mui/material": "^5.10.17",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
+    "@types/qs": "^6.9.7",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "axios": "^0.21.1",
@@ -19,8 +24,11 @@
     "effector": "^21.8.10",
     "effector-localstorage": "^0.5.3",
     "effector-react": "^21.3.1",
+    "moment": "^2.29.4",
     "node-sass": "4.14.1",
+    "qs": "^6.11.0",
     "react": "^17.0.1",
+    "react-cookie": "^4.1.1",
     "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
     "react-responsive": "^8.2.0",
@@ -36,7 +44,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": [
@@ -67,6 +76,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
     "history": "^5.0.0"
   }
 }

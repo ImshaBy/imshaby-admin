@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { createStore, createEffect, createEvent } from 'effector';
+import { createEffect, createEvent, createStore } from 'effector';
+
 import { City } from './types';
 
 const { REACT_APP_API_URL } = process.env;

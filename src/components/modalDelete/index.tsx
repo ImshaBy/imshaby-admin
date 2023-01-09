@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
 import format from 'date-fns/format';
 import be from 'date-fns/locale/be';
 import parse from 'date-fns/parse';
-
-import { CloseIcon, InfinityIcon, RoratyIcon, YoutubeIcon } from '../icons';
-import Repeat from '../repeat';
-import Modal from '../modal';
+import React, { useEffect, useState } from 'react';
 
 import { MassHoursData } from '../../models/schedule/types';
+import {
+  CloseIcon, InfinityIcon, RoratyIcon, YoutubeIcon,
+} from '../icons';
+import Modal from '../modal';
+import Repeat from '../repeat';
 
 interface Props {
   visible: boolean;
@@ -55,22 +56,24 @@ const DeleteModal = ({
       return;
     }
 
-    const period = {
+    const periodData = {
       from: '',
       to: '',
     };
     switch (value) {
       case Radio.One:
-        period.from = format(date, 'dd-MM-yyyy');
-        period.to = format(date, 'dd-MM-yyyy');
+        periodData.from = format(date, 'dd-MM-yyyy');
+        periodData.to = format(date, 'dd-MM-yyyy');
         break;
       case Radio.Feature:
-        period.from = '';
-        period.to = '';
+        periodData.from = '';
+        periodData.to = '';
+        break;
+      default:
         break;
     }
 
-    onSave(mass.id, period);
+    onSave(mass.id, periodData);
   };
 
   if (!mass) return <></>;
@@ -80,7 +83,7 @@ const DeleteModal = ({
         <section className="modal__section">
           <header className="modal__header">
             <span className="modal__title">{title}</span>
-            <button className="modal__header-close" onClick={() => onClose()}>
+            <button type="button" className="modal__header-close" onClick={() => onClose()}>
               <CloseIcon className="modal__header-closeIcon" />
             </button>
           </header>
@@ -89,15 +92,15 @@ const DeleteModal = ({
             <section className="success">
               <ul className="success__list">
                 {
-                !mass.days?.length && (
-                <>
-                  <li className="success__item">
-                    <div className="success__title">Дата</div>
-                    <div className="success__value">{format(date, 'dd MMMM yyyy, eeeeee', { locale: be })}</div>
-                  </li>
-                </>
-                )
-              }
+                  !mass.days?.length && (
+                    <>
+                      <li className="success__item">
+                        <div className="success__title">Дата</div>
+                        <div className="success__value">{format(date, 'dd MMMM yyyy, eeeeee', { locale: be })}</div>
+                      </li>
+                    </>
+                  )
+                }
                 <li className="success__item">
                   <div className="success__title">Час</div>
                   <div className="success__value">
@@ -112,77 +115,77 @@ const DeleteModal = ({
                   <div className="success__value">{mass.langCode}</div>
                 </li>
                 {
-                mass.days && (
-                <>
-                  <li className="success__item">
-                    <div className="success__title">Тэрмін дзеяння</div>
-                    <div className="success__value">
-                      {
-                        period || <InfinityIcon className="success__infinity" />
-                      }
-                    </div>
-                  </li>
-                  <li className="success__item">
-                    <div className="success__title">Паўтор</div>
-                    <div className="success__value">
-                      <Repeat week={mass.days} />
-                    </div>
-                  </li>
-                </>
-                )
-              }
+                  mass.days && (
+                    <>
+                      <li className="success__item">
+                        <div className="success__title">Тэрмін дзеяння</div>
+                        <div className="success__value">
+                          {
+                            period || <InfinityIcon className="success__infinity" />
+                          }
+                        </div>
+                      </li>
+                      <li className="success__item">
+                        <div className="success__title">Паўтор</div>
+                        <div className="success__value">
+                          <Repeat week={mass.days} />
+                        </div>
+                      </li>
+                    </>
+                  )
+                }
               </ul>
             </section>
             <section className="delete">
 
               {
-              mass.days && (
-              <>
-                <ul className="delete__list">
-                  <li className="delete__item">
-                    <span className="delete__radio">
-                      <label className="radio">
-                        <input
-                          type="radio"
-                          className="radio__input"
-                          name="delete"
-                          onChange={() => handleChange(Radio.One)}
-                          value={Radio.One}
-                          checked={value === Radio.One}
-                        />
-                        <span className="radio__text">
-                          {`толькі гэтую Імшу ${format(date, 'dd.MM.yyyy')}`}
+                mass.days && (
+                  <>
+                    <ul className="delete__list">
+                      <li className="delete__item">
+                        <span className="delete__radio">
+                          <label className="radio">
+                            <input
+                              type="radio"
+                              className="radio__input"
+                              name="delete"
+                              onChange={() => handleChange(Radio.One)}
+                              value={Radio.One}
+                              checked={value === Radio.One}
+                            />
+                            <span className="radio__text">
+                              {`толькі гэтую Імшу ${format(date, 'dd.MM.yyyy')}`}
 
+                            </span>
+                          </label>
                         </span>
-                      </label>
-                    </span>
-                  </li>
-                  <li className="delete__item">
-                    <span className="delete__radio">
-                      <label className="radio">
-                        <input
-                          type="radio"
-                          className="radio__input"
-                          name="delete"
-                          onChange={() => handleChange(Radio.Feature)}
-                          value={Radio.Feature}
-                          checked={value === Radio.Feature}
-                        />
-                        <span className="radio__text">цалкам выдаліць сталую Імшу з раскладу на ўсе дні</span>
-                      </label>
-                    </span>
-                  </li>
-                </ul>
-              </>
-              )
-            }
+                      </li>
+                      <li className="delete__item">
+                        <span className="delete__radio">
+                          <label className="radio">
+                            <input
+                              type="radio"
+                              className="radio__input"
+                              name="delete"
+                              onChange={() => handleChange(Radio.Feature)}
+                              value={Radio.Feature}
+                              checked={value === Radio.Feature}
+                            />
+                            <span className="radio__text">цалкам выдаліць сталую Імшу з раскладу на ўсе дні</span>
+                          </label>
+                        </span>
+                      </li>
+                    </ul>
+                  </>
+                )
+              }
 
             </section>
           </section>
 
           <footer className="modal__footer">
-            <button className="btn btn-empty" onClick={() => onClose()}>Адмена</button>
-            <button className="btn" onClick={handleSubmit}>Выдаліць</button>
+            <button type="button" className="btn btn-empty" onClick={() => onClose()}>Адмена</button>
+            <button type="button" className="btn" onClick={handleSubmit}>Выдаліць</button>
           </footer>
         </section>
       </Modal>

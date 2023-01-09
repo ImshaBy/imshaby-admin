@@ -1,4 +1,6 @@
 import { attach, forward, guard } from 'effector';
+
+import { $parish } from '../parish';
 import {
   $mass, $massDeleted, $massError,
   $massMode,
@@ -14,8 +16,6 @@ import {
   updateMassStore,
 } from './index';
 import { MassMode } from './types';
-import { $app } from '../app';
-import { $parish } from '../parish';
 
 $mass
   .on(createMassFx.doneData, (state, payload) => payload)
@@ -24,13 +24,13 @@ $mass
   .reset([resetMass]);
 
 $massError
-  .on([createMassFx.doneData, changeMassMode], (state, payload) => ({
+  .on([createMassFx.doneData, changeMassMode], () => ({
     error: false,
     message: '',
   }))
-  .on([createMassFx.fail, updateMassFx.fail], (state,payload) => ({
+  .on([createMassFx.fail, updateMassFx.fail], () => ({
     error: true,
-    message: 'Імша на гэты час ужо ёсць у раскладзе.'
+    message: 'Імша на гэты час ужо ёсць у раскладзе.',
   }));
 
 $massMode
@@ -54,12 +54,11 @@ guard({
   target: attach({
     source: {
       mass: $mass,
-      user: $app,
       parish: $parish,
     },
-    mapParams: (params, data) => ({
+    mapParams: (_, data) => ({
       ...data.mass,
-      parishId: data.user.parish_id,
+      parishId: data.parish?.id,
       cityId: data.parish?.cityId,
     }),
     effect: createMassFx,
@@ -73,12 +72,11 @@ guard({
   target: attach({
     source: {
       mass: $mass,
-      user: $app,
       parish: $parish,
     },
-    mapParams: (params, data) => ({
+    mapParams: (_, data) => ({
       ...data.mass,
-      parishId: data.user.parish_id,
+      parishId: data.parish?.id,
       cityId: data.parish?.cityId,
     }),
     effect: updateMassFx,

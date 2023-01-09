@@ -1,53 +1,54 @@
-import React, { ChangeEvent } from 'react';
-import { useGate, useStore } from 'effector-react';
-import { LoginGate, logout } from '../models/app';
-import { $cities, changeCity } from '../models/city';
-import { $parishes, changeParish } from '../models/parish';
-import SectionHeader from '../components/sectionHeader';
-import Section from '../components/section';
-import Header from '../components/header';
+import { useGate } from 'effector-react';
+import React, { useEffect, useState } from 'react';
+import { useToasts } from 'react-toast-notifications';
 
+import Header from '../components/header';
+import LoginForm from '../components/loginForm';
+import Section from '../components/section';
+import SectionHeader from '../components/sectionHeader';
+import { LoginGate } from '../models/app';
+import Auth from '../utils/auth';
 
 const LoginPage = () => {
-  const cities = useStore($cities);
-  const parishes = useStore($parishes)
   useGate(LoginGate);
+  const auth = new Auth();
+  const [msg, setMsg] = useState('');
+  const { addToast } = useToasts();
 
-  const handleCityChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    if (!e.target.value) return;
-    changeCity(e.target.value);
-  }
+  const handleSubmit = async (event: any) => {
+    // Prevent page reload
+    event.preventDefault();
+    setMsg('');
 
-  const handleParishChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    if (!e.target.value) return;
-    changeParish(e.target.value);
-  }
+    // Send magic link to the provided email
+    try {
+      await auth.sendMagicLink(event.target.email.value);
+      setMsg('Спасылка адправлена на пошту');
+    } catch (err) {
+      if (err instanceof Error) {
+        setMsg(err.message);
+      } else {
+        setMsg('Невядомая памылка');
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (msg) addToast(msg);
+  }, [msg]);
 
   return (
     <>
       <Header />
       <Section
         header={
-          <SectionHeader title={'Login Page'} />
+          <SectionHeader title="Login Page" />
         }
-        content={
+        content={(
           <>
-            <select onChange={handleCityChange}>
-              <option value={''}>---</option>
-              {
-                cities.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)
-              }
-            </select>
-            <br/>
-            <br/>
-            <select onChange={handleParishChange}>
-              <option value={''}>---</option>
-              {
-                parishes.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)
-              }
-            </select>
+            <LoginForm onSubmit={handleSubmit} />
           </>
-        }
+        )}
       />
     </>
   );

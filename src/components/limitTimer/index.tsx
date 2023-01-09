@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import differenceInSeconds from 'date-fns/differenceInSeconds';
 import './style.scss';
+
+import differenceInSeconds from 'date-fns/differenceInSeconds';
+import React, { useEffect, useState } from 'react';
 
 interface props {
   lastDate: Date;
@@ -14,23 +15,18 @@ interface IDisplayDuration {
   seconds: string;
 }
 
-const padLeft = (num: number): string => num <= 9 ? `0${num}` : `${num}`;
+const padLeft = (num: number): string => (num <= 9 ? `0${num}` : `${num}`);
 
-export const LimitTimer = ({ lastDate, limitDays } : props) => {
+const LimitTimer = ({ lastDate, limitDays } : props) => {
   const [duration, setDuration] = useState<IDisplayDuration | null>(null);
   const [attention, setAttention] = useState(false);
-
-  useEffect(() => {
-    const timer = setInterval(calculate, 1000);
-    return () => clearInterval(timer);
-  }, [lastDate, limitDays]);
 
   const calculate = () => {
     const secondsBetween = Math.abs(differenceInSeconds(new Date(), lastDate));
 
     const days = Math.floor(secondsBetween / 3600 / 24);
-    const hours = Math.floor(secondsBetween % (3600 * 24) / 3600);
-    const minutes = Math.floor(secondsBetween % 3600 / 60);
+    const hours = Math.floor((secondsBetween % (3600 * 24)) / 3600);
+    const minutes = Math.floor((secondsBetween % 3600) / 60);
     const seconds = Math.floor(secondsBetween % 60);
 
     setDuration({
@@ -41,6 +37,11 @@ export const LimitTimer = ({ lastDate, limitDays } : props) => {
     });
     setAttention(days >= limitDays);
   };
+
+  useEffect(() => {
+    const timer = setInterval(calculate, 1000);
+    return () => clearInterval(timer);
+  }, [lastDate, limitDays]);
 
   if (!duration) return <></>;
   return (
@@ -62,7 +63,10 @@ export const LimitTimer = ({ lastDate, limitDays } : props) => {
         <span className="limitTimer__content">секунды</span>
       </div>
 
-      {/*{`${duration?.days} : ${duration?.hours} : ${duration?.minutes} : ${duration?.seconds}`}*/}
+      {/* eslint-disable-next-line max-len */}
+      {/* {`${duration?.days} : ${duration?.hours} : ${duration?.minutes} : ${duration?.seconds}`} */}
     </section>
   );
 };
+
+export default LimitTimer;

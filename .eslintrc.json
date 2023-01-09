@@ -1,0 +1,39 @@
+{
+  "extends": ["airbnb-typescript"],
+  "plugins": ["simple-import-sort"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "ignorePatterns": ["**/build/**"],
+  "rules": {
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "no-trailing-spaces": "error",
+    "semi": ["error", "always"],
+    "prefer-const": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "@next/next/no-img-element": "off",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "default",
+        "format": [
+          "camelCase",
+          "strictCamelCase",
+          "PascalCase",
+          "StrictPascalCase",
+          "snake_case",
+          "UPPER_CASE"
+        ],
+        "leadingUnderscore": "allow",
+        "trailingUnderscore": "allow"
+      }
+    ],
+    "react/no-array-index-key": "off",
+    "react/require-default-props": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/click-events-have-key-events": "off"
+  }
+}

@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import fromUnixTime from 'date-fns/fromUnixTime';
+import './style.scss';
+
 import format from 'date-fns/format';
-import parse from 'date-fns/parse';
+import fromUnixTime from 'date-fns/fromUnixTime';
 import be from 'date-fns/locale/be';
-
-import { InfinityIcon, YoutubeIcon, RoratyIcon } from '../icons';
-import Repeat from '../repeat';
-import Modal from '../modal';
-
+import parse from 'date-fns/parse';
 import { useStore } from 'effector-react';
+import React, { useEffect, useState } from 'react';
+
 import {
   $mass, $massMode, $massUpdated, resetMassUpdated,
 } from '../../models/mass';
 import { MassMode } from '../../models/mass/types';
-
-import './style.scss';
+import { InfinityIcon, RoratyIcon, YoutubeIcon } from '../icons';
+import Modal from '../modal';
+import Repeat from '../repeat';
 
 const CreateModalResult = () => {
   const [title, setTitle] = useState<string>('');
@@ -36,25 +35,25 @@ const CreateModalResult = () => {
     const textStatus = massMode === MassMode.CREATE ? 'дададзена' : 'зменена';
 
     if (!mass.days && mass.singleStartTimestamp) {
-      const startDate = fromUnixTime(mass.singleStartTimestamp);
-      setStartDate(startDate);
-      setTitle(`Адзінкавая Імша ${format(startDate, 'dd.MM.yyyy')} ${textStatus}!`);
+      const startDateMass = fromUnixTime(mass.singleStartTimestamp);
+      setStartDate(startDateMass);
+      setTitle(`Адзінкавая Імша ${format(startDateMass, 'dd.MM.yyyy')} ${textStatus}!`);
       setPeriod('адзінкавая');
       setTime(format(fromUnixTime(mass.singleStartTimestamp), 'HH:mm'));
     } else {
       setTitle(`Сталая Імша ${textStatus}!`);
 
-      let period = '';
+      let periodLabel = '';
       if (mass.startDate) {
-        const startDate = parse(mass.startDate, 'MM/dd/yyyy', new Date());
-        setStartDate(startDate);
-        period = `з ${format(startDate, 'dd MMMM yyyy', { locale: be })} `;
+        const startDateMass = parse(mass.startDate, 'MM/dd/yyyy', new Date());
+        setStartDate(startDateMass);
+        periodLabel = `з ${format(startDateMass, 'dd MMMM yyyy', { locale: be })} `;
       }
       if (mass.endDate) {
         const endDate = parse(mass.endDate, 'MM/dd/yyyy', new Date());
-        period += `па ${format(endDate, 'dd MMMM yyyy', { locale: be })}`;
+        periodLabel += `па ${format(endDate, 'dd MMMM yyyy', { locale: be })}`;
       }
-      setPeriod(period);
+      setPeriod(periodLabel);
       setTime(mass.time || '');
     }
   }, [mass]);
@@ -72,14 +71,14 @@ const CreateModalResult = () => {
             <section className="success">
               <ul className="success__list">
                 {
-                !mass.days
+                  !mass.days
                 && (
-                <li className="success__item">
-                  <div className="success__title">Дата</div>
-                  <div className="success__value">{format(startDate, 'dd MMMM yyyy, eeeeee', { locale: be })}</div>
-                </li>
+                  <li className="success__item">
+                    <div className="success__title">Дата</div>
+                    <div className="success__value">{format(startDate, 'dd MMMM yyyy, eeeeee', { locale: be })}</div>
+                  </li>
                 )
-              }
+                }
 
                 <li className="success__item">
                   <div className="success__title">Час</div>
@@ -102,29 +101,37 @@ const CreateModalResult = () => {
                   <div className="success__value">
                     {
                       !mass.endDate && mass.days
-                        ? <span>{period} па <InfinityIcon className="success__infinity" /></span>
+                        ? (
+                          <span>
+                            {period}
+                            {' '}
+                            па
+                            {' '}
+                            <InfinityIcon className="success__infinity" />
+                          </span>
+                        )
                         : <span>{period}</span>
                     }
                   </div>
                 </li>
                 {
-                mass.days && (
-                <>
-                  <li className="success__item">
-                    <div className="success__title">Паўтор</div>
-                    <div className="success__value">
-                      <Repeat week={mass.days} />
-                    </div>
-                  </li>
-                </>
-                )
-              }
+                  mass.days && (
+                    <>
+                      <li className="success__item">
+                        <div className="success__title">Паўтор</div>
+                        <div className="success__value">
+                          <Repeat week={mass.days} />
+                        </div>
+                      </li>
+                    </>
+                  )
+                }
               </ul>
             </section>
           </section>
 
           <footer className="modal__footer modal__footer--center">
-            <button className="btn btn-small" onClick={handleClose}>Ok</button>
+            <button type="button" className="btn btn-small" onClick={handleClose}>Ok</button>
           </footer>
         </section>
       </Modal>
