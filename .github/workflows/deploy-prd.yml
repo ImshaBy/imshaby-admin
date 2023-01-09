@@ -18,14 +18,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
-            - name: Create ssh-key file
-              run: |
-                mkdir ~/.ssh
-                echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-                chmod 600 ~/.ssh/id_rsa
-                ssh-keyscan -t rsa github.com
-
-            - name: Use NodeJS v.14
+            - name: Use NodeJS v.15
               uses: actions/setup-node@v1
               with:
                   node-version: 14.16.1
@@ -39,5 +32,17 @@ jobs:
             - name: List of files
               run: cd ./build && ls -la
 
-            - name: Copy to server
-              run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" build/ ${{ secrets.SSH_PRD_USERNAME }}@${{ secrets.SSH_HOST }}:~/www/static/
+            - name: Install SSH Key
+              uses: shimataro/ssh-key-action@v2
+              with:
+                key: ${{ secrets.SSH_PRIVATE_KEY }}
+                name: git-to-jelastic
+                known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+                config: |
+                  Host *
+                    IdentityFile ~/.ssh/git-to-jelastic
+                    HostkeyAlgorithms +ssh-rsa
+                    PubkeyAcceptedAlgorithms +ssh-rsa
+
+            - name: Deploy with rsync
+              run: rsync -avz --rsh='ssh -o StrictHostKeyChecking=no -i ~/.ssh/git-to-jelastic -p3022' --delete-before build/ ${{ secrets.SSH_PRD_USERNAME }}@${{ secrets.SSH_HOST }}:~/www/static/
