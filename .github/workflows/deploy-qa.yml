@@ -23,10 +23,10 @@ jobs:
                 chmod 600 ~/.ssh/id_rsa
                 ssh-keyscan -t rsa github.com
 
-            - name: Use NodeJS v.15
+            - name: Use NodeJS v.14
               uses: actions/setup-node@v1
               with:
-                  node-version: '15.x'
+                  node-version: 14.16.1
 
             - name: NPM install
               run: npm ci
