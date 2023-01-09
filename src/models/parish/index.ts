@@ -14,6 +14,7 @@ import { Filters, Parish } from './types';
 const { REACT_APP_API_URL } = process.env;
 
 const DATE_MASK = 'dd-MM-yyyy HH:mm:ss';
+const LIMIT = 100;
 
 export const ParishGate = createGate();
 export const $parishes = createStore<Parish[]>([]);
@@ -40,6 +41,7 @@ export const fetchParishesFiltersFx = createEffect(async (filters: Filters) => {
   const res = await axios.get(`${REACT_APP_API_URL}parish`, {
     params: {
       filter: Object.entries(filters).map(([key, value]) => new Array<string | undefined>().concat(value).map((data) => `${key}==${data}`)),
+      limit: LIMIT,
     },
     paramsSerializer(params) {
       return Qs.stringify(params, { indices: false });
