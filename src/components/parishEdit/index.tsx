@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 import { $parish, updateParish } from '../../models/parish';
 import { Parish } from '../../models/parish/types';
+import TextField from '../core/textField';
 import {
   LinkIcon, MarkerIcon,
 } from '../icons';
@@ -109,7 +110,7 @@ const ParishEdit = () => {
               </div>
               <div className="parishInfo__field">
                 <a href={`${broadcastUrl}`} className="parishInfo__value" target="_blank" rel="noreferrer">{broadcastUrl}</a>
-                <input type="text" className="parishInfo__input" value={broadcastUrl} onChange={(e) => setBroadcastUrl(e.target.value)} />
+                <TextField className="parishInfo__input" value={broadcastUrl} onChange={(e) => setBroadcastUrl(e.target.value)} />
               </div>
             </li>
           </ul>
