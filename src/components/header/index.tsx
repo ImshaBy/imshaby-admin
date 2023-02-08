@@ -9,30 +9,50 @@ import {
   LogoIcon,
 } from '../icons';
 
-const Header = () => (
+interface HeaderProps {
+  schedule?: boolean,
+  parish?: boolean,
+  select?: boolean,
+  logo?: boolean,
+}
+
+const Header = ({
+  schedule = true,
+  parish = true,
+  select = true,
+  logo = true,
+}: HeaderProps) => (
   <header className="header">
     <section className="container header__container">
 
-      <section className="logo">
-        <a href="https://qa.imsha.by" className="link">
-          <LogoIcon className="icon" />
-          <span className="logo__text">imsha.by</span>
-        </a>
-      </section>
+      {logo && (
+        <section className="logo">
+          <a href="https://qa.imsha.by" className="link">
+            <LogoIcon className="icon" />
+            <span className="logo__text">imsha.by</span>
+          </a>
+        </section>
+      )}
 
       <section className="menu">
-        <NavLink to="/schedule" className="link" activeClassName="link__active">
-          <ClockIcon className="icon" />
-          <span>расклад</span>
-        </NavLink>
-        <NavLink to="/parish" className="link" activeClassName="link__active">
-          <HomeIcon className="icon" />
-          <span>парафія</span>
-        </NavLink>
-        <NavLink to="/select" className="link" activeClassName="link__active">
-          <LogoIcon className="icon" />
-          <span>Спіс парафій</span>
-        </NavLink>
+        {schedule && (
+          <NavLink to="/schedule" className="link" activeClassName="link__active">
+            <ClockIcon className="icon" />
+            <span>расклад</span>
+          </NavLink>
+        )}
+        {parish && (
+          <NavLink to="/parish" className="link" activeClassName="link__active">
+            <HomeIcon className="icon" />
+            <span>парафія</span>
+          </NavLink>
+        )}
+        {select && (
+          <NavLink to="/select" className="link" activeClassName="link__active">
+            <LogoIcon className="icon" />
+            <span>спіс парафій</span>
+          </NavLink>
+        )}
       </section>
 
       {/* <section className="help"> */}
