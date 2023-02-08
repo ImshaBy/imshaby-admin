@@ -7,7 +7,7 @@
   overflow: hidden;
   
   @include mobile() {
-    padding: 65px 0 55px;
+    padding: 25px 0 25px;
   }
 }
 
@@ -15,13 +15,24 @@
   width: 100%;
   display: block;
   position: relative;
+
   &__title {
     display: block;
     font-size: 30px;
+    line-height: 1.2;
+    color: #555;
+    padding-bottom: 35px;
+  }
+
+  &__subtitle {
+    display: block;
+    font-size: 18px;
     color: #555;
     line-height: 1.2;
-    text-align: center;
-    padding-bottom: 65px;
+
+    @include mobile() {
+      font-size: 18px;
+    }
   }
 
   &__message {
@@ -39,16 +50,14 @@
   & .email {
     position: relative;
     width: 100%;
-    border: 1px solid #e6e6e6;
-
+    
+    margin-top: 50px;
     &__input {
-      height: 68px;
-      padding: 0 25px;
-      display: block;
-      width: 100%;
-      background: 0 0;
-      font-size: 15px;
-      line-height: 1.2;
+      & .MuiInputBase-root {
+        // height: 50px;
+
+        @include font(18px);
+      }
     }
   }
 
@@ -56,23 +65,38 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 50px;
+    justify-content: space-between;
+    align-items: baseline;
 
     &__btn {
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      justify-content: center;
-      color: #fff;
-      width: 100%;
-      height: 60px;
-      cursor: pointer;
-      background-color: var(--normal-btn-background);
-      text-transform: uppercase;
-      transition: all .1s;
+      @include mobile() {
+        font-size: 15px;
+      }
+    }
 
-      &:hover {
-        background-color: var(--hover-btn-background);
+    &__help {
+      display: flex;
+      flex-wrap: wrap;
+
+      @include tabletPortrait() {
+        margin-top: 50px;
+        width: 500px;
+      }
+
+      @include mobile() {
+        margin-top: 50px;
+        width: 500px;
+      }
+
+      a {
+        font-weight: bold;
+        color: var(--main-btn);
+        transition: color .3s;
+
+        &:hover {
+          color: var(--hover-btn-background);
+        }
       }
     }
   }
