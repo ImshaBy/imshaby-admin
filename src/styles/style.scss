@@ -3,7 +3,6 @@
 @import "_mixin";
 @import "layout";
 
-input[type="text"],
 select,
 textarea {
   width: 100%;
@@ -11,8 +10,6 @@ textarea {
   border: 1px solid rgba(0, 0, 0, 0.3);
   padding: 2px 9px;
 }
-input[type="text"],
-
 textarea {
   min-height: 30px;
 }
@@ -22,6 +19,19 @@ select {
 
 a, path {
   transition: all .2s;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--main-text-color);
+
+  &:hover,
+  &:focus,
+  &:visited {
+    text-decoration: none;
+    outline: none;
+  }
 }
 
 

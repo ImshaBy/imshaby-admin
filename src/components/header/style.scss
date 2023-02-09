@@ -11,9 +11,14 @@
     justify-content: center;
     position: relative;
     width: 100%;
+    min-height: 32px;
     padding: 0 40px;
     @include tablet() {
       padding: 0 150px;
+      min-height: 32px;
+    }
+    @include desktop() {
+      min-height: 50px;
     }
   }
 }

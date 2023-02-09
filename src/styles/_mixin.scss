@@ -15,6 +15,12 @@ $desktop-width: 1280px;
   }
 }
 
+@mixin tabletPortrait {
+  @media (max-width: #{$tablet-width}) {
+    @content;
+  }
+}
+
 @mixin tabletLandscape {
   @media (min-width: #{$tablet-width - 1px}) {
     @content;

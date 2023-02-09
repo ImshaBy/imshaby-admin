@@ -4,6 +4,11 @@
   display: flex;
   justify-content: center;
   margin: 10px 0;
+
+  @include mobile() {
+    width: 90vw;
+  }
+
   &__content {
     display: flex;
     justify-content: space-between;
