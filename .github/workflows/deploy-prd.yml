@@ -1,53 +1,52 @@
 name: Deploy to Production
 
 on:
-    push:
-      #  branches:
-      #       - no-mass-mode
-      tags:
-        - v*
+  push:
+    tags:
+      - v*
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        env:
-            REACT_APP_API_URL: ${{secrets.REACT_APP_API_URL_PRD}}
-            REACT_APP_AUTH_DOMAIN: ${{secrets.REACT_APP_AUTH_DOMAIN_PRD}}
-            REACT_APP_AUTH_CLIENT_ID: ${{secrets.REACT_APP_AUTH_CLIENT_ID_PRD}}
-            REACT_APP_AUTH_AUDIENCE: ${{secrets.REACT_APP_AUTH_AUDIENCE_PRD}}
-            REACT_APP_FUSION_CLIENT_ID: ${{secrets.REACT_APP_FUSION_CLIENT_ID}}
-            REACT_APP_FUSION_CLIENT_SECRET: ${{secrets.REACT_APP_FUSION_CLIENT_SECRET}}
-            REACT_APP_FUSION_REDIRECTED_URI: ${{secrets.REACT_APP_FUSION_REDIRECTED_URI}}
-            REACT_APP_FUSION_API_KEY: ${{secrets.REACT_APP_FUSION_API_KEY}}
-            REACT_APP_FUSION_ADDRESS: ${{secrets.REACT_APP_FUSION_ADDRESS}}
-        steps:
-            - uses: actions/checkout@v2
+  build:
+    runs-on: ubuntu-latest
+    env:
+      REACT_APP_API_URL: ${{secrets.REACT_APP_API_URL_PRD}}
+      REACT_APP_AUTH_DOMAIN: ${{secrets.REACT_APP_AUTH_DOMAIN_PRD}}
+      REACT_APP_AUTH_CLIENT_ID: ${{secrets.REACT_APP_AUTH_CLIENT_ID_PRD}}
+      REACT_APP_AUTH_AUDIENCE: ${{secrets.REACT_APP_AUTH_AUDIENCE_PRD}}
 
-            - name: Use NodeJS v.15
-              uses: actions/setup-node@v1
-              with:
-                  node-version: 14.16.1
+      REACT_APP_FUSION_CLIENT_ID: ${{secrets.REACT_APP_FUSION_CLIENT_ID}}
+      REACT_APP_FUSION_CLIENT_SECRET: ${{secrets.REACT_APP_FUSION_CLIENT_SECRET}}
+      REACT_APP_FUSION_REDIRECTED_URI: ${{secrets.REACT_APP_FUSION_REDIRECTED_URI_PRD}}
+      REACT_APP_FUSION_API_KEY: ${{secrets.REACT_APP_FUSION_API_KEY}}
+      REACT_APP_FUSION_ADDRESS: ${{secrets.REACT_APP_FUSION_ADDRESS}}
+    steps:
+      - uses: actions/checkout@v2
 
-            - name: NPM install
-              run: npm ci
+      - name: Use NodeJS v.15
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.16.1
 
-            - name: NPM build
-              run: CI='' npm run build
+      - name: NPM install
+        run: npm ci
 
-            - name: List of files
-              run: cd ./build && ls -la
+      - name: NPM build
+        run: CI='' npm run build
 
-            - name: Install SSH Key
-              uses: shimataro/ssh-key-action@v2
-              with:
-                key: ${{ secrets.SSH_PRIVATE_KEY }}
-                name: git-to-jelastic
-                known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-                config: |
-                  Host *
-                    IdentityFile ~/.ssh/git-to-jelastic
-                    HostkeyAlgorithms +ssh-rsa
-                    PubkeyAcceptedAlgorithms +ssh-rsa
+      - name: List of files
+        run: cd ./build && ls -la
 
-            - name: Deploy with rsync
-              run: rsync -avz --rsh='ssh -o StrictHostKeyChecking=no -i ~/.ssh/git-to-jelastic -p3022' --delete-before build/ ${{ secrets.SSH_PRD_USERNAME }}@${{ secrets.SSH_HOST }}:~/www/static/
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: git-to-jelastic
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+          config: |
+            Host *
+              IdentityFile ~/.ssh/git-to-jelastic
+              HostkeyAlgorithms +ssh-rsa
+              PubkeyAcceptedAlgorithms +ssh-rsa
+
+      - name: Deploy with rsync
+        run: rsync -avz --rsh='ssh -o StrictHostKeyChecking=no -i ~/.ssh/git-to-jelastic -p3022' --delete-before build/ ${{ secrets.SSH_PRD_USERNAME }}@${{ secrets.SSH_HOST }}:~/www/static/
