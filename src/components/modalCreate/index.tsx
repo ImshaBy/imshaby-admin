@@ -2,9 +2,7 @@ import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import getTime from 'date-fns/getTime';
 import parse from 'date-fns/parse';
-import setHours from 'date-fns/setHours';
-import setMinutes from 'date-fns/setMinutes';
-import setSeconds from 'date-fns/setSeconds';
+import set from 'date-fns/set';
 import { useStore } from 'effector-react';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
@@ -16,16 +14,16 @@ import { Mass, MassMode } from '../../models/mass/types';
 import DateTimePicker from '../datapicker';
 import { CloseIcon, RoratyIcon, YoutubeIcon } from '../icons';
 import Modal from '../modal';
+import TimePicker from '../timepicker';
 
-const TIME_REGEXP = '^([01]\\d|2[0-3]):([0-5]\\d\\b)';
 const NOTES_LIMIT = 300;
 const DEFAULT_LANG = 'беларуская';
 
 const CreateModal = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [time, setTime] = useState<string>('');
-  const [timeValid, setTimeValid] = useState<boolean>(false);
+  const [hours, setHours] = useState<string>('');
+  const [minutes, setMinutes] = useState<string>('');
   const [days, setDays] = useState<number[]>([]);
   const [daysValid, setDaysValid] = useState<boolean>(true);
   const [startDateValid, setStartDateValid] = useState<boolean>(true);
@@ -45,7 +43,8 @@ const CreateModal = () => {
   const resetForm = () => {
     setStartDate(new Date());
     setEndDate(null);
-    setTime('');
+    setHours('');
+    setMinutes('');
     setDays([]);
     setMassPeriodic(false);
     setOnline(false);
@@ -56,15 +55,13 @@ const CreateModal = () => {
   };
 
   const validate = (): boolean => {
-    const isTimeValid = new RegExp(TIME_REGEXP).test(time);
     const isDaysValid = isMassPeriodic ? !!days.length : true;
     const startDateForSingleMass = !isMassPeriodic ? !!startDate : true;
 
-    setTimeValid(isTimeValid);
     setDaysValid(isDaysValid);
     setStartDateValid(startDateForSingleMass);
 
-    return isTimeValid && isDaysValid && startDateForSingleMass;
+    return isDaysValid && startDateForSingleMass;
   };
 
   useEffect(() => {
@@ -78,15 +75,20 @@ const CreateModal = () => {
       return;
     }
 
+    const time = mass.time ? mass.time.split(':') : ['00', '00'];
+
     if (mass.singleStartTimestamp) {
       setStartDate(fromUnixTime(mass.singleStartTimestamp));
-      setTime(format(fromUnixTime(mass.singleStartTimestamp), 'HH:mm'));
+      setHours(fromUnixTime(mass.singleStartTimestamp).getHours().toString());
+      setMinutes(fromUnixTime(mass.singleStartTimestamp).getMinutes().toString());
     } else if (mass.startDate) {
       setStartDate(parse(mass.startDate, 'MM/dd/yyyy', new Date()));
-      setTime(mass.time || '');
+      setHours(time[0]);
+      setMinutes(time[1]);
     } else {
       setStartDate(new Date());
-      setTime(mass.time || '');
+      setHours(time[0]);
+      setMinutes(time[1]);
     }
     setEndDate(mass.endDate ? new Date(mass.endDate) : null);
     setDays(mass.days ? mass.days : []);
@@ -99,7 +101,7 @@ const CreateModal = () => {
 
   useEffect(() => {
     validate();
-  }, [days, time, startDate]);
+  }, [days, hours, minutes, startDate]);
 
   const handleChangeStartDate = (date: Date | null) => {
     setStartDate(date || new Date());
@@ -107,8 +109,9 @@ const CreateModal = () => {
   const handleChangeEndDate = (date: Date | null) => {
     setEndDate(date);
   };
-  const handleChangeTime = (e: React.FormEvent<HTMLInputElement>) => {
-    setTime(e.currentTarget.value);
+  const handleChangeTime = (hours: string, minutes: string) => {
+    setHours(hours);
+    setMinutes(minutes);
   };
   const handleSelectDay = (day: number) => () => {
     const index = days.findIndex((i) => i === day);
@@ -133,10 +136,7 @@ const CreateModal = () => {
     if (!isMassPeriodic) {
       if (!startDate) return;
 
-      const hourTime = time.split(':');
-      let date = setHours(startDate, Number(hourTime[0]));
-      date = setMinutes(date, Number(hourTime[1]));
-      date = setSeconds(date, 0);
+      const date = set(startDate, { hours: Number(hours), minutes: Number(minutes), seconds: 0 });
 
       const data = {
         singleStartTimestamp: getTime(date) / 1000,
@@ -157,7 +157,7 @@ const CreateModal = () => {
       langCode,
       days,
       notes,
-      time,
+      time: `${hours}:${minutes}`,
       online,
       rorate,
       id: mass?.id,
@@ -204,9 +204,9 @@ const CreateModal = () => {
                   </div>
                 </div>
                 <div className="form__col form__col--small">
-                  <div className={`form__label ${!timeValid && submitted ? 'form__label--invalid' : ''}`}>Час</div>
+                  <div className={`form__label`}>Час</div>
                   <div className="from__field">
-                    <input type="text" onChange={handleChangeTime} value={time} placeholder="09:00" maxLength={5} />
+                    <TimePicker hour={hours} minute={minutes} onChange={handleChangeTime} />
                   </div>
                 </div>
                 {

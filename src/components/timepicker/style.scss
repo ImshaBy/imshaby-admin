@@ -1,0 +1,16 @@
+@import "./src/styles/_mixin";
+
+.timePicker {
+  &__hours {
+    width: 20px;
+    text-align: center;
+  }
+  &__minutes {
+    width: 20px;
+    text-align: center;
+  }
+  &__separator {
+    @include font(0.8125rem, true, 1);
+    margin: 0 5px;
+  }
+}
