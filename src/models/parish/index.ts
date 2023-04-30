@@ -1,20 +1,16 @@
 /* eslint-disable no-param-reassign */
-import axios from 'axios';
 import parse from 'date-fns/parse';
 import {
   attach, combine, createEffect, createEvent, createStore, guard, sample,
 } from 'effector';
 import { createGate } from 'effector-react';
 import moment from 'moment';
-import Qs from 'qs';
 
+import ParishAPI from '../../common/api/parishAPI';
 import { $app, $user } from '../app';
 import { Filters, Parish } from './types';
 
-const { REACT_APP_API_URL } = process.env;
-
 const DATE_MASK = 'dd-MM-yyyy HH:mm:ss';
-const LIMIT = 100;
 
 export const ParishGate = createGate();
 export const $parishes = createStore<Parish[]>([]);
@@ -26,7 +22,7 @@ export const changeParish = createEvent<string>();
 export const updateParish = createEvent<Parish>();
 
 export const fetchParishFx = createEffect(async (parish_id: string) => {
-  const res = await axios.get(`${REACT_APP_API_URL}parish/${parish_id}`);
+  const res = await ParishAPI.get(parish_id);
 
   if (!res?.data) throw new Error('Parish not found');
 
@@ -38,17 +34,7 @@ export const fetchParishFx = createEffect(async (parish_id: string) => {
 });
 
 export const fetchParishesFiltersFx = createEffect(async (filters: Filters) => {
-  const res = await axios.get(`${REACT_APP_API_URL}parish`, {
-    params: {
-      filter: Object.entries(filters).map(([key, value]) => new Array<string | undefined>().concat(value).map((data) => `${key}==${data}`)),
-      limit: LIMIT,
-    },
-    paramsSerializer(params) {
-      return Qs.stringify(params, { indices: false });
-      // 'a=b&a=c&a=d'
-    },
-    data: {}, // bugfix: https://github.com/axios/axios/issues/86#issuecomment-405930811
-  });
+  const res = await ParishAPI.getAll(filters);
 
   if (!res?.data) throw new Error('Parishes not found by provided filters');
   const parishes: Parish[] = res.data.map((parish: any) => {
@@ -63,7 +49,7 @@ export const fetchParishesFiltersFx = createEffect(async (filters: Filters) => {
 export const updateParishFx = createEffect(
   async (params: { parish_id: string, parish: Parish }) => {
     const { parish, parish_id } = params;
-    const res = await axios.put(`${REACT_APP_API_URL}/parish/${parish_id}`, parish);
+    const res = await ParishAPI.update(parish_id, parish);
 
     if (!res?.data) throw new Error('Parish not updated');
 
