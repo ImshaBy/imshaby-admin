@@ -49,11 +49,12 @@ a {
   opacity: 1;
   &:disabled {
     background: var(--disabled-btn-background);
+    cursor: default;
   }
-  &:hover {
+  &:hover:enabled {
     background: var(--hover-btn-background);
   }
-  &:active {
+  &:active:enabled {
     background: var(--active-btn-background);
   }
 
@@ -63,7 +64,7 @@ a {
     border-color: transparent;
     box-shadow: none;
 
-    &:hover {
+    &:hover:enabled {
       background: transparent;
       color: var(--hover-btn-background);
     }
@@ -72,7 +73,7 @@ a {
       color: var(--disabled-btn-background);
       cursor: default;
     }
-    &:active {
+    &:active:enabled {
       background: transparent;
       color: var(--active-btn-background);
     }
