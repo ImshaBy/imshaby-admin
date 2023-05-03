@@ -27,7 +27,7 @@ const Header = ({
 
       {logo && (
         <section className="logo">
-          <a href="https://qa.imsha.by" className="link">
+          <a href="https://imsha.by" className="link">
             <LogoIcon className="icon" />
             <span className="logo__text">imsha.by</span>
           </a>
