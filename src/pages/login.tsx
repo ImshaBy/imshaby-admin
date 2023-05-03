@@ -2,15 +2,14 @@ import { useGate } from 'effector-react';
 import React, { useEffect, useState } from 'react';
 import { useToasts } from 'react-toast-notifications';
 
+import PasswordlessAPI from '../common/api/passwordlessAPI';
 import Header from '../components/header';
 import LoginForm from '../components/loginForm';
 import Section from '../components/section';
 import { LoginGate } from '../models/app';
-import Auth from '../utils/auth';
 
 const LoginPage = () => {
   useGate(LoginGate);
-  const auth = new Auth();
   const [msg, setMsg] = useState('');
   const { addToast } = useToasts();
 
@@ -21,7 +20,7 @@ const LoginPage = () => {
 
     // Send magic link to the provided email
     try {
-      await auth.sendMagicLink(event.target.email.value);
+      await PasswordlessAPI.start(event.target.email.value);
       setMsg('Спасылка на ўваход адпраўлена на электронную пошту');
     } catch (err) {
       if (err instanceof Error) {
