@@ -48,18 +48,14 @@ jobs:
         with:
           name: build-artifact
           path: ~/work/imshaby-admin/imshaby-admin/build
-
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
+      
+      - name: Yandex Cloud Deploy
+        uses: nekitcorp/yandex-storage-website-action@v2
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          name: git-to-jelastic
-          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-          config: |
-            Host *
-              IdentityFile ~/.ssh/git-to-jelastic
-              HostkeyAlgorithms +ssh-rsa
-              PubkeyAcceptedAlgorithms +ssh-rsa
-
-      - name: Deploy with rsync (QA)
-        run: rsync -avz --rsh='ssh -o StrictHostKeyChecking=no -i ~/.ssh/git-to-jelastic -p3022' --delete-before build/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:~/www/static/
+          access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          bucket: ${{ secrets.BUCKET }}
+          clear: true
+          working-directory: build
+          include: |
+            **/*
