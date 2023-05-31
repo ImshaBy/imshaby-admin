@@ -35,7 +35,7 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/callback/:code" component={CallbackPage} />
+        <Route path="/callback" component={CallbackPage} />
         <PrivateRoute path="/select" component={SelectPage} />
         <PrivateRoute path="/schedule" component={SchedulePage} />
         <PrivateRoute path="/parish" component={ParishPage} />

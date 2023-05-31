@@ -2,7 +2,7 @@ import { useEvent } from 'effector-react';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { RouteComponentProps, useParams } from 'react-router-dom';
+import { RouteComponentProps, useLocation } from 'react-router-dom';
 
 import PasswordlessAPI from '../common/api/passwordlessAPI';
 import {
@@ -13,7 +13,8 @@ const CallbackPage = ({ history }: RouteComponentProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setCookie] = useCookies();
   const setExpireTime = useEvent(_setExpireTime);
-  const { code } = useParams<{ code: string }>();
+  const { search } = useLocation();
+  const code = new URLSearchParams(search).get('code');
 
   const setAccessToken = async (email_code: string) => {
     // Receive access token from FusionAuth
