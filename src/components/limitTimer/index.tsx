@@ -1,6 +1,6 @@
 import './style.scss';
 
-import { addDays, differenceInSeconds } from 'date-fns';
+import { differenceInSeconds } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 
 interface props {
@@ -25,8 +25,8 @@ const LimitTimer = ({ lastDate, limitDays } : props) => {
     // Т.к. дата актуальности указывается наперед, то для расчета
     // времени, которое прошло с момента последнего подтверждения,
     // надо использовать формулу
-    // lastdate - limitDays + now()
-    const secondsBetween = Math.abs(differenceInSeconds(lastDate, addDays(new Date(), limitDays)));
+    // now() - lastDate
+    const secondsBetween = Math.abs(differenceInSeconds(new Date(), lastDate));
 
     const days = Math.floor(secondsBetween / 3600 / 24);
     const hours = Math.floor((secondsBetween % (3600 * 24)) / 3600);

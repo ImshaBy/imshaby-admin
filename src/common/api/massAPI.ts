@@ -1,4 +1,4 @@
-import { URLSearchParams } from 'url';
+// import { URLSearchParams } from 'url';
 
 import { Mass, Period } from '../../models/mass/types';
 import apiInstance from './axiosConfig';
@@ -43,7 +43,7 @@ const MassAPI = {
     return data;
   },
   delete: async (massId: string, period: Period) => {
-    const params = new URLSearchParams();
+    const params = new global.URLSearchParams();
     if (period?.from) {
       params.append('from', period.from);
     }
