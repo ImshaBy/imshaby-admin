@@ -39,4 +39,4 @@ jobs:
               run: cd ./build && ls -la
 
             - name: Copy to server
-              run: rsync -avz -e "ssh -p ${{ vars.SSH_PORT }} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" build/ ${{ secrets.SSH_USERNAME }}@${{ var.SSH_HOST }}:~/www/static/
+              run: rsync -avz -e "ssh -p ${{ vars.SSH_PORT }} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" build/ ${{ secrets.SSH_USERNAME }}@${{ vars.SSH_HOST }}:~/www/static/
