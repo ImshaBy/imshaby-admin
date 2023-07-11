@@ -1,4 +1,4 @@
-name: Deploy Admin to Prod (Digital Ocean)
+name: Deploy Admin to Prod (Digital Ocean Droplet)
 
 on:
     push:
