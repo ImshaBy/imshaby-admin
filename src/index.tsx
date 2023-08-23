@@ -1,6 +1,7 @@
 import './models/init';
 import './styles/style.scss';
 
+import * as Sentry from '@sentry/react';
 import { useGate } from 'effector-react';
 import React from 'react';
 import { CookiesProvider } from 'react-cookie';
@@ -17,13 +18,24 @@ import SchedulePage from './pages/schedule';
 import SelectPage from './pages/select';
 import reportWebVitals from './reportWebVitals';
 
+const { REACT_APP_SENTRY_DSN } = process.env;
+
+if (REACT_APP_SENTRY_DSN) {
+  Sentry.init({
+    dsn: REACT_APP_SENTRY_DSN,
+    integrations: [new Sentry.BrowserTracing()],
+    // Performance Monitoring
+    tracesSampleRate: 0.6, // Capture 100% of the transactions, reduce in production!
+  });
+}
+
 const App = () => {
   useGate(AppGate);
 
   return (
     <Router>
       <Switch>
-        <Route path="/callback/:code" component={CallbackPage} />
+        <Route path="/callback" component={CallbackPage} />
         <PrivateRoute path="/select" component={SelectPage} />
         <PrivateRoute path="/schedule" component={SchedulePage} />
         <PrivateRoute path="/parish" component={ParishPage} />

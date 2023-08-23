@@ -1,7 +1,7 @@
 import { sample } from 'effector';
 
 import { createMassFx, deleteMassFx, updateMassFx } from '../mass';
-import { $parish } from '../parish';
+import { $parish, fetchParishFx } from '../parish';
 import {
   $schedule,
   $scheduleDate,
@@ -19,6 +19,7 @@ $scheduleDate
 
 sample({
   clock: [
+    fetchParishFx.doneData,
     fetchWeekSchedule,
     updateMassFx.doneData,
     createMassFx.doneData,

@@ -10,11 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REACT_APP_API_URL: ${{secrets.REACT_APP_API_URL_PRD}}
-
-      REACT_APP_FUSION_CLIENT_ID: ${{secrets.REACT_APP_FUSION_CLIENT_ID_PRD}}
-      REACT_APP_FUSION_CLIENT_SECRET: ${{secrets.REACT_APP_FUSION_CLIENT_SECRET_PRD}}
-      REACT_APP_FUSION_REDIRECTED_URI: ${{secrets.REACT_APP_FUSION_REDIRECTED_URI_PRD}}
-      REACT_APP_FUSION_API_KEY: ${{secrets.REACT_APP_FUSION_API_KEY_PRD}}
       REACT_APP_FUSION_ADDRESS: ${{secrets.REACT_APP_FUSION_ADDRESS}}
     steps:
       - uses: actions/checkout@v2
@@ -30,20 +25,13 @@ jobs:
       - name: NPM build
         run: CI='' npm run build
 
-      - name: List of files
-        run: cd ./build && ls -la
-
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
+      - name: Yandex Cloud Deploy
+        uses: nekitcorp/yandex-storage-website-action@v2
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          name: git-to-jelastic
-          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-          config: |
-            Host *
-              IdentityFile ~/.ssh/git-to-jelastic
-              HostkeyAlgorithms +ssh-rsa
-              PubkeyAcceptedAlgorithms +ssh-rsa
-
-      - name: Deploy with rsync
-        run: rsync -avz --rsh='ssh -o StrictHostKeyChecking=no -i ~/.ssh/git-to-jelastic -p3022' --delete-before build/ ${{ secrets.SSH_PRD_USERNAME }}@${{ secrets.SSH_HOST }}:~/www/static/
+          access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          bucket: ${{ secrets.BUCKET }}
+          clear: true
+          working-directory: build
+          include: |
+            **/*

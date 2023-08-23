@@ -1,7 +1,7 @@
 import './style.scss';
 
 import { createTheme, TextField as MuiTextField, ThemeProvider } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 
 import useWindowSize from '../../utils/useWindowSize';
 
@@ -20,6 +20,7 @@ interface Props {
 const LoginForm = ({ onSubmit }: Props) => {
   const [width] = useWindowSize();
   const isMobile = width <= 767;
+  const [email, setEmail] = useState('');
 
   return (
     <ThemeProvider theme={theme}>
@@ -36,10 +37,11 @@ const LoginForm = ({ onSubmit }: Props) => {
               variant="standard"
               name="email"
               placeholder="Электронная пошта"
+              onChange={(event) => setEmail(event.target.value)}
             />
           </div>
           <div className="login__signin">
-            <button type="submit" className="login__signin__btn btn">
+            <button type="submit" disabled={!email} className="login__signin__btn btn">
               Выслаць спасылку на
               {' '}
               {isMobile ? 'эл. пошту' : 'электронную пошту'}

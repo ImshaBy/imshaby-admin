@@ -1,0 +1,42 @@
+name: Deploy Admin to Prod (Digital Ocean Droplet)
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      REACT_APP_API_URL: ${{vars.REACT_APP_API_URL}}
+      REACT_APP_AUTH_DOMAIN: ${{vars.REACT_APP_AUTH_DOMAIN}}
+      REACT_APP_AUTH_CLIENT_ID: ${{secrets.REACT_APP_AUTH_CLIENT_ID}}
+      REACT_APP_FUSION_ADDRESS: ${{vars.REACT_APP_FUSION_ADDRESS}}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create ssh-key file
+        run: |
+          mkdir ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa github.com
+
+      - name: Use NodeJS v.14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.16.1
+
+      - name: NPM install
+        run: npm ci
+
+      - name: NPM build
+        run: CI='' npm run build
+
+      - name: List of files
+        run: cd ./build && ls -la
+
+      - name: Copy to server
+        run: rsync -avz -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" build/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.STATIC_PATH }}

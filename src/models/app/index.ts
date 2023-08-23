@@ -1,9 +1,8 @@
 import { createEffect, createEvent, createStore } from 'effector';
 import connectLocalStorage from 'effector-localstorage';
 import { createGate } from 'effector-react';
-import { Cookies } from 'react-cookie';
 
-import Auth from '../../utils/auth';
+import IdentityAPI from '../../common/api/identityAPI';
 import { App } from './types';
 // import { getUserParishesFx, getDefaultParishFx } from "./init";
 
@@ -26,9 +25,7 @@ export const setExpireTime = createEvent<Date>();
 export const logout = createEvent();
 
 export const fetchUserFx = createEffect(async () => {
-  const cookies = new Cookies();
-  const auth = new Auth();
-  const user = await auth.getUserData(cookies.get<string>('access_token') || '');
+  const user = await IdentityAPI.getUser();
   if (!user) throw new Error('User not found');
 
   return user;
