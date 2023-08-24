@@ -43,11 +43,13 @@ const ParishEdit = () => {
     setEditMode(false);
   };
 
+  const imgPath = parish?.imgPath.includes('storage.yandexcloud.net') ? parish.imgPath : `https://imsha.by/${parish?.imgPath}`;
+
   if (!parish) return <></>;
   return (
     <section className="parishEdit">
       <aside className="parishEdit__photo">
-        <img src={`https://imsha.by/${parish.imgPath}`} alt={parish.name} className="parishEdit__img" />
+        <img src={imgPath} alt={parish.name} className="parishEdit__img" />
       </aside>
 
       <section className="parishEdit__content">

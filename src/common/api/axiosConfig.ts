@@ -7,6 +7,7 @@ const apiInstance = axios.create({
   baseURL: REACT_APP_API_URL,
   headers: {
     'Content-Type': 'application/json',
+    'x-show-pending': 'true',
   },
 });
 

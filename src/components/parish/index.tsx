@@ -18,12 +18,13 @@ const Parish = () => {
     approveSchedule();
     addToast('Расклад падцверджаны');
   };
+  const imgPath = parish?.imgPath.includes('storage.yandexcloud.net') ? parish.imgPath : `https://imsha.by/${parish?.imgPath}`;
 
   if (!parish) return <Loading />;
   return (
     <section className="parish">
       <aside className="parish__photo">
-        <img src={`https://imsha.by/${parish.imgPath}`} alt={parish.name} className="parish__img" />
+        <img src={imgPath} alt={parish.name} className="parish__img" />
       </aside>
       <section className="parish__content">
         <section className="parish__limitTimer">
