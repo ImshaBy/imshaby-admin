@@ -33,7 +33,7 @@ sample({
 sample({
   clock: updateParish,
   source: $parish,
-  fn: (params, data) => ({ parish_id: params ? params.key : '', parish: data }),
+  fn: (params, data) => ({ parish_id: params ? params.id : '', parish: data }),
   target: updateParishFx,
 });
 
