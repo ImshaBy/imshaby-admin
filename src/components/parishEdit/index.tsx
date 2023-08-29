@@ -42,8 +42,10 @@ const ParishEdit = () => {
     setBroadcastUrl(parish?.broadcastUrl || '');
     setEditMode(false);
   };
-
-  const imgPath = parish?.imgPath.includes('storage.yandexcloud.net') ? parish.imgPath : `https://imsha.by/${parish?.imgPath}`;
+  let imgPath = '';
+  if (parish && parish.imgPath) {
+    imgPath = parish.imgPath.includes('storage.yandexcloud.net') ? parish.imgPath : `https://imsha.by/${parish?.imgPath}`;
+  }
 
   if (!parish) return <></>;
   return (

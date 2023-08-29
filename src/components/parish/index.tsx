@@ -18,8 +18,10 @@ const Parish = () => {
     approveSchedule();
     addToast('Расклад падцверджаны');
   };
-  const imgPath = parish?.imgPath.includes('storage.yandexcloud.net') ? parish.imgPath : `https://imsha.by/${parish?.imgPath}`;
-
+  let imgPath = '';
+  if (parish && parish.imgPath) {
+    imgPath = parish.imgPath.includes('storage.yandexcloud.net') ? parish.imgPath : `https://imsha.by/${parish?.imgPath}`;
+  }
   if (!parish) return <Loading />;
   return (
     <section className="parish">
