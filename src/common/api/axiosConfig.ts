@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import * as Sentry from '@sentry/react';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
@@ -6,7 +7,6 @@ const { REACT_APP_API_URL } = process.env;
 const apiInstance = axios.create({
   baseURL: REACT_APP_API_URL,
   headers: {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     'Content-Type': 'application/json',
     'x-show-pending': 'true',
   },
