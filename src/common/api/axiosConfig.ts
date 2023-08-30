@@ -6,6 +6,7 @@ const { REACT_APP_API_URL } = process.env;
 const apiInstance = axios.create({
   baseURL: REACT_APP_API_URL,
   headers: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     'Content-Type': 'application/json',
     'x-show-pending': 'true',
   },

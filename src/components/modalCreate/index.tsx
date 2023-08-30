@@ -4,6 +4,7 @@ import getTime from 'date-fns/getTime';
 import parse from 'date-fns/parse';
 import set from 'date-fns/set';
 import { useStore } from 'effector-react';
+import moment from 'moment';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import {
@@ -15,7 +16,6 @@ import DateTimePicker from '../datapicker';
 import { CloseIcon, RoratyIcon, YoutubeIcon } from '../icons';
 import Modal from '../modal';
 import TimePicker from '../timepicker';
-import moment from 'moment';
 
 const NOTES_LIMIT = 300;
 const DEFAULT_LANG = 'беларуская';
@@ -111,9 +111,9 @@ const CreateModal = () => {
   const handleChangeEndDate = (date: Date | null) => {
     setEndDate(date);
   };
-  const handleChangeTime = (hours: string, minutes: string) => {
-    setHours(hours);
-    setMinutes(minutes);
+  const handleChangeTime = (new_hours: string, new_minutes: string) => {
+    setHours(new_hours);
+    setMinutes(new_minutes);
   };
   const handleSelectDay = (day: number) => () => {
     const index = days.findIndex((i) => i === day);
@@ -206,7 +206,7 @@ const CreateModal = () => {
                   </div>
                 </div>
                 <div className="form__col form__col--medium">
-                  <div className={`form__label`}>Час</div>
+                  <div className="form__label">Час</div>
                   <div className="from__field">
                     <TimePicker hour={hours} minute={minutes} onChange={handleChangeTime} />
                   </div>
