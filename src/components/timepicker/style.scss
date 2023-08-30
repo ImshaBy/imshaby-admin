@@ -13,4 +13,18 @@
     @include font(0.8125rem, true, 1);
     margin: 0 5px;
   }
+  &__field {
+    &__input {
+
+      &.MuiInputBase-root {
+        width: 64px;
+        height: 40px;
+        @include font(13px, false, 1);
+        border-radius: 0;
+      }
+      & .MuiInputBase-input {
+        padding: 10px;
+      }
+    }
+  }
 }

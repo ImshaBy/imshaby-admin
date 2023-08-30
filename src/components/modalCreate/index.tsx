@@ -15,6 +15,7 @@ import DateTimePicker from '../datapicker';
 import { CloseIcon, RoratyIcon, YoutubeIcon } from '../icons';
 import Modal from '../modal';
 import TimePicker from '../timepicker';
+import moment from 'moment';
 
 const NOTES_LIMIT = 300;
 const DEFAULT_LANG = 'беларуская';
@@ -22,8 +23,8 @@ const DEFAULT_LANG = 'беларуская';
 const CreateModal = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [hours, setHours] = useState<string>('');
-  const [minutes, setMinutes] = useState<string>('');
+  const [hours, setHours] = useState<string | null>(null);
+  const [minutes, setMinutes] = useState<string | null>(null);
   const [days, setDays] = useState<number[]>([]);
   const [daysValid, setDaysValid] = useState<boolean>(true);
   const [startDateValid, setStartDateValid] = useState<boolean>(true);
@@ -57,11 +58,12 @@ const CreateModal = () => {
   const validate = (): boolean => {
     const isDaysValid = isMassPeriodic ? !!days.length : true;
     const startDateForSingleMass = !isMassPeriodic ? !!startDate : true;
+    const isTimeValid = moment(`${hours}:${minutes}`, 'HH:mm').isValid();
 
     setDaysValid(isDaysValid);
     setStartDateValid(startDateForSingleMass);
 
-    return isDaysValid && startDateForSingleMass;
+    return isDaysValid && startDateForSingleMass && isTimeValid;
   };
 
   useEffect(() => {
@@ -203,7 +205,7 @@ const CreateModal = () => {
                     />
                   </div>
                 </div>
-                <div className="form__col form__col--small">
+                <div className="form__col form__col--medium">
                   <div className={`form__label`}>Час</div>
                   <div className="from__field">
                     <TimePicker hour={hours} minute={minutes} onChange={handleChangeTime} />
