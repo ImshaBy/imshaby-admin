@@ -231,6 +231,9 @@ const CreateModal = () => {
                       <option value="польская">польская</option>
                       <option value="англійская">англійская</option>
                       <option value="украінская">украінская</option>
+                      <option value="руская">руская</option>
+                      <option value="літоўская">літоўская</option>
+
                     </select>
                   </div>
                 </div>
