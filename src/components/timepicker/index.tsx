@@ -1,9 +1,10 @@
 import './style.scss';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { TimeField } from '@mui/x-date-pickers/TimeField';
+import { TextField } from '@mui/material';
 import moment from 'moment';
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import TimeField from 'react-simple-timefield';
 
 interface props {
   hour?: string | null;
@@ -12,28 +13,40 @@ interface props {
 }
 
 const TimePicker = ({ hour, minute, onChange }: props) => {
-  const handleChange = (value: moment.Moment | null) => {
-    if (value?.isValid) {
+  // const [active, setActive] = useState(false);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>, value: string) => {
+    const newTime = moment(value, 'HH:mm');
+    if (newTime.isValid()) {
       onChange(
-        (`0${value.hour()}`).slice(-2),
-        (`0${value.minute()}`).slice(-2),
+        (`0${newTime.hour()}`).slice(-2),
+        (`0${newTime.minute()}`).slice(-2),
       );
     }
   };
 
+  // const handleFocus = (event: ChangeEvent) => {
+  //   setActive(true);
+  // };
+
+  const inputComponent = (
+    <TextField
+      placeholder="09:00"
+      className="timePicker__field"
+      color="error"
+      InputProps={{
+        className: 'timePicker__field__input',
+      }}
+      // onFocus={handleFocus}
+    />
+  );
+
   return (
     <section className="timePicker">
       <TimeField
-        ampm={false}
-        className="timePicker__field"
-        color="error"
-        InputProps={{
-          className: 'timePicker__field__input',
-        }}
-        value={moment(`${hour}:${minute}`, 'HH:mm')}
+        value={moment(`${hour || 0}:${minute || 0}`, 'HH:mm').format('HH:mm')}
         onChange={handleChange}
-        // label="nikita"
-        required
+        input={inputComponent}
       />
     </section>
   );
