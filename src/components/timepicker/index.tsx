@@ -30,20 +30,24 @@ const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...other}
         mask={Date}
-        pattern="HH:MM"
+        pattern="`HH:`MM"
         blocks={{
           HH: {
-            mask: new IMask.MaskedRange({ from: 0, to: 23, lazy: false }),
+            mask: new IMask.MaskedRange({
+              from: 0, to: 23, lazy: false, eager: true,
+            }),
           },
           MM: {
-            mask: new IMask.MaskedRange({ from: 0, to: 59, lazy: false }),
+            mask: new IMask.MaskedRange({
+              from: 0, to: 59, lazy: false, eager: true,
+            }),
           },
         }}
         inputRef={ref}
         // eslint-disable-next-line max-len
         onAccept={onAccept}
-        overwrite
         lazy={false}
+        eager
         // define date -> str convertion
         format={(date: any) => moment(date).format('HH:mm')}
         // define str -> date convertion
