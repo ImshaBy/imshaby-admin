@@ -2,11 +2,9 @@ import './style.scss';
 
 import { TextField } from '@mui/material';
 import moment from 'moment';
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { IMask, IMaskInput } from 'react-imask';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import TimeField from 'react-simple-timefield';
 
 interface props {
   hour?: string | null;
@@ -15,7 +13,7 @@ interface props {
 }
 
 interface CustomProps {
-  onChange: (event: ChangeEvent<HTMLInputElement>, value: moment.Moment) => void;
+  onChange: (value: string) => void;
 }
 
 const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
@@ -24,7 +22,7 @@ const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
     const onAccept = (value: string) => {
       const newValue = moment(value, 'HH:mm', true);
       if (newValue.isValid()) {
-        onChange(newValue);
+        onChange(value);
       }
     };
     return (
@@ -55,10 +53,7 @@ const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
   },
 );
 
-
 const TimePicker = ({ hour, minute, onChange }: props) => {
-  // const [active, setActive] = useState(false);
-
   const handleChange = (value: string) => {
     const newTime = moment(value, 'HH:mm');
     if (newTime.isValid()) {
@@ -73,12 +68,13 @@ const TimePicker = ({ hour, minute, onChange }: props) => {
     <section className="timePicker">
       <TextField
         className="timePicker__field"
-        // color="error"
+        value={moment(`${hour}:${minute}`, 'HH:mm').format('HH:mm')}
         InputProps={{
           className: 'timePicker__field__input',
           inputComponent: TextMaskCustom as any,
         }}
-        onChange={handleChange}
+        color="error"
+        onChange={(value) => handleChange(value as any)}
       />
     </section>
   );
