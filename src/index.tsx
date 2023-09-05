@@ -2,8 +2,8 @@
 import './models/init';
 import './styles/style.scss';
 
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+// import { LocalizationProvider } from '@mui/x-date-pickers';
+// import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import * as Sentry from '@sentry/react';
 import { useGate } from 'effector-react';
 import React from 'react';
@@ -55,11 +55,11 @@ ReactDOM.render(
     components={{ Toast: Snackbar }}
     placement="bottom-center"
   >
-    <LocalizationProvider dateAdapter={AdapterMoment}>
-      <CookiesProvider>
-        <App />
-      </CookiesProvider>
-    </LocalizationProvider>
+    {/* <LocalizationProvider dateAdapter={AdapterMoment}> */}
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
+    {/* </LocalizationProvider> */}
   </ToastProvider>,
   document.querySelector('#root'),
 );
