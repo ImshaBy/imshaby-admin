@@ -1,3 +1,7 @@
+import format from 'date-fns/format';
+import fromUnixTime from 'date-fns/fromUnixTime';
+import be from 'date-fns/locale/be';
+import parse from 'date-fns/parse';
 import { attach, forward, guard } from 'effector';
 
 import { $parish } from '../parish';
@@ -17,6 +21,16 @@ import {
 } from './index';
 import { MassMode } from './types';
 
+const days = new Map([
+  [1, 'панядзелак'],
+  [2, 'аўторак'],
+  [3, 'сераду'],
+  [4, 'чацвер'],
+  [5, 'пятніцу'],
+  [6, 'суботу'],
+  [0, 'нядзелю'],
+]);
+
 $mass
   .on(createMassFx.doneData, (state, payload) => payload)
   .on(getMassFx.doneData, (state, payload) => payload)
@@ -28,10 +42,26 @@ $massError
     error: false,
     message: '',
   }))
-  .on([createMassFx.fail, updateMassFx.fail], () => ({
-    error: true,
-    message: 'Імша на гэты час ужо ёсць у раскладзе.',
-  }));
+  .on([createMassFx.fail, updateMassFx.fail], (_, { params, error }) => {
+    let message = 'Імша на гэты час ужо ёсць у раскладзе.';
+    if (error && error.response) {
+      const { data } = error.response;
+      const { payload } = data.errors[0];
+      let day = new Date();
+      if (payload.duplicateMass && params && !params.days) {
+        day = fromUnixTime(params.singleStartTimestamp || 0);
+      } else if (payload.duplicateMass && params && params.days) {
+        day = parse(`${params.startDate} ${params.time}`, 'MM/dd/yyyy HH:mm', new Date());
+        const distance = (payload.duplicateMass.days[0] + 7 - day.getDay()) % 7;
+        day.setDate(day.getDate() + distance);
+      }
+      message = `Імша на ${format(day, 'H:mm', { locale: be })} ужо ёсць у раскладзе ў ${days.get(day.getDay())} ${format(day, 'dd MMMM yyyy года', { locale: be })}. Абярыце іншы час ці дзень.`;
+    }
+    return {
+      error: true,
+      message,
+    };
+  });
 
 $massMode
   .on(changeMassMode, (state, payload) => payload)

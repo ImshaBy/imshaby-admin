@@ -64,10 +64,15 @@
   &__error {
     position: absolute;
     right: 0;
-    bottom: -20px;
+    bottom: -28px;
+    line-height: 15px;
+    text-align: right;
+    display: block;
+    height: 24px;
+    max-width: 360px;
   }
   &__error-text {
-    @include font(10px, false, 20px);
-    color: var(--normal-btn-background)
+    @include font(10px, false);
+    color: var(--normal-btn-background);
   }
 }

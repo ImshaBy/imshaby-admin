@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { createEffect, createEvent, createStore } from 'effector';
 
 import MassAPI from '../../common/api/massAPI';
@@ -30,27 +31,21 @@ export const getMassFx = createEffect(async (mass_id: string) => {
   };
 });
 
-export const createMassFx = createEffect(async (mass: Mass | null) => {
-  if (!mass) return {};
-
-  try {
+export const createMassFx = createEffect<Mass | null, any, AxiosError<any>>(
+  async (mass: Mass | null) => {
+    if (!mass) return {};
     const { data } = await MassAPI.create(mass);
     return data;
-  } catch (e) {
-    throw Error('not possible to create mass due to server error!');
-  }
-});
+  },
+);
 
-export const updateMassFx = createEffect(async (mass: Mass | null) => {
-  if (!mass) return {};
-
-  try {
+export const updateMassFx = createEffect<Mass | null, any, AxiosError<any>>(
+  async (mass: Mass | null) => {
+    if (!mass) return {};
     const { data } = await MassAPI.update(mass);
     return data;
-  } catch (e) {
-    throw Error('Not possible to update mass due to server error');
-  }
-});
+  },
+);
 
 export const deleteMassFx = createEffect(async (params: { mass_id: string, period: Period }) => {
   const { mass_id, period } = params;
