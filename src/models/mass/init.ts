@@ -51,7 +51,8 @@ $massError
       if (payload.duplicateMass && params && !params.days) {
         day = fromUnixTime(params.singleStartTimestamp || 0);
       } else if (payload.duplicateMass && params && params.days) {
-        day = parse(`${params.startDate} ${params.time}`, 'MM/dd/yyyy HH:mm', new Date());
+        day = parse(`${payload.duplicateMass.startDate} ${payload.duplicateMass.time}`, 'MM/dd/yyyy HH:mm', new Date());
+        day = (day >= new Date()) ? day : new Date();
         const distance = (payload.duplicateMass.days[0] + 7 - day.getDay()) % 7;
         day.setDate(day.getDate() + distance);
       }
