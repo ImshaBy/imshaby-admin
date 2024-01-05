@@ -19,8 +19,8 @@ interface props {
 
 const mobileLayout = (massHours: MassHours, onDelete: (item: MassHoursData) => void) => {
 
-  const [contentWidth, setContentWidth] = useState(0);
-  const [expand, setExpand] = useState(false);
+  const [contentWidth, setContentWidth] = useState<number>(0);
+  const [expand, setExpand] = useState<boolean>(false);
   const contentRef = useRef<HTMLTableCellElement>(null);
 
   useEffect(()=>{
