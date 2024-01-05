@@ -1,7 +1,7 @@
 import './style.scss';
 
 import format from 'date-fns/format';
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 import { changeMassMode, editMass } from '../../../../models/mass';
@@ -18,6 +18,17 @@ interface props {
 }
 
 const mobileLayout = (massHours: MassHours, onDelete: (item: MassHoursData) => void) => {
+
+  const [contentWidth, setContentWidth] = useState(0);
+  const [expand, setExpand] = useState(false);
+  const contentRef = useRef<HTMLTableCellElement>(null);
+
+  useEffect(()=>{
+    if (contentRef.current) {
+      setContentWidth(contentRef.current.clientWidth);
+    }
+  },[]);
+
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>, item: MassHoursData) => {
     e.stopPropagation();
     onDelete(item);
@@ -32,8 +43,9 @@ const mobileLayout = (massHours: MassHours, onDelete: (item: MassHoursData) => v
     <>
       {
         massHours.data.map((item, i) => (
+          <>
           <tr className="timetableMobile__line" key={i}>
-            <td className="timetableMobile__content">
+            <td ref={contentRef} className="timetableMobile__content">
               <div className="timetableMobile__col1">
                 <div className="timetableMobile__section">
                   <div className="timetableMobile__title">Час</div>
@@ -98,6 +110,13 @@ const mobileLayout = (massHours: MassHours, onDelete: (item: MassHoursData) => v
               </div>
             </td>
           </tr>
+          {!!item.info && (
+            <tr>
+              <div className="timetableMobile__title">Каментарый</div>
+              <div className={`timetableMobile__comment ${expand && "timetableMobile__comment_expand"}`} style={{width: `${contentWidth}px`}} onClick={() => setExpand(value => !value)}>{item.info}</div>
+            </tr>
+          )}
+          </>
         ))
       }
     </>

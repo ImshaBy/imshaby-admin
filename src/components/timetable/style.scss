@@ -58,6 +58,7 @@
   &__comments {
     width: 328px;
     overflow: hidden;
+    word-break: break-word;
     @include tablet {
       width: 170px;
       max-width: 170px;
