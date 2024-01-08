@@ -13,14 +13,12 @@ const LoginPage = () => {
   const [msg, setMsg] = useState('');
   const { addToast } = useToasts();
 
-  const handleSubmit = async (event: any) => {
-    // Prevent page reload
-    event.preventDefault();
+  const handleSubmit = async (email: string) => {
     setMsg('');
 
     // Send magic link to the provided email
     try {
-      await PasswordlessAPI.start(event.target.email.value);
+      await PasswordlessAPI.start(email);
       setMsg('Спасылка на ўваход адпраўлена на электронную пошту');
     } catch (err) {
       if (err instanceof Error) {
