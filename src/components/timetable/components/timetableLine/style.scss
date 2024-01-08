@@ -29,7 +29,19 @@
     flex-direction: column;
     align-items: center;
   }
-  &__comment {}
+  &__comment {
+    height: 24px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    &_expand{
+      padding-bottom: 6px;
+      height: auto;
+      overflow: visible;
+      white-space: normal;
+    }
+  }
 
   &__title {
     @include font(14px, true);
