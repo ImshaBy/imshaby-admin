@@ -110,7 +110,7 @@ const mobileLayout = (massHours: MassHours, onDelete: (item: MassHoursData) => v
                 </div>
               </td>
             </tr>
-            {!item.info && (
+            {!!item.info && (
               <tr>
                 <div className="timetableMobile__title">Каментарый</div>
                 <div className={`timetableMobile__comment ${expand && 'timetableMobile__comment_expand'}`} style={{ width: `${contentWidth}px` }} onClick={() => setExpand((value) => !value)}>{item.info}</div>
