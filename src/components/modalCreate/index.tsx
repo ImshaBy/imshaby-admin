@@ -1,3 +1,5 @@
+import './style.scss';
+
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import getTime from 'date-fns/getTime';
@@ -13,10 +15,11 @@ import {
 } from '../../models/mass';
 import { Mass, MassMode } from '../../models/mass/types';
 import DateTimePicker from '../datapicker';
-import { CloseIcon, RoratyIcon, YoutubeIcon, DeleteIcon } from '../icons';
+import {
+  CloseIcon, DeleteIcon, RoratyIcon, YoutubeIcon,
+} from '../icons';
 import Modal from '../modal';
 import TimePicker from '../timepicker';
-import './style.scss';
 
 const NOTES_LIMIT = 300;
 const DEFAULT_LANG = 'беларуская';
@@ -349,7 +352,7 @@ const CreateModal = () => {
                             >
                               <DeleteIcon className="timetable__icon" />
                             </button>
-                        )}          
+                          )}
                         </div>
                       </div>
                     </section>
