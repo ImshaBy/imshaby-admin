@@ -5,7 +5,7 @@
   background-color: #fff;
   margin: 0 auto;
   overflow: hidden;
-  
+
   @include mobile() {
     padding: 25px 0 25px;
   }
@@ -43,14 +43,13 @@
     position: absolute;
     top: 45px;
     &.error {
-      color: var(--error)
+      color: var(--error);
     }
   }
 
   & .email {
     position: relative;
     width: 100%;
-    
     margin-top: 50px;
     &__input {
       & .MuiInputBase-root {
@@ -58,6 +57,16 @@
 
         @include font(18px);
       }
+      &_error {
+        & .MuiInputBase-root {
+          border-bottom: 1px solid var(--error);
+        }
+      }
+    }
+    &__error {
+      padding-top: 14px;
+      color: var(--error);
+      @include font(14px);
     }
   }
 
