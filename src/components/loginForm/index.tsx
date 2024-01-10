@@ -1,7 +1,7 @@
 import './style.scss';
 
 import { createTheme, TextField as MuiTextField, ThemeProvider } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import useWindowSize from '../../utils/useWindowSize';
 import { validateEmail } from '../../utils/validateData';
@@ -30,10 +30,10 @@ const LoginForm = ({ onSubmit }: Props) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    const email = event.target.email.value;
-    if (validateEmail(email)) {
+    const inputEmail = event.target.email.value;
+    if (validateEmail(inputEmail)) {
       setCorrectEmail(true);
-      onSubmit(email);
+      onSubmit(inputEmail);
     } else {
       setCorrectEmail(false);
     }
@@ -58,13 +58,16 @@ const LoginForm = ({ onSubmit }: Props) => {
             />
             {!correctEmail && (
               <div className="email__error">
+                {/* eslint-disable-next-line max-len */}
                 Няправільны фармат электроннай пошты. Уводзьце электронную пошту, якую падалі адміністратарам.
               </div>
             )}
           </div>
           <div className="login__signin">
             <button type="submit" disabled={!email || !correctEmail} className="login__signin__btn btn">
-              Выслаць спасылку на {isMobile ? 'эл. пошту' : 'электронную пошту'}
+              Выслаць спасылку на
+              {' '}
+              {isMobile ? 'эл. пошту' : 'электронную пошту'}
             </button>
             <span className="login__signin__help">
               Падтрымка:&nbsp;
