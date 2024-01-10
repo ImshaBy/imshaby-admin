@@ -1,3 +1,5 @@
+import './style.scss';
+
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import getTime from 'date-fns/getTime';
@@ -13,7 +15,9 @@ import {
 } from '../../models/mass';
 import { Mass, MassMode } from '../../models/mass/types';
 import DateTimePicker from '../datapicker';
-import { CloseIcon, RoratyIcon, YoutubeIcon } from '../icons';
+import {
+  CloseIcon, DeleteIcon, RoratyIcon, YoutubeIcon,
+} from '../icons';
 import Modal from '../modal';
 import TimePicker from '../timepicker';
 
@@ -331,12 +335,24 @@ const CreateModal = () => {
                       <div className="form__col">
                         <div className="form__label form__label--no-margin">Скончыць (неабавязковае поле)</div>
                         <span className="form__hint">Калі тэрмін дзеяння невядомы — пакіньце поле пустым</span>
-                        <div className="form__field">
+                        <div className="date__wrapper">
                           <DateTimePicker
                             selected={endDate}
                             onChange={handleChangeEndDate}
                             minDate={startDate || new Date()}
                           />
+                          {!!endDate && (
+                            <button
+                              type="button"
+                              className="timetable__btnIcon"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEndDate(null);
+                              }}
+                            >
+                              <DeleteIcon className="timetable__icon" />
+                            </button>
+                          )}
                         </div>
                       </div>
                     </section>
