@@ -465,6 +465,9 @@
   position: relative;
   display: inline-block;
   width: 100%;
+  & > button > input{
+    padding: 10px;
+  }
 }
 
 .react-datepicker__year-read-view,
