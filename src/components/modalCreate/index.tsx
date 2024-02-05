@@ -7,7 +7,7 @@ import parse from 'date-fns/parse';
 import set from 'date-fns/set';
 import { useStore } from 'effector-react';
 import moment from 'moment';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState, useMemo } from 'react';
 
 import {
   $mass, $massError,
@@ -59,16 +59,15 @@ const CreateModal = () => {
     setSubmitted(false);
   };
 
-  const validate = (): boolean => {
+  const isValid = useMemo<boolean>(() => {
     const isDaysValid = isMassPeriodic ? !!days.length : true;
     const startDateForSingleMass = !isMassPeriodic ? !!startDate : true;
     const isTimeValid = moment(`${hours}:${minutes}`, 'HH:mm').isValid();
 
     setDaysValid(isDaysValid);
     setStartDateValid(startDateForSingleMass);
-
     return isDaysValid && startDateForSingleMass && isTimeValid;
-  };
+  },[isMassPeriodic, days, hours, minutes, startDate]);
 
   useEffect(() => {
     setSubmitted(false);
@@ -105,10 +104,6 @@ const CreateModal = () => {
     setNotes(mass.notes || '');
   }, [mass]);
 
-  useEffect(() => {
-    validate();
-  }, [days, hours, minutes, startDate]);
-
   const handleChangeStartDate = (date: Date | null) => {
     setStartDate(date || new Date());
   };
@@ -137,7 +132,7 @@ const CreateModal = () => {
 
   const handleCreate = () => {
     setSubmitted(true);
-    if (!validate()) return;
+    if (!isValid) return;
 
     if (!isMassPeriodic) {
       if (!startDate) return;
@@ -399,8 +394,8 @@ const CreateModal = () => {
             <button type="button" className="btn btn-empty" onClick={() => resetMassMode()}>Адмена</button>
             {
               massMode === MassMode.CREATE
-                ? <button type="button" className="btn" onClick={handleCreate}>Дадаць Імшу</button>
-                : <button type="button" className="btn" onClick={handleCreate}>Змяніць Імшу</button>
+                ? <button type="button" className="btn" onClick={handleCreate} disabled={!isValid}>Дадаць Імшу</button>
+                : <button type="button" className="btn" onClick={handleCreate} disabled={!isValid}>Змяніць Імшу</button>
             }
 
           </footer>
