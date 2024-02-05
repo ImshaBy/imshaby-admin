@@ -13,7 +13,7 @@ interface IProps {
 
 const ReadonlyInput = ({ value, onClick }: any) => (
   <button type="button" onClick={onClick}>
-    <input value={value}/>
+    <input value={value} />
   </button>
 );
 

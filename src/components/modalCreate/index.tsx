@@ -7,7 +7,9 @@ import parse from 'date-fns/parse';
 import set from 'date-fns/set';
 import { useStore } from 'effector-react';
 import moment from 'moment';
-import React, { ChangeEvent, useEffect, useState, useMemo } from 'react';
+import React, {
+  ChangeEvent, useEffect, useMemo, useState,
+} from 'react';
 
 import {
   $mass, $massError,
@@ -67,7 +69,7 @@ const CreateModal = () => {
     setDaysValid(isDaysValid);
     setStartDateValid(startDateForSingleMass);
     return isDaysValid && startDateForSingleMass && isTimeValid;
-  },[isMassPeriodic, days, hours, minutes, startDate]);
+  }, [isMassPeriodic, days, hours, minutes, startDate]);
 
   useEffect(() => {
     setSubmitted(false);

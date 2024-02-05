@@ -1,8 +1,9 @@
 import './style.scss';
 
+import { useStore } from 'effector-react';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useStore } from 'effector-react';
+
 import { $selectParishes } from '../../models/parish';
 import {
   ClockIcon,
@@ -22,8 +23,7 @@ const Header = ({
   parish = true,
   select = true,
   logo = true,
-}: HeaderProps) =>{
-
+}: HeaderProps) => {
   const parishes = useStore($selectParishes);
 
   return (
@@ -52,7 +52,7 @@ const Header = ({
               <span>парафія</span>
             </NavLink>
           )}
-          {select && parishes.length>1 && (
+          {select && parishes.length > 1 && (
             <NavLink to="/select" className="link" activeClassName="link__active">
               <LogoIcon className="icon" />
               <span>спіс парафій</span>
@@ -69,7 +69,7 @@ const Header = ({
 
       </section>
     </header>
-  )
-} ;
+  );
+};
 
 export default Header;
