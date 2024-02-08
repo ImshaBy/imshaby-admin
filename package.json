@@ -21,6 +21,7 @@
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "axios": "^0.21.1",
+    "axios-retry": "^4.0.0",
     "date-fns": "^2.16.1",
     "effector": "^21.8.10",
     "effector-localstorage": "^0.5.3",
