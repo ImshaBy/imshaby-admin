@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as Sentry from '@sentry/react';
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 import { Cookies } from 'react-cookie';
 
 const { REACT_APP_API_URL } = process.env;
@@ -11,6 +12,7 @@ const apiInstance = axios.create({
     'x-show-pending': 'true',
   },
 });
+axiosRetry(apiInstance, { retries: 3 });
 
 apiInstance.interceptors.request.use((config) => {
   const defaultConfig = config;
