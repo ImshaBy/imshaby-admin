@@ -1,10 +1,8 @@
 import './style.scss';
 
-import { useStore } from 'effector-react';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { $selectParishes } from '../../models/parish';
 import {
   ClockIcon,
   HomeIcon,
@@ -23,53 +21,49 @@ const Header = ({
   parish = true,
   select = true,
   logo = true,
-}: HeaderProps) => {
-  const parishes = useStore($selectParishes);
+}: HeaderProps) => (
+  <header className="header">
+    <section className="container header__container">
 
-  return (
-    <header className="header">
-      <section className="container header__container">
-
-        {logo && (
-          <section className="logo">
-            <a href="https://imsha.by" className="link">
-              <LogoIcon className="icon" />
-              <span className="logo__text">imsha.by</span>
-            </a>
-          </section>
-        )}
-
-        <section className="menu">
-          {schedule && (
-            <NavLink to="/schedule" className="link" activeClassName="link__active">
-              <ClockIcon className="icon" />
-              <span>расклад</span>
-            </NavLink>
-          )}
-          {parish && (
-            <NavLink to="/parish" className="link" activeClassName="link__active">
-              <HomeIcon className="icon" />
-              <span>парафія</span>
-            </NavLink>
-          )}
-          {select && parishes.length > 1 && (
-            <NavLink to="/select" className="link" activeClassName="link__active">
-              <LogoIcon className="icon" />
-              <span>спіс парафій</span>
-            </NavLink>
-          )}
+      {logo && (
+        <section className="logo">
+          <a href="https://imsha.by" className="link">
+            <LogoIcon className="icon" />
+            <span className="logo__text">imsha.by</span>
+          </a>
         </section>
+      )}
 
-        {/* <section className="help"> */}
-        {/*  <NavLink to="/help" className="link" activeClassName="link__active"> */}
-        {/*    <BulbIcon className="icon" /> */}
-        {/*    <span>дапамога</span> */}
-        {/*  </NavLink> */}
-        {/* </section> */}
-
+      <section className="menu">
+        {schedule && (
+          <NavLink to="/schedule" className="link" activeClassName="link__active">
+            <ClockIcon className="icon" />
+            <span>расклад</span>
+          </NavLink>
+        )}
+        {parish && (
+          <NavLink to="/parish" className="link" activeClassName="link__active">
+            <HomeIcon className="icon" />
+            <span>парафія</span>
+          </NavLink>
+        )}
+        {select && (
+          <NavLink to="/select" className="link" activeClassName="link__active">
+            <LogoIcon className="icon" />
+            <span>спіс парафій</span>
+          </NavLink>
+        )}
       </section>
-    </header>
-  );
-};
+
+      {/* <section className="help"> */}
+      {/*  <NavLink to="/help" className="link" activeClassName="link__active"> */}
+      {/*    <BulbIcon className="icon" /> */}
+      {/*    <span>дапамога</span> */}
+      {/*  </NavLink> */}
+      {/* </section> */}
+
+    </section>
+  </header>
+);
 
 export default Header;
