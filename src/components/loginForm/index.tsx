@@ -54,7 +54,10 @@ const LoginForm = ({ onSubmit }: Props) => {
               variant="standard"
               name="email"
               placeholder="Электронная пошта"
-              onChange={(event) => setEmail(event.target.value)}
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value.trim());
+              }}
             />
             {!correctEmail && (
               <div className="email__error">
@@ -65,9 +68,7 @@ const LoginForm = ({ onSubmit }: Props) => {
           </div>
           <div className="login__signin">
             <button type="submit" disabled={!correctEmail} className="login__signin__btn btn">
-              Выслаць спасылку на
-              {' '}
-              {isMobile ? 'эл. пошту' : 'электронную пошту'}
+              Выслаць спасылку на {isMobile ? 'эл. пошту' : 'электронную пошту'}
             </button>
             <span className="login__signin__help">
               Падтрымка:&nbsp;
