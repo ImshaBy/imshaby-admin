@@ -6,7 +6,7 @@ import { useToasts } from 'react-toast-notifications';
 
 import { $parish } from '../../models/parish';
 import { approveSchedule } from '../../models/schedule';
-import formatDate from '../../utils/formatDate';
+import { formatDate, formatDateWithoutCount } from '../../utils/formatDate';
 import LimitTimer from '../limitTimer';
 import Loading from '../loading';
 
@@ -42,6 +42,15 @@ const Parish = () => {
             <button type="button" className="btn" onClick={handleApprove}>
               Падцвердзіць актуальнасць раскладу
             </button>
+          </div>
+          <div className="parish__mobileActualPeriod">
+            <div className="parish__txt">
+              Перыяд актуальнасці раскладу
+              {' '}
+              <span className="parish__value">{parish.updatePeriodInDays}</span>
+              {' '}
+              {formatDateWithoutCount(parish.updatePeriodInDays)}
+            </div>
           </div>
         </section>
         <section className="parish__actualPeriod">

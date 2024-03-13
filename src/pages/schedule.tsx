@@ -7,7 +7,6 @@ import Parish from '../components/parish';
 import Schedule from '../components/schedule';
 import Section from '../components/section';
 import SectionHeader from '../components/sectionHeader';
-import { logout } from '../models/app';
 import { $parish, ParishGate } from '../models/parish';
 
 const SchedulePage = () => {
@@ -20,9 +19,9 @@ const SchedulePage = () => {
     <>
       <Header />
       <Section
-        header={
-          <SectionHeader title={parish.name} action callback={logout} />
-        }
+        // header={
+        //   <SectionHeader title={parish.name} action callback={logout} />
+        // }
         content={
           <Parish />
         }
