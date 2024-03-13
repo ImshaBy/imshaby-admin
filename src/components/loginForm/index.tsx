@@ -68,7 +68,9 @@ const LoginForm = ({ onSubmit }: Props) => {
           </div>
           <div className="login__signin">
             <button type="submit" disabled={!correctEmail} className="login__signin__btn btn">
-              Выслаць спасылку на {isMobile ? 'эл. пошту' : 'электронную пошту'}
+              Выслаць спасылку на
+              {' '}
+              {isMobile ? 'эл. пошту' : 'электронную пошту'}
             </button>
             <span className="login__signin__help">
               Падтрымка:&nbsp;
