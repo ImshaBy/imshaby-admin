@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      REACT_APP_API_URL: ${{vars.REACT_APP_API_URL}}
-      REACT_APP_AUTH_DOMAIN: ${{vars.REACT_APP_AUTH_DOMAIN}}
-      REACT_APP_AUTH_CLIENT_ID: ${{secrets.REACT_APP_AUTH_CLIENT_ID}}
-      REACT_APP_FUSION_ADDRESS: ${{vars.REACT_APP_FUSION_ADDRESS}}
+      VITE_API_URL: ${{vars.VITE_API_URL}}
+      VITE_AUTH_DOMAIN: ${{vars.VITE_AUTH_DOMAIN}}
+      VITE_AUTH_CLIENT_ID: ${{secrets.VITE_AUTH_CLIENT_ID}}
+      VITE_FUSION_ADDRESS: ${{vars.VITE_FUSION_ADDRESS}}
     steps:
       - uses: actions/checkout@v4
 
