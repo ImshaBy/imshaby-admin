@@ -1,22 +1,20 @@
 import './style.scss';
 
-import { useStore } from 'effector-react';
-import React from 'react';
-import { useToasts } from 'react-toast-notifications';
+import { useUnit } from 'effector-react';
 
 import { $parish } from '../../models/parish';
 import { approveSchedule } from '../../models/schedule';
 import { formatDate, formatDateWithoutCount } from '../../utils/formatDate';
 import LimitTimer from '../limitTimer';
 import Loading from '../loading';
+import toast from 'react-hot-toast';
 
 const Parish = () => {
-  const parish = useStore($parish);
-  const { addToast } = useToasts();
+  const parish = useUnit($parish);
 
   const handleApprove = async () => {
     approveSchedule();
-    addToast('Расклад падцверджаны');
+    toast('Расклад падцверджаны');
   };
   let imgPath = '';
   if (parish && parish.imgPath) {

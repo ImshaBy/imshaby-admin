@@ -47,23 +47,23 @@ const LimitTimer = ({ lastDate, limitDays } : props) => {
     return () => clearInterval(timer);
   }, [lastDate, limitDays]);
 
-  if (!duration) return <></>;
+  // if (!duration) return <></>;
   return (
     <section className={`limitTimer ${attention ? 'limitTimer__attention' : ''}`}>
       <div className="limitTimer__item">
-        <div className="limitTimer__header">{duration?.days}</div>
+        <div className="limitTimer__header">{duration?.days || '--'}</div>
         <span className="limitTimer__content">дні</span>
       </div>
       <div className="limitTimer__item">
-        <div className="limitTimer__header">{duration?.hours}</div>
+        <div className="limitTimer__header">{duration?.hours || '--'}</div>
         <span className="limitTimer__content">гадзіны</span>
       </div>
       <div className="limitTimer__item">
-        <div className="limitTimer__header">{duration?.minutes}</div>
+        <div className="limitTimer__header">{duration?.minutes || '--'}</div>
         <span className="limitTimer__content">хвіліны</span>
       </div>
       <div className="limitTimer__item">
-        <div className="limitTimer__header">{duration?.seconds}</div>
+        <div className="limitTimer__header">{duration?.seconds || '--'}</div>
         <span className="limitTimer__content">секунды</span>
       </div>
 

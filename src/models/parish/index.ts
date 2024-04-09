@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import parse from 'date-fns/parse';
+import { parse } from 'date-fns';
 import {
-  attach, combine, createEffect, createEvent, createStore, guard, sample,
+  attach, combine, createEffect, createEvent, createStore, sample,
 } from 'effector';
 import { createGate } from 'effector-react';
 import moment from 'moment';
@@ -27,9 +27,9 @@ export const fetchParishFx = createEffect(async (parish_id: string) => {
   if (!res?.data) throw new Error('Parish not found');
 
   const parish = { ...res.data };
-  parish.lastMassActualDate = parse(parish.lastMassActualDate, DATE_MASK, new Date());
-  parish.lastModifiedDate = parse(parish.lastModifiedDate, DATE_MASK, new Date());
-
+  console.log(parish)
+  parish.lastMassActualDate = parse(parish.lastMassActualDate || '', DATE_MASK, new Date());
+  parish.lastModifiedDate = parse(parish.lastModifiedDate || '', DATE_MASK, new Date());
   return parish;
 });
 
@@ -38,8 +38,8 @@ export const fetchParishesFiltersFx = createEffect(async (filters: Filters) => {
 
   if (!res?.data) throw new Error('Parishes not found by provided filters');
   const parishes: Parish[] = res.data.map((parish: any) => {
-    parish.lastMassActualDate = parse(parish.lastMassActualDate, DATE_MASK, new Date());
-    parish.lastModifiedDate = parse(parish.lastModifiedDate, DATE_MASK, new Date());
+    parish.lastMassActualDate = parse(parish.lastMassActualDate || '', DATE_MASK, new Date());
+    parish.lastModifiedDate = parse(parish.lastModifiedDate || '', DATE_MASK, new Date());
     return parish;
   });
 
@@ -57,7 +57,7 @@ export const updateParishFx = createEffect(
   },
 );
 
-export const getDefaultParishFx = guard({
+export const getDefaultParishFx = sample({
   clock: $user,
   source: combine({
     app: $app,
@@ -73,7 +73,7 @@ export const getDefaultParishFx = guard({
   }),
 });
 
-export const getUserParishesFx = guard({
+export const getUserParishesFx = sample({
   clock: $user,
   source: $user,
   filter: () => true,

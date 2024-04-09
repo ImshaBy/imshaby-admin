@@ -58,6 +58,11 @@
     padding: 0px 9px;
     min-height: 28px;
   }
+  &__link {
+    text-wrap: wrap;
+    word-break: break-all;
+    line-height: 20px;
+  }
   &__input {
     display: none;
   }

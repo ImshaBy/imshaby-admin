@@ -1,6 +1,4 @@
-import { startOfWeek } from 'date-fns';
-import format from 'date-fns/format';
-import parse from 'date-fns/parse';
+import { startOfWeek, format, parse } from 'date-fns';
 import { createEffect, createEvent, createStore } from 'effector';
 
 import MassAPI from '../../common/api/massAPI';
@@ -23,8 +21,8 @@ export const fetchWeekScheduleFx = createEffect(
     if (!res?.data) throw new Error('Week schedule not found');
 
     const weekSchedule = { ...res.data };
-    weekSchedule.startWeekDate = parse(weekSchedule.startWeekDate, 'MM/dd/yyyy', new Date());
-    weekSchedule.schedule = weekSchedule.schedule?.map((i: ScheduleResponse) => ({ ...i, date: parse(i.date, 'MM/dd/yyyy', new Date()) }));
+    weekSchedule.startWeekDate = parse(weekSchedule.startWeekDate || '', 'MM/dd/yyyy', new Date());
+    weekSchedule.schedule = weekSchedule.schedule?.map((i: ScheduleResponse) => ({ ...i, date: parse(i.date || '', 'MM/dd/yyyy', new Date()) }));
     return weekSchedule;
   },
 );

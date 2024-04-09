@@ -1,7 +1,7 @@
 import './style.scss';
 
-import { useStore } from 'effector-react';
-import React, { useState } from 'react';
+import { useUnit } from 'effector-react';
+import { useState } from 'react';
 
 import { $parish, updateParish } from '../../models/parish';
 import { Parish } from '../../models/parish/types';
@@ -11,7 +11,7 @@ import {
 } from '../icons';
 
 const ParishEdit = () => {
-  const parish = useStore($parish);
+  const parish = useUnit($parish);
   const [phone, setPhone] = useState(parish?.phone || '');
   const [website, setWebsite] = useState(parish?.website || '');
   const [email, setEmail] = useState(parish?.email || '');
@@ -113,7 +113,7 @@ const ParishEdit = () => {
                 Спасылка на анлайн-трансляцыю
               </div>
               <div className="parishInfo__field">
-                <a href={`${broadcastUrl}`} className="parishInfo__value" target="_blank" rel="noreferrer">{broadcastUrl}</a>
+                <a href={`${broadcastUrl}`} className="parishInfo__value parishInfo__link" target="_blank" rel="noreferrer">{broadcastUrl}</a>
                 <TextField className="parishInfo__input" value={broadcastUrl} onChange={(e) => setBroadcastUrl(e.target.value)} />
               </div>
             </li>

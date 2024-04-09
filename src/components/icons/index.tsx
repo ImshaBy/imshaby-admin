@@ -1,27 +1,25 @@
 import './style.scss';
 
-import React from 'react';
-
-import { ReactComponent as BulbSVG } from './icons/bulb.svg';
-import { ReactComponent as ClockSVG } from './icons/clock.svg';
-import { ReactComponent as CloseSVG } from './icons/close.svg';
-import { ReactComponent as DeleteSVG } from './icons/delete.svg';
-import { ReactComponent as EditSVG } from './icons/edit.svg';
-import { ReactComponent as EmailSVG } from './icons/email.svg';
-import { ReactComponent as HomeSVG } from './icons/home.svg';
-import { ReactComponent as LogoSVG } from './icons/imshaby.svg';
-import { ReactComponent as InfinitySVG } from './icons/infinity.svg';
-import { ReactComponent as LeftArrowSVG } from './icons/left-arrow.svg';
-import { ReactComponent as LinkSVG } from './icons/link.svg';
-import { ReactComponent as LogoutSVG } from './icons/log-out.svg';
-import { ReactComponent as MarkerSVG } from './icons/marker.svg';
-import { ReactComponent as PauseSVG } from './icons/pause.svg';
-import { ReactComponent as PeopleSVG } from './icons/people.svg';
-import { ReactComponent as PhoneSVG } from './icons/phone.svg';
-import { ReactComponent as PointsSVG } from './icons/points.svg';
-import { ReactComponent as RightArrowSVG } from './icons/right-arrow.svg';
-import { ReactComponent as RoratySVG } from './icons/roraty.svg';
-import { ReactComponent as YoutubeSVG } from './icons/youtube.svg';
+import BulbSVG from './icons/bulb.svg?react';
+import ClockSVG from './icons/clock.svg?react';
+import CloseSVG from './icons/close.svg?react';
+import DeleteSVG from './icons/delete.svg?react';
+import EditSVG from './icons/edit.svg?react';
+import EmailSVG from './icons/email.svg?react';
+import HomeSVG from './icons/home.svg?react';
+import LogoSVG from './icons/imshaby.svg?react';
+import InfinitySVG from './icons/infinity.svg?react';
+import LeftArrowSVG from './icons/left-arrow.svg?react';
+import LinkSVG from './icons/link.svg?react';
+import LogoutSVG from './icons/log-out.svg?react';
+import MarkerSVG from './icons/marker.svg?react';
+import PauseSVG from './icons/pause.svg?react';
+import PeopleSVG from './icons/people.svg?react';
+import PhoneSVG from './icons/phone.svg?react';
+import PointsSVG from './icons/points.svg?react';
+import RightArrowSVG from './icons/right-arrow.svg?react';
+import RoratySVG from './icons/roraty.svg?react';
+import YoutubeSVG from './icons/youtube.svg?react';
 
 interface props {
   className?: string

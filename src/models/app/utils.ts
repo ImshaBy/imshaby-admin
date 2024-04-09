@@ -9,6 +9,7 @@ const cleanCookie = () => {
     parish_id: '',
     city_id: '',
     expire_time: moment().subtract(10, 'seconds').toDate(),
+    is_login: false,
   };
 };
 

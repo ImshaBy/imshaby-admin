@@ -43,7 +43,7 @@ const MassAPI = {
     return data;
   },
   delete: async (massId: string, period: Period) => {
-    const params = new global.URLSearchParams();
+    const params = new URLSearchParams();
     if (period?.from) {
       params.append('from', period.from);
     }

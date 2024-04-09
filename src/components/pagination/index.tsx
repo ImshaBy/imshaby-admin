@@ -1,11 +1,9 @@
 import './style.scss';
 
 import { endOfWeek, startOfWeek } from 'date-fns';
-import addDays from 'date-fns/addDays';
-import format from 'date-fns/format';
-import be from 'date-fns/locale/be';
-import subDays from 'date-fns/subDays';
-import React, { useEffect, useState } from 'react';
+import { format, addDays, subDays } from 'date-fns';
+import { be } from 'date-fns/locale';
+import { useEffect, useState } from 'react';
 
 import { WeekSchedule } from '../../models/schedule/types';
 import { LeftArrowIcon, RightArrowIcon } from '../icons';

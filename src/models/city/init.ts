@@ -1,4 +1,4 @@
-import { forward } from 'effector';
+import { sample } from 'effector';
 
 import { LoginGate } from '../app';
 import { $cities, fetchCitiesFx } from './index';
@@ -6,7 +6,7 @@ import { $cities, fetchCitiesFx } from './index';
 $cities
   .on(fetchCitiesFx.doneData, (_, cities) => cities);
 
-forward({
-  from: LoginGate.open,
-  to: fetchCitiesFx,
-});
+sample(
+  LoginGate.open,
+  fetchCitiesFx,
+);

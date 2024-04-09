@@ -1,7 +1,7 @@
 import './style.scss';
 
 import { Button, MenuItem, Select as SelectMUI } from '@mui/material';
-import React, { MouseEventHandler } from 'react';
+import { MouseEventHandler } from 'react';
 
 import { Parish } from '../../models/parish/types';
 
@@ -12,7 +12,9 @@ interface SelectProps {
   btnDisabled?: boolean,
   btnTitle?: string,
   btnClick?: MouseEventHandler<HTMLButtonElement>
-
+  open: boolean,
+  handleOpen: () => void,
+  handleClose: () => void,
 }
 
 const Select = ({
@@ -22,6 +24,9 @@ const Select = ({
   btnDisabled,
   btnTitle,
   btnClick,
+  open,
+  handleClose,
+  handleOpen,
 }: SelectProps) => {
   const items = options.map(
     (data: Parish) => <MenuItem style={{ whiteSpace: 'normal' }} value={data.id}>{ data.name }</MenuItem>,
@@ -33,6 +38,9 @@ const Select = ({
         value={value}
         onChange={onChange}
         className="select__select"
+        open={open}
+        onClose={handleClose}
+        onOpen={handleOpen}
       >
         { items }
       </SelectMUI>

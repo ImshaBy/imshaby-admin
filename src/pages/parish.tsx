@@ -1,5 +1,4 @@
-import { useGate, useStore } from 'effector-react';
-import React from 'react';
+import { useGate, useUnit } from 'effector-react';
 
 import Header from '../components/header';
 import Loading from '../components/loading';
@@ -10,8 +9,7 @@ import { logout } from '../models/app';
 import { $parish, ParishGate } from '../models/parish';
 
 const ParishPage = () => {
-  const parish = useStore($parish);
-
+  const parish = useUnit($parish);
   useGate(ParishGate);
 
   if (!parish) return <Loading />;
@@ -25,6 +23,9 @@ const ParishPage = () => {
         content={
           <ParishEdit />
         }
+        config={{
+          mobileHeader: false,
+        }}
       />
     </>
   );

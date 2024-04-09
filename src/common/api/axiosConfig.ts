@@ -4,9 +4,9 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import { Cookies } from 'react-cookie';
 
-const { REACT_APP_API_URL } = process.env;
+const { VITE_API_URL } = import.meta.env;
 const apiInstance = axios.create({
-  baseURL: REACT_APP_API_URL,
+  baseURL: VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
     'x-show-pending': 'true',
