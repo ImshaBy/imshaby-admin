@@ -9,7 +9,6 @@ body {
   }
 }
 .container {
-  margin: 0 5px;
   @include tablet {
     margin: 0 auto;
     width: 748px;

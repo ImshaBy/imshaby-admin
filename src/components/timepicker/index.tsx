@@ -33,15 +33,19 @@ const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
         pattern="`HH:`MM"
         blocks={{
           HH: {
-            mask: new IMask.MaskedRange({
-              from: 0, to: 23, lazy: false, eager: true,
-            }),
+            mask: IMask.MaskedRange,
+            from: 0,
+            to: 23,
+            lazy: false,
+            eager: true,
           },
           MM: {
-            mask: new IMask.MaskedRange({
-              from: 0, to: 59, lazy: false, eager: true,
-            }),
-          },
+            mask: IMask.MaskedRange,
+            from: 0,
+            to: 59,
+            lazy: false,
+            eager: true,
+          }
         }}
         inputRef={ref}
         // eslint-disable-next-line max-len

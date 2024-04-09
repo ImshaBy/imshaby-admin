@@ -1,7 +1,6 @@
-import format from 'date-fns/format';
-import be from 'date-fns/locale/be';
-import parse from 'date-fns/parse';
-import React, { useEffect, useState } from 'react';
+import { format, parse } from 'date-fns';
+import { be } from 'date-fns/locale';
+import { useEffect, useState } from 'react';
 
 import { MassHoursData } from '../../models/schedule/types';
 import {
@@ -39,7 +38,7 @@ const DeleteModal = ({
       setTitle('Выдаліць сталую Імшу?');
       setPeriod('');
       if (mass.endDate) {
-        const endDate = parse(mass.endDate, 'MM/dd/yyyy', new Date());
+        const endDate = parse(mass.endDate || '', 'MM/dd/yyyy', new Date());
         setPeriod(`па ${format(endDate, 'dd MMMM yyyy, eeeeee', { locale: be })}`);
       }
     }

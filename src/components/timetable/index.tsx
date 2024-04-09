@@ -1,19 +1,18 @@
 import './style.scss';
 
 import { setHours, setMinutes, setSeconds } from 'date-fns';
-import format from 'date-fns/format';
-import isToday from 'date-fns/isToday';
-import be from 'date-fns/locale/be';
-import { useStore } from 'effector-react';
-import React, { useEffect, useState } from 'react';
+import { format, isToday } from 'date-fns';
+import { be } from 'date-fns/locale';
+import { useUnit } from 'effector-react';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { useToasts } from 'react-toast-notifications';
 
 import { $massDeleted, deleteMass } from '../../models/mass';
 import { Period } from '../../models/mass/types';
 import { MassHours, MassHoursData, Schedule } from '../../models/schedule/types';
 import DeleteModal from '../modalDelete';
 import TimeTableLine from './components/timetableLine';
+import toast from 'react-hot-toast';
 
 interface props {
   schedule: Schedule[];
@@ -40,14 +39,13 @@ const TimeTable = ({ schedule }: props) => {
   const [tab, setTab] = useState<number>(0);
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const isTablet = useMediaQuery({ query: '(max-width: 812px)' });
-  const { addToast } = useToasts();
 
-  const isDeletedMass = useStore($massDeleted);
+  const isDeletedMass = useUnit($massDeleted);
 
   useEffect(() => {
     if (!selectedMass || !isDeletedMass) return;
 
-    addToast(toastHelper(selectedMass, period, selectedDay));
+    toast(toastHelper(selectedMass, period, selectedDay));
   }, [isDeletedMass]);
 
   const handleDeleteModalOpen = (

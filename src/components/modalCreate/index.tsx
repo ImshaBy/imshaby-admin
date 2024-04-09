@@ -1,13 +1,9 @@
 import './style.scss';
 
-import format from 'date-fns/format';
-import fromUnixTime from 'date-fns/fromUnixTime';
-import getTime from 'date-fns/getTime';
-import parse from 'date-fns/parse';
-import set from 'date-fns/set';
-import { useStore } from 'effector-react';
+import { format, fromUnixTime, getTime, parse, set } from 'date-fns';
+import { useUnit } from 'effector-react';
 import moment from 'moment';
-import React, {
+import {
   ChangeEvent, useEffect, useMemo, useState,
 } from 'react';
 
@@ -41,10 +37,10 @@ const CreateModal = () => {
   const [notes, setNotes] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
 
-  const mass = useStore($mass);
-  const massMode = useStore($massMode);
-  const massUpdated = useStore($massUpdated);
-  const massError = useStore($massError);
+  const mass = useUnit($mass);
+  const massMode = useUnit($massMode);
+  const massUpdated = useUnit($massUpdated);
+  const massError = useUnit($massError);
   const visible = massMode !== MassMode.HIDDEN && !massUpdated;
 
   const resetForm = () => {
@@ -89,7 +85,7 @@ const CreateModal = () => {
       setHours(fromUnixTime(mass.singleStartTimestamp).getHours().toString());
       setMinutes(fromUnixTime(mass.singleStartTimestamp).getMinutes().toString());
     } else if (mass.startDate) {
-      setStartDate(parse(mass.startDate, 'MM/dd/yyyy', new Date()));
+      setStartDate(parse(mass.startDate || '', 'MM/dd/yyyy', new Date()));
       setHours(time[0]);
       setMinutes(time[1]);
     } else {

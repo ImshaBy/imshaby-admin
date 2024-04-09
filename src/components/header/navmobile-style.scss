@@ -1,0 +1,182 @@
+@import "./src/styles/_mixin";
+
+.navmobile {
+  background-color: var(--main-text-color);
+  position: fixed;
+  width: 100vw;
+  z-index: 10000;
+  height: 56px;
+  top: 0;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &.center {
+    justify-content: center;
+  }
+
+  &__main_link {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  &__imsha_icon {
+    width: 23px;
+    height: 23px;
+    margin-right: 8px;
+    & path {
+      fill: var(--main-button-text-color);
+    }
+  }
+  
+  &__backdrop {
+    background-color: rgba(0,0,0);
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: 999;
+    opacity: 0;
+    transition: .2s opacity;
+    visibility: hidden;
+    
+    &.open{
+      opacity: 0.48;
+      visibility: visible;
+    }
+  }
+
+  &__container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 56;
+    padding: 16px 8px 40px;
+    background-color: #FFFFFF;
+    z-index: 9999;
+    width: 100vw;
+  }
+
+  &__spis {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 16px;
+    
+    &__element {
+      height: 49px;
+      width: 100%;
+      font-size: 15px;
+      color: var(--main-button-text-color);
+      text-transform: uppercase;
+
+      &__link {  
+        color: var(--main-text-color);
+        & .element__icon {
+          & path {
+            fill: var(--main-text-color)
+          }
+        }
+        &__active, &__active:hover {
+          background: var(--normal-btn-background);
+          color: var(--main-button-text-color);
+          & .element__icon {
+            & path {
+              fill: var(--main-button-text-color)
+            }
+          }
+        }
+      }
+
+      & a {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        height: 100%;
+        width: 100%;
+        text-transform: uppercase;
+        align-items: center;
+        padding: 8px;
+        & .element__icon {
+          width: 20px;
+          height: 20px;
+          margin-right: 2.5px;
+        }
+        &:hover {
+          background: var(--hover-btn-background);
+          color: var(--main-button-text-color);
+          & .element__icon {
+            & path {
+              fill: var(--main-button-text-color)
+            }
+          }
+        }
+        &:active {
+          background: var(--active-btn-background);
+          color: var(--main-button-text-color);
+          & .element__icon {
+            & path {
+              fill: var(--main-button-text-color)
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+  & hr {
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--second-text-color);
+    margin-bottom: 24px;
+  }
+
+  &__parish {
+    display: flex;
+    height: 88px;
+    justify-content: space-between;
+    &__photo {
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 8px;
+      min-width: 88px;
+    }
+    &__img {
+      height: 88px;
+    }
+
+    &__title {
+      @include font(18px, true, 24.51px);
+    }
+    &__content {
+      display: flex;
+      flex-direction: column;
+      vertical-align: top;
+    }
+    &__action {
+      margin: 0;
+      margin-top: 10px;
+      padding: 0;
+      text-align: left;
+      color: var(--normal-btn-background);
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    &__exit_icon {
+      width: 20px;
+      height: 20px;
+      transform: scale(1.35);
+      & path {
+        fill: var(--normal-btn-background);
+      };
+      margin-right: 8px;
+    }
+    &__txt {
+      @include font(13px, false, 17.7px);
+      font-style: italic;
+    }
+  }
+}

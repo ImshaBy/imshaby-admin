@@ -17,6 +17,7 @@ export const $app = createStore<App>($appLocalStorage.init({
   parish_id: '',
   city_id: '',
   expire_time: new Date(),
+  is_login: false,
 }));
 export const $user = createStore<{ defaultParish: string, parishes?: string[] }>({ defaultParish: '' });
 

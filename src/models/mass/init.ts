@@ -1,8 +1,6 @@
-import format from 'date-fns/format';
-import fromUnixTime from 'date-fns/fromUnixTime';
-import be from 'date-fns/locale/be';
-import parse from 'date-fns/parse';
-import { attach, forward, guard } from 'effector';
+import { format, fromUnixTime, parse } from 'date-fns';
+import { be } from 'date-fns/locale';
+import { attach, sample } from 'effector';
 
 import { $parish } from '../parish';
 import {
@@ -51,7 +49,7 @@ $massError
       if (payload.duplicateMass && params && !params.days) {
         day = fromUnixTime(params.singleStartTimestamp || 0);
       } else if (payload.duplicateMass && params && params.days) {
-        day = parse(`${payload.duplicateMass.startDate} ${payload.duplicateMass.time}`, 'MM/dd/yyyy HH:mm', new Date());
+        day = parse(`${payload.duplicateMass.startDate} ${payload.duplicateMass.time}` || '', 'MM/dd/yyyy HH:mm', new Date());
         day = (day >= new Date()) ? day : new Date();
         const distance = (payload.duplicateMass.days[0] + 7 - day.getDay()) % 7;
         day.setDate(day.getDate() + distance);
@@ -79,7 +77,7 @@ $massDeleted
   .reset([deleteMass]);
 
 // create mass
-guard({
+sample({
   source: saveMass,
   filter: $massMode.map((mode) => mode === MassMode.CREATE),
   target: attach({
@@ -97,7 +95,7 @@ guard({
 });
 
 // edit mass
-guard({
+sample({
   source: saveMass,
   filter: $massMode.map((x) => x === MassMode.EDIT),
   target: attach({
@@ -114,12 +112,12 @@ guard({
   }),
 });
 
-forward({
-  from: editMass,
-  to: getMassFx,
+sample({
+  source: editMass,
+  target: getMassFx,
 });
 
-forward({
-  from: deleteMass,
-  to: deleteMassFx,
+sample({
+  source: deleteMass,
+  target: deleteMassFx,
 });

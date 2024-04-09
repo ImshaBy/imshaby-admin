@@ -1,10 +1,10 @@
 import apiInstance from './axiosConfig';
 
-const { REACT_APP_FUSION_ADDRESS } = process.env;
+const { VITE_FUSION_ADDRESS } = import.meta.env;
 const IdentityAPI = {
   getUser: async () => {
     const response = await apiInstance.request({
-      baseURL: `${REACT_APP_FUSION_ADDRESS}/api/`,
+      baseURL: `${VITE_FUSION_ADDRESS}/api/`,
       url: 'user',
       method: 'GET',
     });

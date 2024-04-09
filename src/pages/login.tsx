@@ -1,17 +1,16 @@
 import { useGate } from 'effector-react';
-import React, { useEffect, useState } from 'react';
-import { useToasts } from 'react-toast-notifications';
+import { useEffect, useState } from 'react';
 
 import PasswordlessAPI from '../common/api/passwordlessAPI';
 import Header from '../components/header';
 import LoginForm from '../components/loginForm';
 import Section from '../components/section';
 import { LoginGate } from '../models/app';
+import toast from 'react-hot-toast';
 
 const LoginPage = () => {
   useGate(LoginGate);
   const [msg, setMsg] = useState('');
-  const { addToast } = useToasts();
 
   const handleSubmit = async (email: string) => {
     setMsg('');
@@ -30,7 +29,7 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    if (msg) addToast(msg);
+    if (msg) toast(msg);
   }, [msg]);
 
   return (

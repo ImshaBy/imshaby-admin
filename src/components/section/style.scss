@@ -4,13 +4,36 @@
   &__header {
     padding: 0 20px;
     margin-bottom: 16px;
+    @include mobile() {
+      display: none;
+    }
   }
   &__content {
     min-height: 100px;
     padding: 20px;
     background: #FFFFFF;
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.05);
-    border-radius: 10px;
     margin-bottom: 36px;
+    @include tablet {
+      border-radius: 10px;
+    }
+    @include tabletLandscape {
+      border-radius: 10px;
+    }
+    @include desktop {
+      border-radius: 10px;
+    }
+    @include mobile() {
+      box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.05);
+      padding: 8px;
+      display: none;
+    }
+  }
+  .display {
+    &__mobile {
+      @include mobile() {
+        display: block;
+      }
+    }
   }
 }

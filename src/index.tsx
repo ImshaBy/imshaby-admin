@@ -2,18 +2,14 @@
 import './models/init';
 import './styles/style.scss';
 
-// import { LocalizationProvider } from '@mui/x-date-pickers';
-// import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import * as Sentry from '@sentry/react';
 import { useGate } from 'effector-react';
-import React from 'react';
+import { createRoot } from 'react-dom/client';
 import { CookiesProvider } from 'react-cookie';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ToastProvider } from 'react-toast-notifications';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 import PrivateRoute from './components/PrivateRoute';
-import Snackbar from './components/snackbar';
+import AppToaster from './components/toaster';
 import { AppGate } from './models/app';
 import CallbackPage from './pages/callback';
 import ParishPage from './pages/parish';
@@ -21,11 +17,11 @@ import SchedulePage from './pages/schedule';
 import SelectPage from './pages/select';
 import reportWebVitals from './reportWebVitals';
 
-const { REACT_APP_SENTRY_DSN } = process.env;
+const { VITE_SENTRY_DSN } = import.meta.env;
 
-if (REACT_APP_SENTRY_DSN) {
+if (VITE_SENTRY_DSN) {
   Sentry.init({
-    dsn: REACT_APP_SENTRY_DSN,
+    dsn: VITE_SENTRY_DSN,
     integrations: [new Sentry.BrowserTracing()],
     // Performance Monitoring
     tracesSampleRate: 0.6, // Capture 100% of the transactions, reduce in production!
@@ -36,32 +32,27 @@ const App = () => {
   useGate(AppGate);
 
   return (
-    <Router>
-      <Switch>
-        <Route path="/callback" component={CallbackPage} />
-        <PrivateRoute path="/select" component={SelectPage} />
-        <PrivateRoute path="/schedule" component={SchedulePage} />
-        <PrivateRoute path="/parish" component={ParishPage} />
-        <PrivateRoute path="/" component={SchedulePage} />
-      </Switch>
-    </Router>
+    <div>
+      <Router>
+        <Routes>
+          <Route path="/" element={ <Navigate to="/schedule" /> }/>
+          <Route path="/select" element={<PrivateRoute path="/select" element={<SelectPage/>} />} />
+          <Route path="/schedule" element={<PrivateRoute path="/schedule" element={<SchedulePage />} />} />
+          <Route path="/parish" element={<PrivateRoute path="/parish" element={<ParishPage />} />} />
+          <Route path="/callback" element={<CallbackPage />} />
+        </Routes>
+      </Router>
+      <AppToaster />
+    </div>
   );
 };
 
-ReactDOM.render(
-  <ToastProvider
-    autoDismiss
-    autoDismissTimeout={6000}
-    components={{ Toast: Snackbar }}
-    placement="bottom-center"
-  >
-    {/* <LocalizationProvider dateAdapter={AdapterMoment}> */}
-    <CookiesProvider>
-      <App />
-    </CookiesProvider>
-    {/* </LocalizationProvider> */}
-  </ToastProvider>,
-  document.querySelector('#root'),
+const container = document.getElementById('root');
+const root = createRoot(container!  );
+root.render(
+  <CookiesProvider>
+    <App />
+  </CookiesProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

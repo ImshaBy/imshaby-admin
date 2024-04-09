@@ -57,6 +57,10 @@ a {
   &:active:enabled {
     background: var(--active-btn-background);
   }
+  @include mobile() {
+    @include font(14px, true, 19px);
+    padding: 8px 16px;
+  }
 
   &-empty {
     color: var(--normal-btn-background);

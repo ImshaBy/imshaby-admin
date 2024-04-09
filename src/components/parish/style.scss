@@ -25,7 +25,6 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-
   }
   &__actualPeriod {
     width: 370px;
@@ -40,21 +39,56 @@
       display: block;
     }
   }
+  &__mobileActualPeriod {
+    display: none;
+    @include mobile {
+      display: block;
+    }
+    @include tablet {
+      display: none;
+    }
+    @include tabletLandscape {
+      display: none;
+    }
+  }
   &__txt {
     text-align: center;
     margin-bottom: 10px;
+    @include mobile() {
+      margin-bottom: 8px;
+      @include font(12px, false, 16.34px);
+      padding: 0 55px;
+    }
   }
   &__value {
     @include font(50px, true, 68px);
     text-align: center;
+    @include mobile() {
+      @include font(18px, true, 20px);
+    }
+
+  }
+  &__limitTimer {
+    @include mobile() {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
   }
 }
 
 .parishPeriod {
   margin-bottom: 16px;
-
+  @include mobile() {
+    margin-bottom: 8px;
+  }
 }
 
 .parishApprovePeriod {
   padding: 10px 0;
+  @include mobile() {
+    padding: 0;
+    margin-bottom: 8px;
+  }
 }

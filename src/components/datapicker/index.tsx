@@ -1,8 +1,10 @@
 import './stylesheets/datepicker.scss';
 
-import be from 'date-fns/locale/be';
-import React, { SyntheticEvent } from 'react';
+import { registerLocale } from 'react-datepicker';
+import { be } from 'date-fns/locale/be';
+import { SyntheticEvent } from 'react';
 import DatePicker from 'react-datepicker';
+registerLocale('be', be)
 
 interface IProps {
   onChange: (date: Date | null) => void;
@@ -31,7 +33,7 @@ const DateTimePicker = ({
   return (
     <>
       <DatePicker
-        locale={be}
+        locale='be'
         dateFormat="dd/MM/yyyy"
         selected={selected}
         onKeyDown={(e) => { e.preventDefault(); }}

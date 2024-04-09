@@ -15,7 +15,7 @@ jobs:
       REACT_APP_AUTH_CLIENT_ID: ${{secrets.REACT_APP_AUTH_CLIENT_ID}}
       REACT_APP_FUSION_ADDRESS: ${{vars.REACT_APP_FUSION_ADDRESS}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Create ssh-key file
         run: |
@@ -24,10 +24,10 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -t rsa github.com
 
-      - name: Use NodeJS v.14
-        uses: actions/setup-node@v1
+      - name: Use NodeJS v.18.19.0
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.16.1
+          node-version: 18.19.0
 
       - name: NPM install
         run: npm ci
@@ -36,7 +36,7 @@ jobs:
         run: CI='' npm run build
 
       - name: List of files
-        run: cd ./build && ls -la
+        run: cd ./dist && ls -la
 
       - name: Copy to server
-        run: rsync -avz -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" build/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.STATIC_PATH }}
+        run: rsync -avz -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.STATIC_PATH }}

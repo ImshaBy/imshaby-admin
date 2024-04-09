@@ -1,8 +1,8 @@
 import './style.scss';
 
 import { startOfWeek } from 'date-fns';
-import compareDesc from 'date-fns/compareDesc';
-import { useStore } from 'effector-react';
+import { compareDesc } from 'date-fns';
+import { useUnit } from 'effector-react';
 import React, { useEffect, useState } from 'react';
 
 import { changeMassMode, resetMass } from '../../models/mass';
@@ -16,7 +16,7 @@ import TimeTable from '../timetable';
 
 const Schedule = () => {
   const [isCurrentWeek, setCurrentWeek] = useState<boolean>(false);
-  const weekSchedule = useStore($schedule);
+  const weekSchedule = useUnit($schedule);
 
   useEffect(() => {
     fetchWeekSchedule();

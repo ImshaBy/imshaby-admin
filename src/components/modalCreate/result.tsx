@@ -1,11 +1,9 @@
 import './style.scss';
 
-import format from 'date-fns/format';
-import fromUnixTime from 'date-fns/fromUnixTime';
-import be from 'date-fns/locale/be';
-import parse from 'date-fns/parse';
-import { useStore } from 'effector-react';
-import React, { useEffect, useState } from 'react';
+import { format, fromUnixTime, parse } from 'date-fns';
+import { be } from 'date-fns/locale';
+import { useUnit } from 'effector-react';
+import { useEffect, useState } from 'react';
 
 import {
   $mass, $massMode, $massUpdated, resetMassUpdated,
@@ -21,9 +19,9 @@ const CreateModalResult = () => {
   const [period, setPeriod] = useState<string>('');
   const [time, setTime] = useState<string>(''); // todo should be remove when backend will fill mass.time for single mass
 
-  const visible = useStore($massUpdated);
-  const mass = useStore($mass);
-  const massMode = useStore($massMode);
+  const visible = useUnit($massUpdated);
+  const mass = useUnit($mass);
+  const massMode = useUnit($massMode);
 
   const handleClose = () => {
     resetMassUpdated(false);
@@ -45,12 +43,12 @@ const CreateModalResult = () => {
 
       let periodLabel = '';
       if (mass.startDate) {
-        const startDateMass = parse(mass.startDate, 'MM/dd/yyyy', new Date());
+        const startDateMass = parse(mass.startDate || '', 'MM/dd/yyyy', new Date());
         setStartDate(startDateMass);
         periodLabel = `з ${format(startDateMass, 'dd MMMM yyyy', { locale: be })} `;
       }
       if (mass.endDate) {
-        const endDate = parse(mass.endDate, 'MM/dd/yyyy', new Date());
+        const endDate = parse(mass.endDate || '', 'MM/dd/yyyy', new Date());
         periodLabel += `па ${format(endDate, 'dd MMMM yyyy', { locale: be })}`;
       }
       setPeriod(periodLabel);

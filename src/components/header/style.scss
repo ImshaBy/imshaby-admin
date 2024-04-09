@@ -1,11 +1,16 @@
 @import "./src/styles/_mixin";
 
+
+
 .header {
   display: flex;
   align-items: center;
   background: var(--main-text-color);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
   margin-bottom: 16px;
+  @include mobile() {
+    margin-bottom: 0;
+  }
   &__container {
     display: flex;
     justify-content: center;
@@ -15,10 +20,25 @@
     padding: 0 40px;
     @include tablet() {
       padding: 0 150px;
-      min-height: 32px;
     }
     @include desktop() {
       min-height: 50px;
+    }
+    @include mobile() {
+      justify-content: space-between;
+    }
+  }
+  &__desktop {
+    display: block;
+    @include mobile() {
+      display: none;
+    }
+  }
+  
+  &__mobile {
+    display: none;
+    @include mobile() {
+      display: block;
     }
   }
 }
@@ -37,7 +57,7 @@
   &:active {
     background: var(--active-btn-background);
   }
-  &__active, &__active:hover {
+  &.active, &.active:hover {
     background: var(--normal-btn-background);
   }
   @include tablet() {
