@@ -30,32 +30,19 @@ const Pagination = ({ schedule, changeDate, isCurrentWeek }: props) => {
   if (!schedule) return <Loading />;
   return (
     <section className="pagination">
-      {
-        !isCurrentWeek && (
-          <>
-            <button className="pagination__left" onClick={handlePrevWeek} type="button">
-              <LeftArrowIcon className="pagination__icon" />
-            </button>
-          </>
-        )
-      }
-      {
-        !!schedule.startWeekDate && (
-          <>
-            <span className="pagination__date">
-              {format(startPeriod, 'd')}
-              {' '}
-              -
-              {' '}
-              {format(endPeriod, 'dd MMMM', { locale: be })}
-            </span>
-          </>
-        )
-      }
+      <button className="pagination__left" onClick={handlePrevWeek} type="button" disabled={isCurrentWeek}>
+        <LeftArrowIcon className="pagination__icon" />
+      </button>
+      {!!schedule.startWeekDate && (
+        <>
+          <span className="pagination__date">
+            {format(startPeriod, 'd')} - {format(endPeriod, 'dd MMMM', { locale: be })}
+          </span>
+        </>
+      )}
       <button className="pagination__right" onClick={handleNextWeek} type="button">
         <RightArrowIcon className="pagination__icon" />
       </button>
-
     </section>
   );
 };
