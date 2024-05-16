@@ -1,7 +1,7 @@
 import './style.scss';
 
 import { setHours, setMinutes, setSeconds } from 'date-fns';
-import { format, isToday, startOfWeek, addDays, subDays, isEqual, compareAsc } from 'date-fns';
+import { format, isToday, startOfWeek, startOfDay, addDays, isEqual, compareAsc } from 'date-fns';
 import { be } from 'date-fns/locale';
 import { useUnit } from 'effector-react';
 import { useEffect, useMemo, useState } from 'react';
@@ -55,7 +55,7 @@ const TimeTable = ({ weekSchedule }: props) => {
       }
       return weekDays.map((calendarDay) => {
         const foundDay = weekSchedule.schedule.find((existDay) => isEqual(existDay.date, calendarDay));
-        return !foundDay || compareAsc(calendarDay, subDays(new Date(), 1)) < 0
+        return !foundDay || compareAsc(calendarDay, startOfDay(new Date())) < 0
           ? { date: calendarDay, isInaccessible: true }
           : foundDay;
       });
