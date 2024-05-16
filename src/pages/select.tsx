@@ -51,7 +51,7 @@ const SelectPage = () => {
       <Header />
       <Section
         header={
-          <SectionHeader title="Абярыце парафію" action callback={logout} />
+          <SectionHeader title="Абярыце парафію" logout={logout} />
         }
         content={(
           <>

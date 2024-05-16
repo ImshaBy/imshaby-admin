@@ -1,29 +1,33 @@
 import './style.scss';
 
 import React from 'react';
-
-import { LogoutIcon } from '../icons';
+import { LogoutIcon, AddIcon } from '../icons';
 
 interface props {
   title: string;
-  action?: boolean;
-  callback?: () => void;
+  massCreateOpen?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  logout?: () => void;
+  pagination?: () => JSX.Element;
 }
 
-const SectionHeader = ({ title, action = false, callback } : props) => (
+const SectionHeader = ({ title, massCreateOpen, logout, pagination }: props) => (
   <section className="sectionHeader">
-    <span className="sectionHeader__title">{ title }</span>
-    {
-      action && (
-        <>
-          <button type="button" className="sectionHeader__action" onClick={callback}>
-            <LogoutIcon className="sectionHeader__icon" />
-            <span className="sectionHeader__txt">Выйсці</span>
-          </button>
-        </>
-      )
-    }
-
+    <div>
+      <div className="sectionHeader__title">{title}</div>
+      {!!massCreateOpen && pagination && <div className="pagination__block">{pagination()}</div>}
+    </div>
+    {!!logout && (
+      <button type="button" className="sectionHeader__action" onClick={logout}>
+        <LogoutIcon className="sectionHeader__icon" />
+        <span className="sectionHeader__txt">Выйсці</span>
+      </button>
+    )}
+    {!!massCreateOpen && (
+      <button type="button" className="sectionHeader__action sectionHeader__addAction" onClick={massCreateOpen}>
+        <span className="sectionHeader__txt">Дадаць Імшу</span>
+        <AddIcon className="sectionHeader__addIcon" />
+      </button>
+    )}
   </section>
 );
 

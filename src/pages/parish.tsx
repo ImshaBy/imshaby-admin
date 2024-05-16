@@ -18,7 +18,7 @@ const ParishPage = () => {
       <Header />
       <Section
         header={
-          <SectionHeader title={parish.name} action callback={logout} />
+          <SectionHeader title={parish.name} logout={logout} />
         }
         content={
           <ParishEdit />

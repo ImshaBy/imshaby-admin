@@ -13,14 +13,30 @@
     @include font(18px, true, 25px);
     color: var(--normal-btn-background);
     cursor: pointer;
-    &:hover, &:hover path {
+    &:hover,
+    &:hover path {
       color: var(--hover-btn-background);
       fill: var(--hover-btn-background);
     }
-    &:active, &:active path {
+    &:active,
+    &:active path {
       color: var(--active-btn-background);
       fill: var(--active-btn-background);
     }
+  }
+  .pagination__block {
+    padding-top: 8px;
+  }
+  &__addAction {
+    width: 138px;
+    height: 35px;
+    align-items: center;
+    border-radius: 5px;
+    background-color: var(--main-button-text-color);
+    padding: 8px;
+    gap: 8px;
+    box-shadow: 0px 4px 6px 0px #b7202526;
+    @include font(15px, true, 20px);
   }
   &__icon {
     width: 26px;
@@ -30,5 +46,13 @@
       fill: var(--normal-btn-background);
     }
   }
-  &__txt {}
+  &__addIcon {
+    width: 14px;
+    height: 14px;
+    path {
+      fill: var(--normal-btn-background);
+    }
+  }
+  &__txt {
+  }
 }

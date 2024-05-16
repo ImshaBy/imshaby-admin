@@ -1,8 +1,17 @@
-@import "./src/styles/_mixin";
+@import './src/styles/_mixin';
 
 .pagination {
+  &__icon path {
+    fill: var(--main-text-color);
+  }
   &__left {
     cursor: pointer;
+    &[disabled] {
+      cursor: not-allowed;
+      & .pagination__icon path {
+        fill: var(--second-text-color);
+      }
+    }
   }
   &__right {
     cursor: pointer;
@@ -10,8 +19,5 @@
   &__date {
     @include font(18px, true, 25px);
     margin: 0 5px;
-  }
-  &__icon path{
-    fill: var(--main-text-color)
   }
 }

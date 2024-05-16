@@ -185,10 +185,14 @@
 }
 
 .tabs {
+  position: sticky;
+  top: 56px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  background-color: var(--main-button-text-color);
   border-bottom: 1px solid var(--second-text-color);
+  z-index: 10;
   &__item {
     cursor: pointer;
     border-bottom: 2px solid transparent;
@@ -196,7 +200,14 @@
     padding: 14px 0 0;
     //width: 10%;
     &--selected {
-      border-color: var(--active-btn-background);
+      padding: 14px 4px 0px 4px;
+      margin-bottom: 4px;
+      background-color: var(--main-icon-color);
+      color: var(--main-button-text-color);
+    }
+    &--disabled {
+      color: var(--second-text-color);
+      cursor: default;
     }
   }
   &__weekDate {
@@ -213,6 +224,5 @@
     @include font(12px, false, 1);
     position: absolute;
     top: 0;
-    left: 0;
   }
 }
