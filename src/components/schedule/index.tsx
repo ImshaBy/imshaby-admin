@@ -63,7 +63,7 @@ const Schedule = ({ isMobile, massCreateOpen, pagination }: props) => {
           </header>
         )}
         <section className="schedule__content">
-          <TimeTable schedule={weekSchedule.schedule} />
+          <TimeTable weekSchedule={weekSchedule} />
         </section>
       </section>
 
