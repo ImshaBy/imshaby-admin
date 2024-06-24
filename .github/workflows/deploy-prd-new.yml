@@ -40,7 +40,10 @@ jobs:
 
       - name: Copy to server
         run: rsync -avz -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.STATIC_PATH }}
-      
+  
+  create_release:
+    runs-on: ubuntu-latest
+    steps:
       - name: Export LATEST_TAG
         run: |
           echo "LATEST_TAG=$(curl -qsSL \
