@@ -54,8 +54,8 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ github.token }}
-          fromTag: ${{ github.ref_name }}
-          toTag: ${{ env.LATEST_TAG }}
+          fromTag: ${{ env.LATEST_TAG }}
+          toTag: ${{ github.ref_name }}
           writeToFile: false
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
