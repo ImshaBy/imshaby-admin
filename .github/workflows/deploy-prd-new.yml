@@ -1,9 +1,7 @@
 name: Deploy Admin to Prod (Digital Ocean Droplet)
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -16,6 +14,8 @@ jobs:
       VITE_FUSION_ADDRESS: ${{vars.VITE_FUSION_ADDRESS}}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref }}
 
       - name: Create ssh-key file
         run: |
@@ -40,3 +40,32 @@ jobs:
 
       - name: Copy to server
         run: rsync -avz -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.STATIC_PATH }}
+  
+  create_release:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Export LATEST_TAG
+        run: |
+          echo "LATEST_TAG=$(curl -qsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "${{ github.api_url }}/repos/${{ github.repository }}/releases/latest" \
+          | jq -r .tag_name)" >> $GITHUB_ENV
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          fromTag: ${{ github.event.inputs.ref }}
+          toTag: ${{ env.LATEST_TAG }}
+          writeToFile: false
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.event.inputs.ref }}
+          name: Release ${{ github.event.inputs.ref }}
+          body: ${{ steps.changelog.outputs.changes }}
+          makeLatest: true
+          token: ${{ secrets.GITHUB_TOKEN }}
