@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.ref }}
+          ref: ${{ github.ref_name }}
 
       - name: Create ssh-key file
         run: |
@@ -54,14 +54,14 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ github.token }}
-          fromTag: ${{ github.event.inputs.ref }}
+          fromTag: ${{ github.ref_name }}
           toTag: ${{ env.LATEST_TAG }}
           writeToFile: false
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ github.event.inputs.ref }}
-          name: Release ${{ github.event.inputs.ref }}
+          tag: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
           body: ${{ steps.changelog.outputs.changes }}
           makeLatest: true
           token: ${{ secrets.GITHUB_TOKEN }}
