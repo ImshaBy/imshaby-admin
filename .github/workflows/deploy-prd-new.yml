@@ -44,6 +44,8 @@ jobs:
   create_release:
     runs-on: ubuntu-latest
     environment: production
+    env:
+      toTAG: ${{github.event.inputs.ref}}
     steps:
       - name: Export LATEST_TAG
         run: |
