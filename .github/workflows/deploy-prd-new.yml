@@ -1,4 +1,4 @@
-name: Deploy Admin to Prod (Digital Ocean Droplet)
+name: Release PROD
 
 on:
   workflow_dispatch: 
