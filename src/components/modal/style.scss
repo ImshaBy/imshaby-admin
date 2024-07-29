@@ -1,4 +1,4 @@
-@import "./src/styles/_mixin";
+@import './src/styles/_mixin';
 
 .modal-wrapper {
   background-color: rgba(0, 0, 0, 0.3);
@@ -11,7 +11,7 @@
   overflow: auto;
 }
 .modal {
-  background: #FFFFFF;
+  background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
   border-radius: 4px;
@@ -19,6 +19,10 @@
   position: absolute;
   width: 100%;
   top: 160px;
+
+  @include smallMobile {
+    padding: 20px 14px;
+  }
 
   @include tablet {
     width: 400px;
@@ -36,9 +40,9 @@
     right: 0;
     top: 0;
     cursor: pointer;
-    transition: opacity .2s;
+    transition: opacity 0.2s;
     &:hover {
-      opacity: .9;
+      opacity: 0.9;
     }
   }
   &__header-closeIcon path {
@@ -50,8 +54,12 @@
 
   &__body {
     padding: 0 20px 20px;
-  }
 
+    @include smallMobile {
+      padding: 0 6px 20px;
+    }
+
+  }
 
   &__footer {
     display: flex;
