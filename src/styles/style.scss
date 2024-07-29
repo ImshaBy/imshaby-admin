@@ -178,6 +178,11 @@ a {
   &__col {
     &--large {
       width: 70%;
+
+      @include smallMobile{
+        width: 60%;
+      }
+      
     }
     &--small {
       width: 20%;

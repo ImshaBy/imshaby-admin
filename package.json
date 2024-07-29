@@ -41,7 +41,7 @@
     "vite-plugin-svgr": "^4.2.0"
   },
   "scripts": {
-    "dev": "vite --port 4200",
+    "dev": "vite --port 3000",
     "build": "tsc && vite build"
   }
 }
