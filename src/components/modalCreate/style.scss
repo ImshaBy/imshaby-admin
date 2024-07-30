@@ -1,7 +1,8 @@
-@import "./src/styles/_mixin";
+@import './src/styles/_mixin';
 
 .success {
-  &__list {}
+  &__list {
+  }
   &__item {
     @include font(0.8125rem);
     margin-bottom: 20px;
@@ -37,6 +38,19 @@
     }
   }
 }
-.date__wrapper{
+.date__wrapper {
   display: flex;
+}
+.form__field.comment__field {
+  position: relative;
+  textarea {
+    overflow: hidden;
+  }
+  .btn_invisible {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 5;
+  }
 }
