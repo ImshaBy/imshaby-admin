@@ -47,7 +47,7 @@ const CreateModal = () => {
   const massError = useUnit($massError);
   const visible = massMode !== MassMode.HIDDEN && !massUpdated;
 
-  const commentRef = useRef(null);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
 
   const resetForm = () => {
     setStartDate(new Date());
