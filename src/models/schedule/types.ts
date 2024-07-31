@@ -5,7 +5,8 @@ export type WeekSchedule = {
 
 export type Schedule = {
   date: Date;
-  massHours: MassHours[];
+  massHours?: MassHours[];
+  isInaccessible?: boolean;
 };
 
 export type ScheduleResponse = {

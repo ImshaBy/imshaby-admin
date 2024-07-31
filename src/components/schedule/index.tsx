@@ -14,7 +14,13 @@ import CreateModalResult from '../modalCreate/result';
 import Pagination from '../pagination';
 import TimeTable from '../timetable';
 
-const Schedule = () => {
+interface props {
+  isMobile?: boolean;
+  massCreateOpen: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  pagination: () => JSX.Element;
+}
+
+const Schedule = ({ isMobile, massCreateOpen, pagination }: props) => {
   const [isCurrentWeek, setCurrentWeek] = useState<boolean>(false);
   const weekSchedule = useUnit($schedule);
 
@@ -32,36 +38,32 @@ const Schedule = () => {
     fetchWeekSchedule();
   };
 
-  const handleMassCreateOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    resetMass();
-    changeMassMode(MassMode.CREATE);
-  };
-
   if (!weekSchedule) return <Loading />;
   return (
     <>
       <section className="schedule">
-        <header className="schedule__header">
-          <div className="schedule__add">
-            <button type="button" className="schedule__btn btn" onClick={handleMassCreateOpen}>Дадаць Імшу</button>
-          </div>
-          <div className="schedule__pagination">
-            <Pagination
-              schedule={weekSchedule}
-              changeDate={handleChangeDate}
-              isCurrentWeek={isCurrentWeek}
-            />
-          </div>
-          <div className="schedule__currentWeek">
-            <button type="button" className="btn btn-empty" onClick={() => handleChangeDate(startOfWeek(new Date(), { weekStartsOn: 1 }))} disabled={isCurrentWeek}>
-              Бягучы тыдзень
-            </button>
-          </div>
-        </header>
-
+        {!isMobile && (
+          <header className="schedule__header">
+            <div className="schedule__add">
+              <button type="button" className="schedule__btn btn" onClick={massCreateOpen}>
+                Дадаць Імшу
+              </button>
+            </div>
+            <div className="schedule__pagination">{pagination()}</div>
+            <div className="schedule__currentWeek">
+              <button
+                type="button"
+                className="btn btn-empty"
+                onClick={() => handleChangeDate(startOfWeek(new Date(), { weekStartsOn: 1 }))}
+                disabled={isCurrentWeek}
+              >
+                Бягучы тыдзень
+              </button>
+            </div>
+          </header>
+        )}
         <section className="schedule__content">
-          <TimeTable schedule={weekSchedule.schedule} />
+          <TimeTable weekSchedule={weekSchedule} />
         </section>
       </section>
 

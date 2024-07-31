@@ -2,6 +2,7 @@ import './style.scss';
 
 import BulbSVG from './icons/bulb.svg?react';
 import ClockSVG from './icons/clock.svg?react';
+import AddSVG from './icons/add.svg?react';
 import CloseSVG from './icons/close.svg?react';
 import DeleteSVG from './icons/delete.svg?react';
 import EditSVG from './icons/edit.svg?react';
@@ -35,6 +36,7 @@ export const RightArrowIcon = ({ className } : props) => <RightArrowSVG classNam
 export const InfinityIcon = ({ className } : props) => <InfinitySVG className={className} />;
 export const YoutubeIcon = ({ className } : props) => <YoutubeSVG className={className} />;
 export const RoratyIcon = ({ className } : props) => <RoratySVG className={className} />;
+export const AddIcon = ({ className } : props) => <AddSVG className={className} />;
 export const DeleteIcon = ({ className } : props) => <DeleteSVG className={className} />;
 export const EditIcon = ({ className } : props) => <EditSVG className={className} />;
 export const PauseIcon = ({ className } : props) => <PauseSVG className={className} />;
