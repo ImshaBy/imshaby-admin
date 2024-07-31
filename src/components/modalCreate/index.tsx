@@ -4,7 +4,7 @@ import { format, fromUnixTime, getTime, parse, set } from 'date-fns';
 import { useUnit } from 'effector-react';
 import moment from 'moment';
 import {
-  ChangeEvent, useEffect, useMemo, useState,
+  ChangeEvent, useEffect, useMemo, useRef, useState, SyntheticEvent
 } from 'react';
 
 import {
@@ -20,6 +20,7 @@ import Modal from '../modal';
 import TimePicker from '../timepicker';
 
 const NOTES_LIMIT = 300;
+const INITIAL_COMMENT_HEIGHT = 42;
 const DEFAULT_LANG = 'беларуская';
 
 const CreateModal = () => {
@@ -31,6 +32,9 @@ const CreateModal = () => {
   const [daysValid, setDaysValid] = useState<boolean>(true);
   const [startDateValid, setStartDateValid] = useState<boolean>(true);
   const [isMassPeriodic, setMassPeriodic] = useState<boolean>(false);
+  const [commentExpanded, setCommentExpanded] = useState<boolean>(false);
+  const [notesOverflowed, setNotesOverflowed] = useState<boolean>(false);
+  const [commentHeight, setCommentHeight] = useState<number>(INITIAL_COMMENT_HEIGHT);
   const [online, setOnline] = useState<boolean>(false);
   const [rorate, setRorate] = useState<boolean>(false);
   const [langCode, setLangCode] = useState<string>(DEFAULT_LANG);
@@ -42,6 +46,8 @@ const CreateModal = () => {
   const massUpdated = useUnit($massUpdated);
   const massError = useUnit($massError);
   const visible = massMode !== MassMode.HIDDEN && !massUpdated;
+
+  const commentRef = useRef(null);
 
   const resetForm = () => {
     setStartDate(new Date());
@@ -69,8 +75,21 @@ const CreateModal = () => {
 
   useEffect(() => {
     setSubmitted(false);
+    setCommentExpanded(false);
+    setCommentHeight(INITIAL_COMMENT_HEIGHT);
+    setNotesOverflowed(false);
     if (!visible) resetForm();
   }, [visible]);
+
+  useEffect(() => {
+    if (commentRef.current) {
+      const scrollHeight = commentRef.current.scrollHeight;
+      if ((commentExpanded || notesOverflowed) && scrollHeight > commentHeight) {
+        setCommentHeight(scrollHeight + 2);
+      }
+      setNotesOverflowed(!commentExpanded && scrollHeight > INITIAL_COMMENT_HEIGHT);
+    }
+  }, [notes, commentExpanded]);
 
   useEffect(() => {
     if (!mass) {
@@ -126,6 +145,11 @@ const CreateModal = () => {
     if (NOTES_LIMIT - e.target.value.length >= 0) {
       setNotes(e.target.value);
     }
+  };
+
+  const expandCommentField = (e: SyntheticEvent) => {
+    e.stopPropagation();
+    setCommentExpanded(true);
   };
 
   const handleCreate = () => {
@@ -239,9 +263,13 @@ const CreateModal = () => {
               <section className="form__row form__row--no-margin">
                 <div className="form__col">
                   <label className="form__label">Каментарый (неабавязковае поле)</label>
-                  <div className="form__field">
-                    <textarea
+                  <div className="form__field comment__field">
+                    {notesOverflowed && <button className='btn_invisible' onClick={expandCommentField}>
+                      </button>}
+                    <textarea 
+                      ref={commentRef}
                       rows={2}
+                      style={{height:`${commentHeight}px`}}
                       value={notes}
                       onChange={handleChangeNotes}
                     />
