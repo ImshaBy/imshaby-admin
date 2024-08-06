@@ -1,4 +1,4 @@
-@import "./src/styles/_mixin";
+@import './src/styles/_mixin';
 
 .timetableMobile {
   &__line {
@@ -6,7 +6,6 @@
     &:first-child {
       border-color: transparent;
     }
-
   }
 
   &__content {
@@ -16,6 +15,12 @@
   }
   &__section {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .period {
+      height: 20px;
+    }
   }
   &__col1 {
     width: 105px;
@@ -28,6 +33,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 39px;
   }
   &__comment {
     height: 24px;
@@ -35,7 +41,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     word-break: break-word;
-    &_expand{
+    &_expand {
       padding-bottom: 6px;
       height: auto;
       overflow: visible;
@@ -48,6 +54,8 @@
   }
   &__time {
     padding: 0 10px;
+    display: inline-block;
+    height: 20px;
   }
   &__icon {
     width: 17px;
