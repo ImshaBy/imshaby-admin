@@ -1,9 +1,12 @@
-@import "./src/styles/_mixin";
+@import './src/styles/_mixin';
 
 .block {
   &__header {
     padding: 0 20px;
     margin-bottom: 16px;
+    &.display__mobile {
+      padding: 0 10px;
+    }
     @include mobile() {
       display: none;
     }
@@ -11,7 +14,7 @@
   &__content {
     min-height: 100px;
     padding: 20px;
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.05);
     margin-bottom: 21px;
     @include tablet {
