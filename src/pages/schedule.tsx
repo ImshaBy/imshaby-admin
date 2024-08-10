@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useGate, useUnit } from 'effector-react';
 
-import { compareDesc } from 'date-fns';
+import { compareDesc, startOfWeek } from 'date-fns';
 import Header from '../components/header';
 import Loading from '../components/loading';
 import Parish from '../components/parish';
@@ -24,7 +24,11 @@ const SchedulePage = () => {
   useGate(ParishGate);
 
   const [isCurrentWeek, setCurrentWeek] = useState<boolean>(false);
-  
+
+  useEffect(() => {
+    fetchWeekSchedule();
+  }, []);
+
   useEffect(() => {
     if (!weekSchedule) return;
     setCurrentWeek(compareDesc(new Date(), weekSchedule.startWeekDate) < 0);
@@ -44,7 +48,24 @@ const SchedulePage = () => {
   if (!parish || !weekSchedule) return <Loading />;
 
   const WeekPagination = (): JSX.Element => (
-    <Pagination schedule={weekSchedule} changeDate={handleChangeDate} isCurrentWeek={isCurrentWeek} />
+    <Pagination
+      schedule={weekSchedule}
+      changeDate={handleChangeDate}
+      isCurrentWeek={isCurrentWeek}
+    />
+  );
+
+  const CurrentWeek = (isMobile?: boolean): JSX.Element => (
+    <div className="current__week">
+      <button
+        type="button"
+        className="btn btn-empty"
+        onClick={() => handleChangeDate(startOfWeek(new Date(), { weekStartsOn: 1 }))}
+        disabled={isCurrentWeek}
+      >
+        Бягучы {!isMobile && 'тыдзень'}
+      </button>
+    </div>
   );
 
   return (
@@ -63,9 +84,17 @@ const SchedulePage = () => {
             title="Расклад на тыдзень"
             massCreateOpen={isMobile ? handleMassCreateOpen : undefined}
             pagination={WeekPagination}
+            currentWeek={() => CurrentWeek(true)}
           />
         }
-        content={<Schedule isMobile={!!isMobile} massCreateOpen={handleMassCreateOpen} pagination={WeekPagination} />}
+        content={
+          <Schedule
+            isMobile={!!isMobile}
+            massCreateOpen={handleMassCreateOpen}
+            pagination={WeekPagination}
+            currentWeek={CurrentWeek}
+          />
+        }
       />
     </>
   );

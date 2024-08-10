@@ -1,11 +1,19 @@
-@import "./src/styles/_mixin";
+@import './src/styles/_mixin';
 
 .sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   &__title {
-    @include font(22px, true, 30px);
+    @include mobile() {
+      @include font(18px, true, 24px);
+    }
+    @include tablet() {
+      @include font(19px, true, 24px);
+    }
+    @include desktop() {
+      @include font(22px, true, 28px);
+    }
     color: var(--main-text-color);
   }
   &__action {
@@ -25,14 +33,18 @@
     }
   }
   .pagination__block {
-    padding-top: 8px;
+    padding-top: 16px;
+    .current__week > button {
+      padding-right: 0;
+    }
   }
   &__addAction {
     width: 138px;
     height: 35px;
     align-items: center;
     border-radius: 5px;
-    background-color: var(--main-button-text-color);
+    color: var(--main-button-text-color);
+    background-color: var(--normal-btn-background);
     padding: 8px;
     gap: 8px;
     box-shadow: 0px 4px 6px 0px #b7202526;
@@ -50,7 +62,7 @@
     width: 14px;
     height: 14px;
     path {
-      fill: var(--normal-btn-background);
+      fill: var(--main-button-text-color);
     }
   }
   &__txt {
