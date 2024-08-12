@@ -11,14 +11,17 @@
     position: relative;
     top: -2px;
     right: 2px;
-    @include mobile() {
-      @include font(14px, false, 16px);
-    }
     @include tablet() {
       @include font(15px, true, 21px);
     }
     @include desktop() {
       @include font(18px, true, 24px);
+    }
+    @include mobile() {
+      @include font(12px, false, 16px);
+    }
+    @include smallMobile() {
+      @include font(11px, false, 16px);
     }
   }
   &__left {
@@ -34,17 +37,18 @@
     cursor: pointer;
   }
   &__date {
-    @include font(18px, true, 25px);
     margin: 0 8px;
-    font-weight: 600;
-    @include mobile() {
-      @include font(18px, true, 24px);
-    }
     @include tablet() {
       @include font(19px, true, 24px);
     }
     @include desktop() {
       @include font(22px, true, 28px);
+    }
+    @include mobile() {
+      @include font(18px, true, 24px);
+    }
+    @include smallMobile() {
+      @include font(14px, true, 18px);
     }
   }
 }
