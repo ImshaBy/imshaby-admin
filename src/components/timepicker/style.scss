@@ -1,4 +1,4 @@
-@import "./src/styles/_mixin";
+@import './src/styles/_mixin';
 
 .timePicker {
   &__hours {
@@ -15,7 +15,6 @@
   }
   &__field {
     &__input {
-
       &.MuiInputBase-root {
         width: 64px;
         height: 40px;
@@ -25,6 +24,19 @@
       & .MuiInputBase-input {
         padding: 10px;
       }
+    }
+  }
+  .MuiInputBase-root {
+    width: 64px;
+    height: 40px;
+    padding: 0;
+    border-radius: 1px;
+    input {
+      padding: 10px;
+      font-size: 13px;
+    }
+    fieldset {
+      border: 1px solid var(--light-dark-color) !important;
     }
   }
 }
