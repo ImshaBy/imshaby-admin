@@ -33,9 +33,14 @@
     }
   }
   .pagination__block {
-    padding-top: 16px;
-    .current__week > button {
-      padding-right: 0;
+    padding-top: 14px;
+    .current__week {
+      .btn-empty {
+        @include font(15px, true, 20px);
+      }
+      & > button {
+        padding-right: 0;
+      }
     }
   }
   &__addAction {
