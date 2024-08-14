@@ -6,7 +6,7 @@
     flex-wrap: wrap;
   }
   &__item {
-    @include font(13px, false, 1);
+    @include font(14px, false, 1);
     padding: 0 2px;
     color: var(--second-color);
     @include tablet {

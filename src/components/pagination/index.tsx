@@ -15,7 +15,7 @@ interface props {
   isCurrentWeek: boolean;
 }
 
-const Pagination = ({ schedule, changeDate, isCurrentWeek}: props) => {
+const Pagination = ({ schedule, changeDate, isCurrentWeek }: props) => {
   const [startPeriod, setStartPeriod] = useState<Date>(new Date());
   const [endPeriod, setEndPeriod] = useState<Date>(new Date());
 
@@ -31,17 +31,17 @@ const Pagination = ({ schedule, changeDate, isCurrentWeek}: props) => {
   return (
     <section className="pagination">
       <button className="pagination__left" onClick={handlePrevWeek} type="button" disabled={isCurrentWeek}>
-        <LeftArrowIcon className="pagination__icon" /> {<span className='arrow__text'>папярэднi</span>}
+        <LeftArrowIcon className="pagination__icon" /> {<span className="arrow__text">папярэднi</span>}
       </button>
       {!!schedule.startWeekDate && (
         <>
-          <span className='pagination__date'>
-            {format(startPeriod, 'd.MM')} - {format(endPeriod, 'd.MM')}
+          <span className="pagination__date">
+            {format(startPeriod, 'd.MM')} – {format(endPeriod, 'd.MM')}
           </span>
         </>
       )}
       <button className="pagination__right" onClick={handleNextWeek} type="button">
-        {<span className='arrow__text'>наступны</span>}
+        {<span className="arrow__text">наступны</span>}
         <RightArrowIcon className="pagination__icon" />
       </button>
     </section>

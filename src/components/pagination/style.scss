@@ -18,13 +18,15 @@
       @include font(18px, true, 24px);
     }
     @include mobile() {
-      @include font(12px, false, 16px);
+      @include font(14px, false, 16px);
     }
     @include smallMobile() {
-      @include font(11px, false, 16px);
+      @include font(13px, false, 16px);
     }
   }
   &__left {
+    padding: 0;
+    margin-right: -5px;
     cursor: pointer;
     &[disabled] {
       cursor: not-allowed;
@@ -32,14 +34,22 @@
         fill: var(--second-text-color);
       }
     }
+    .arrow__text {
+      padding-left: 2px;
+    }
   }
   &__right {
+    padding: 0;
     cursor: pointer;
+    .arrow__text {
+      padding-right: 2px;
+    }
   }
   &__date {
-    margin: 0 8px;
+    margin: 0 6px;
     @include tablet() {
       @include font(19px, true, 24px);
+      margin: 0 10px;
     }
     @include desktop() {
       @include font(22px, true, 28px);
@@ -48,7 +58,7 @@
       @include font(18px, true, 24px);
     }
     @include smallMobile() {
-      @include font(14px, true, 18px);
+      @include font(18px, true, 24px);
     }
   }
 }
