@@ -101,8 +101,12 @@ const CreateModal = () => {
 
     if (mass.singleStartTimestamp) {
       setStartDate(fromUnixTime(mass.singleStartTimestamp));
-      setHours(fromUnixTime(mass.singleStartTimestamp).getHours().toString());
-      setMinutes(fromUnixTime(mass.singleStartTimestamp).getMinutes().toString());
+      setHours(
+        `0${fromUnixTime(mass.singleStartTimestamp).getHours().toString()}`.slice(-2)
+      );
+      setMinutes(
+        `0${fromUnixTime(mass.singleStartTimestamp).getMinutes().toString()}`.slice(-2)
+      );
     } else if (mass.startDate) {
       setStartDate(parse(mass.startDate || '', 'MM/dd/yyyy', new Date()));
       setHours(time[0]);
