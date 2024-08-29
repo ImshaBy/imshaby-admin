@@ -7,7 +7,7 @@ import { useUnit } from 'effector-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
-import { $massDeleted, deleteMass } from '../../models/mass';
+import { $massDeleted, $massUpdated, deleteMass, resetMassDeleted } from '../../models/mass';
 import { Period } from '../../models/mass/types';
 import { MassHours, MassHoursData, Schedule, WeekSchedule } from '../../models/schedule/types';
 import DeleteModal from '../modalDelete';
@@ -44,6 +44,7 @@ const TimeTable = ({ weekSchedule }: props) => {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const isTablet = useMediaQuery({ query: '(max-width: 812px)' });
 
+  const isUpdatedMass = useUnit($massUpdated);
   const isDeletedMass = useUnit($massDeleted);
 
   const mobileSchedule = useMemo(() => {
@@ -67,10 +68,13 @@ const TimeTable = ({ weekSchedule }: props) => {
     if (!selectedMass || !isDeletedMass) return;
 
     toast(toastHelper(selectedMass, period, selectedDay));
+    setTimeout(() => {
+      resetMassDeleted(false);
+    }, 1000);
   }, [isDeletedMass]);
 
   useEffect(() => {
-    if (isMobile || isTablet) {
+    if ((isMobile || isTablet) && !isUpdatedMass && !isDeletedMass) {
       setTab(mobileSchedule.findIndex((day) => !day.isInaccessible));
     }
   }, [mobileSchedule]);
