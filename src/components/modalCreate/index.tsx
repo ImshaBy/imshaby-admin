@@ -24,7 +24,7 @@ const INITIAL_COMMENT_HEIGHT = 42;
 const DEFAULT_LANG = 'беларуская';
 
 const CreateModal = () => {
-  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [hours, setHours] = useState<string | null>(null);
   const [minutes, setMinutes] = useState<string | null>(null);
@@ -50,7 +50,7 @@ const CreateModal = () => {
   const commentRef = useRef<HTMLTextAreaElement>(null);
 
   const resetForm = () => {
-    setStartDate(new Date());
+    setStartDate(null);
     setEndDate(null);
     setHours('');
     setMinutes('');
@@ -112,7 +112,7 @@ const CreateModal = () => {
       setHours(time[0]);
       setMinutes(time[1]);
     } else {
-      setStartDate(new Date());
+      setStartDate(null);
       setHours(time[0]);
       setMinutes(time[1]);
     }
@@ -126,7 +126,7 @@ const CreateModal = () => {
   }, [mass]);
 
   const handleChangeStartDate = (date: Date | null) => {
-    setStartDate(date || new Date());
+    setStartDate(date);
   };
   const handleChangeEndDate = (date: Date | null) => {
     setEndDate(date);
