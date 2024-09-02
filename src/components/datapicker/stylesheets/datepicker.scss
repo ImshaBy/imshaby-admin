@@ -17,6 +17,9 @@
   border-radius: $datepicker__border-radius;
   display: inline-block;
   position: relative;
+  &>.react-datepicker__aria-live{
+    display: none;
+  }
 }
 
 .react-datepicker--time-only {
