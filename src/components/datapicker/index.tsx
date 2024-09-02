@@ -41,6 +41,9 @@ const DateTimePicker = ({
         customInput={<ReadonlyInput />}
         minDate={minDate}
         maxDate={maxDate}
+        forceShowMonthNavigation
+        disabledKeyboardNavigation
+        onFocus={e => e.target.blur()} 
       />
     </>
   );
