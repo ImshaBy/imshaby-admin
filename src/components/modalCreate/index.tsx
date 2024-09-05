@@ -202,7 +202,7 @@ const CreateModal = () => {
 
   return (
     <>
-      <Modal visible={visible} onClose={() => resetMassMode()}>
+      <Modal visible={visible} onClose={() => resetMassMode()} turnOffOutsideClick>
         <section className="modal__section">
           <header className="modal__header">
             {

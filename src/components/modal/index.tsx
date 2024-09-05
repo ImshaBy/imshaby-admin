@@ -10,13 +10,16 @@ interface IProps {
   visible: boolean;
   children?: ReactNode;
   onClose: () => void;
+  turnOffOutsideClick?: boolean;
 }
 
-const Modal = ({ visible, children, onClose }: IProps) => {
+const Modal = ({ visible, children, onClose, turnOffOutsideClick }: IProps) => {
   const nodeRef = useRef(null);
 
   useOutsideClick(nodeRef, () => {
-    onClose();
+    if (!turnOffOutsideClick) {
+      onClose();
+    }
   });
 
   const handleClick = (e: MouseEvent) => {
