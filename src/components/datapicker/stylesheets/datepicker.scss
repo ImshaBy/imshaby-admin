@@ -150,10 +150,10 @@
 
   &--previous {
     left: 10px;
-    border-right-color: $datepicker__muted-color;
+    border-right-color: $datepicker__text-color;
 
     &:hover {
-      border-right-color: darken($datepicker__muted-color, 10%);
+      border-right-color: darken($datepicker__text-color, 10%);
     }
 
     &--disabled,
@@ -165,13 +165,13 @@
 
   &--next {
     right: 10px;
-    border-left-color: $datepicker__muted-color;
+    border-left-color: $datepicker__text-color;
     &--with-time:not(&--with-today-button) {
       right: 80px;
     }
 
     &:hover {
-      border-left-color: darken($datepicker__muted-color, 10%);
+      border-left-color: darken($datepicker__text-color, 10%);
     }
 
     &--disabled,
@@ -602,6 +602,25 @@
   padding: 5px 0;
   clear: left;
 }
+.react-datepicker__day--today {
+  background: $datepicker__muted-color;
+  border: 1px solid $datepicker__border-color;
+  color: white;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  text-align: center;
+  font-weight: bold;
+  clear: left;
+  font-weight: 600;
+  font-size: 15px;
+  &:hover {
+    background: $datepicker__muted-color;
+  }
+  &.react-datepicker__day--selected {
+    background-color: $datepicker__selected-color;
+  }
+}
+
 
 .react-datepicker__portal {
   position: fixed;

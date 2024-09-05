@@ -15,7 +15,7 @@ interface IProps {
 
 const ReadonlyInput = ({ value, onClick }: any) => (
   <button type="button" onClick={onClick}>
-    <input value={value} />
+    <input value={value} readOnly/>
   </button>
 );
 
@@ -41,9 +41,7 @@ const DateTimePicker = ({
         customInput={<ReadonlyInput />}
         minDate={minDate}
         maxDate={maxDate}
-        forceShowMonthNavigation
-        disabledKeyboardNavigation
-        onFocus={e => e.target.blur()} 
+        shouldCloseOnSelect={false}
       />
     </>
   );
