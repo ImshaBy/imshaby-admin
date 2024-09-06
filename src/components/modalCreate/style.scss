@@ -46,7 +46,7 @@
   textarea {
     overflow: hidden;
     &:focus {
-      border: 2px solid rgb(0, 0, 0) !important;
+      border: 2px solid rgb(0, 0, 0);
       border-radius: 3px;
     }
   }
