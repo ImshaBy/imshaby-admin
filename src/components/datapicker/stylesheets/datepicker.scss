@@ -474,7 +474,7 @@
     & > input {
       padding: 10px;
       &:focus {
-        border: 2px solid rgb(0, 0, 0);
+        border: 2px solid rgb(0, 0, 0) !important;
         border-radius: 3px;
       }
     }
