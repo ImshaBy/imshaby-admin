@@ -47,6 +47,7 @@
 
 .react-datepicker-popper {
   z-index: 10;
+  transform: translate(0px, 73px) !important;
 
   &[data-placement^="bottom"] {
     margin-top: $datepicker__triangle-size + 2px;
@@ -468,8 +469,15 @@
   position: relative;
   display: inline-block;
   width: 100%;
-  & > button > input{
-    padding: 10px;
+  & > button {
+    padding: 0;
+    & > input {
+      padding: 10px;
+      &:focus {
+        border: 2px solid rgb(0, 0, 0);
+        border-radius: 3px;
+      }
+    }
   }
 }
 

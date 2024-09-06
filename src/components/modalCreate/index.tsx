@@ -176,6 +176,7 @@ const CreateModal = () => {
 
       updateMassStore(data);
       saveMass();
+      resetMassMode();
       return;
     }
 
@@ -198,6 +199,7 @@ const CreateModal = () => {
     }
     updateMassStore(data);
     saveMass();
+    resetMassMode();
   };
 
   return (
