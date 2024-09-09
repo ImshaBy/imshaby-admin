@@ -22,12 +22,18 @@ const ReadonlyInput = ({ value, onClick }: any) => (
 const DateTimePicker = ({
   onChange, selected, minDate, maxDate,
 }: IProps) => {
-  const handleChange = (date: Date | [Date, Date] | null, e: SyntheticEvent) => {
-    e.stopPropagation();
+  const handleChange = (date: Date | [Date, Date] | null, e?: SyntheticEvent) => {
+    !!e && e.stopPropagation();
     if (Array.isArray(date)) {
       return;
     }
     onChange(date);
+  };
+
+  const changeMonth = () => {
+    if (minDate && selected && (+minDate > +selected)) {
+      handleChange(minDate);
+    }
   };
 
   return (
@@ -42,6 +48,8 @@ const DateTimePicker = ({
         minDate={minDate}
         maxDate={maxDate}
         shouldCloseOnSelect={false}
+        onMonthChange={changeMonth}
+        openToDate={!!selected ? selected : undefined}
       />
     </>
   );

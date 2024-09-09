@@ -628,6 +628,9 @@
     background-color: $datepicker__selected-color;
   }
 }
+.react-datepicker__day--disabled.react-datepicker__day--selected:hover {
+  background-color: $datepicker__selected-color;
+}
 
 
 .react-datepicker__portal {
