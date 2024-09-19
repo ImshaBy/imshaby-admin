@@ -19,7 +19,7 @@ const ParishAPI = {
       limit: LIMIT,
     };
     const response = await apiInstance.request({
-      url: 'parish/',
+      url: 'parish',
       method: 'GET',
       params,
       paramsSerializer(query) {
