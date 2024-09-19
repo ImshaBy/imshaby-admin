@@ -14,6 +14,8 @@ export const approveSchedule = createEvent();
 
 export const fetchWeekScheduleFx = createEffect(
   async (params: { parish_id: string, date: Date }) => {
+    if (!params.parish_id) return;
+
     const date = format(params.date, 'dd-MM-yyyy');
 
     const res = await MassAPI.getWeekSchedule(params.parish_id, date);
