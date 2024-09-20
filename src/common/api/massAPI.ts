@@ -24,7 +24,7 @@ const MassAPI = {
     if (!mass) return {};
 
     const { data } = await apiInstance.request({
-      url: 'mass/',
+      url: 'mass',
       method: 'POST',
       data: mass,
     });
