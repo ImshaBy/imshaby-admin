@@ -15,7 +15,9 @@ const ParishAPI = {
   getAll: async (filters: Filters) => {
     const LIMIT = 100;
     const params = {
-      filter: Object.entries(filters).map(([key, value]) => new Array<string | undefined>().concat(value).map((data) => `${key}==${data}`)),
+      filter: Object.entries(filters).map(([key, value]) =>
+        new Array<string | undefined>().concat(value).map((data) => `${key}==${data}`),
+      ),
       limit: LIMIT,
     };
     const response = await apiInstance.request({
@@ -33,8 +35,8 @@ const ParishAPI = {
   },
   update: async (parishId: string, parish: Parish | Object) => {
     const response = await apiInstance.request({
-      url: `parish/${parishId}`,
-      method: 'PUT',
+      url: `parish/${parishId}/confirm-relevance`,
+      method: 'POST',
       data: parish,
     });
 
