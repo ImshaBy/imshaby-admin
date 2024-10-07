@@ -6,7 +6,7 @@ import { useUnit } from 'effector-react';
 import { useEffect, useState } from 'react';
 
 import {
-  $mass, $massMode, $massUpdated, resetMassUpdated,
+  $mass, $massMode, $massUpdated, resetMassUpdated, resetMassMode,
 } from '../../models/mass';
 import { MassMode } from '../../models/mass/types';
 import { InfinityIcon, RoratyIcon, YoutubeIcon } from '../icons';
@@ -25,6 +25,7 @@ const CreateModalResult = () => {
 
   const handleClose = () => {
     resetMassUpdated(false);
+    resetMassMode();
   };
 
   useEffect(() => {
