@@ -9,7 +9,7 @@ export type Mass = {
     ru: Localization;
     en: Localization;
     pl: Localization;
-  },
+  };
   parishId?: string;
   startDate?: string;
   endDate?: string;
@@ -37,4 +37,5 @@ export enum MassMode {
 export type MassError = {
   error: boolean;
   message?: string;
+  errorDay?: number | null;
 };
