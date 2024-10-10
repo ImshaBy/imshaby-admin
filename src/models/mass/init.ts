@@ -64,9 +64,10 @@ $massError
         day.setDate(day.getDate() + distance);
         errorDay = duplicateMass.days[0];
       }
-      message = `Імша на ${format(day, 'HH:mm', { locale: be })} ужо ёсць у раскладзе ў ${days.get(day.getDay())} ${
-        !!duplicateMass.days ? 'з' : ''
-      } ${format(day, 'd MMMM yyyy года', { locale: be })}. Абярыце іншы час ці дзень.`;
+      message = `Імша на ${format(day, 'HH:mm', { locale: be })} ужо ёсць у раскладзе. Абярыце іншы час ці дзень.`;
+      // message = `Імша на ${format(day, 'HH:mm', { locale: be })} ужо ёсць у раскладзе ў ${days.get(day.getDay())} ${
+      //   !!duplicateMass.days ? 'з' : ''
+      // } ${format(day, 'd MMMM yyyy года', { locale: be })}. Абярыце іншы час ці дзень.`;
     }
     return {
       error: true,
