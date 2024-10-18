@@ -75,7 +75,7 @@ const CreateModal = () => {
   };
 
   const isValid = useMemo<boolean>(() => {
-    const isDaysValid = isMassPeriodic ? !!days.length : true;
+    const isDaysValid = isMassPeriodic ? days.length===1 : true;
     const startDateForSingleMass = !isMassPeriodic ? !!startDate : true;
     const isTimeValid = moment(`${hours}:${minutes}`, 'HH:mm').isValid();
 
@@ -144,11 +144,10 @@ const CreateModal = () => {
   };
   const handleSelectDay = (day: number) => () => {
     const index = days.findIndex((i) => i === day);
-    if (index === -1) {
-      setDays([...days, day]);
+    if (index === -1 || days.length > 1) {
+      setDays([day]);
     } else {
-      days.splice(index, 1);
-      setDays([...days]);
+      setDays([]);
     }
   };
 
@@ -328,6 +327,7 @@ const CreateModal = () => {
                           </ul>
                         </div>
                       </div>
+                      {days.length!==1 && (<div className='days__notification'>Калі ласка, абярыце толькі адзін дзень</div>)}
                     </div>
                   </section>
                   <section className="form__row">
