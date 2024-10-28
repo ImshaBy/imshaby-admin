@@ -58,7 +58,6 @@
     @include smallMobile {
       padding: 0 6px 20px;
     }
-
   }
 
   &__footer {
@@ -70,17 +69,22 @@
   }
 
   &__error {
-    position: absolute;
-    right: 0;
-    bottom: -28px;
+    margin-top: -20px;
+    padding-bottom: 4px;
     line-height: 15px;
-    text-align: right;
     display: block;
-    height: 24px;
     max-width: 360px;
   }
   &__error-text {
     @include font(10px, false);
     color: var(--normal-btn-background);
+  }
+  &__mass-link {
+    display: inline-block;
+    padding: 2px;
+    @include font(12px, true);
+    text-decoration: underline;
+    color: #0000ee;
+    cursor: pointer;
   }
 }

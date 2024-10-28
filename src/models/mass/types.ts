@@ -38,4 +38,6 @@ export type MassError = {
   error: boolean;
   message?: string;
   errorDay?: number | null;
+  massLink?: string;
+  existingMass?: string | null;
 };
