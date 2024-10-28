@@ -32,6 +32,7 @@ const days = new Map([
   [4, 'чацвер'],
   [5, 'пятніцу'],
   [6, 'суботу'],
+  [7, 'нядзелю'],
   [0, 'нядзелю'],
 ]);
 
@@ -45,34 +46,47 @@ $massError
   .on([createMassFx.doneData, changeMassMode], () => ({
     error: false,
     message: '',
+    massLink: '',
     errorDay: null,
+    existingMass: null,
   }))
   .on([createMassFx.fail, updateMassFx.fail], (_, { params, error }) => {
     let message = 'Імша на гэты час ужо ёсць у раскладзе.';
     let errorDay: number | null = null;
+    let massLink = '';
+    let existingMass = null;
     if (error && error.response) {
       const { data } = error.response;
       const { payload } = data.errors[0];
       const { duplicateMass } = payload;
+      existingMass = duplicateMass.id;
       let day = new Date();
-      if (duplicateMass && !duplicateMass.days) {
-        day = fromUnixTime(duplicateMass.singleStartTimestamp || 0);
+      let weekDay!: number;
+      if (duplicateMass && !params?.days) {
+        day = fromUnixTime(params?.singleStartTimestamp || 0);
         errorDay = getDay(duplicateMass.singleStartTimestamp);
-      } else if (duplicateMass && duplicateMass.days) {
+        weekDay = day.getDay();
+      } else if (duplicateMass && params?.days) {
         day = parse(`${duplicateMass.startDate} ${duplicateMass.time}` || '', 'MM/dd/yyyy HH:mm', new Date());
         const distance = (duplicateMass.days[0] + 7 - day.getDay()) % 7;
         day.setDate(day.getDate() + distance);
-        errorDay = duplicateMass.days[0];
+        errorDay = params.days[0];
+        weekDay = params.days[0];
       }
-      message = `Імша на ${format(day, 'HH:mm', { locale: be })} ужо ёсць у раскладзе. Абярыце іншы час ці дзень.`;
-      // message = `Імша на ${format(day, 'HH:mm', { locale: be })} ужо ёсць у раскладзе ў ${days.get(day.getDay())} ${
-      //   !!duplicateMass.days ? 'з' : ''
-      // } ${format(day, 'd MMMM yyyy года', { locale: be })}. Абярыце іншы час ці дзень.`;
+      message = `Імша на ${format(day, 'HH:mm', { locale: be })} ужо ёсць у раскладзе ў ${days.get(
+        weekDay,
+      )}. Абярыце іншы час ці дзень.`;
+      massLink = `Змяніць існуючую Імшу на ${format(day, 'HH:mm', { locale: be })}`;
+      //   message = `Імша на ${format(day, 'HH:mm', { locale: be })} ужо ёсць у раскладзе ў ${days.get(day.getDay())} ${
+      //     !!duplicateMass.days ? 'з' : ''
+      //   } ${format(day, 'd MMMM yyyy года', { locale: be })}. Абярыце іншы час ці дзень.`;
     }
     return {
       error: true,
       message,
+      massLink,
       errorDay,
+      existingMass,
     };
   });
 

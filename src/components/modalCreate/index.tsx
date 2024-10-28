@@ -13,6 +13,8 @@ import {
   resetMassMode,
   saveMass,
   updateMassStore,
+  changeMassMode,
+  editMass,
 } from '../../models/mass';
 import { Mass, MassMode } from '../../models/mass/types';
 import DateTimePicker from '../datapicker';
@@ -75,7 +77,7 @@ const CreateModal = () => {
   };
 
   const isValid = useMemo<boolean>(() => {
-    const isDaysValid = isMassPeriodic ? days.length===1 : true;
+    const isDaysValid = isMassPeriodic ? days.length === 1 : true;
     const startDateForSingleMass = !isMassPeriodic ? !!startDate : true;
     const isTimeValid = moment(`${hours}:${minutes}`, 'HH:mm').isValid();
 
@@ -155,6 +157,12 @@ const CreateModal = () => {
     if (NOTES_LIMIT - e.target.value.length >= 0) {
       setNotes(e.target.value);
     }
+  };
+
+  const changeExistingMass = () => {
+    resetMassMode();
+    changeMassMode(MassMode.EDIT);
+    editMass(massError.existingMass!);
   };
 
   const expandCommentField = (e: SyntheticEvent) => {
@@ -243,15 +251,17 @@ const CreateModal = () => {
                     <TimePicker hour={hours} minute={minutes} onChange={handleChangeTime} />
                   </div>
                 </div>
-                {massError.error && (
-                  <>
-                    <section className="modal__error">
-                      <span className="modal__error-text">{massError.message}</span>
-                    </section>
-                  </>
-                )}
               </section>
-
+              {massError.error && (
+                <>
+                  <div className="modal__error">
+                    <span className="modal__error-text">{massError.message} </span>
+                    <span className="modal__mass-link" onClick={changeExistingMass}>
+                      {massError.massLink}
+                    </span>
+                  </div>
+                </>
+              )}
               <section className="form__row">
                 <div className="form__col">
                   <div className="form__label">Мова</div>
@@ -306,7 +316,14 @@ const CreateModal = () => {
                 <>
                   <section className="form__row form__row--small-margin">
                     <div className="form__col">
-                      <div className={`form__label ${!daysValid && submitted ? 'form__label--invalid' : ''}`}>Дні</div>
+                      <div
+                        className={`form__label form__label--no-margin ${
+                          !daysValid && submitted ? 'form__label--invalid' : ''
+                        }`}
+                      >
+                        Дзень паўтора
+                      </div>
+                      <span className="form__hint">Адзін дзень можа быць выбраны</span>
                       <div className="form__field">
                         <div className="days">
                           <ul className="days__list">
@@ -327,7 +344,6 @@ const CreateModal = () => {
                           </ul>
                         </div>
                       </div>
-                      {days.length!==1 && (<div className='days__notification'>Калі ласка, абярыце толькі адзін дзень</div>)}
                     </div>
                   </section>
                   <section className="form__row">
