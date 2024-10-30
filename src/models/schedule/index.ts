@@ -12,25 +12,26 @@ export const updateScheduleDate = createEvent<Date>();
 export const fetchWeekSchedule = createEvent();
 export const approveSchedule = createEvent();
 
-export const fetchWeekScheduleFx = createEffect(
-  async (params: { parish_id: string, date: Date }) => {
-    if (!params.parish_id) return;
+export const fetchWeekScheduleFx = createEffect(async (params: { parish_id: string; date: Date }) => {
+  if (!params.parish_id) return;
 
-    const date = format(params.date, 'dd-MM-yyyy');
+  const date = format(params.date, 'dd-MM-yyyy');
 
-    const res = await MassAPI.getWeekSchedule(params.parish_id, date);
+  const res = await MassAPI.getWeekSchedule(params.parish_id, date);
 
-    if (!res?.data) throw new Error('Week schedule not found');
+  if (!res?.data) throw new Error('Week schedule not found');
 
-    const weekSchedule = { ...res.data };
-    weekSchedule.startWeekDate = parse(weekSchedule.startWeekDate || '', 'MM/dd/yyyy', new Date());
-    weekSchedule.schedule = weekSchedule.schedule?.map((i: ScheduleResponse) => ({ ...i, date: parse(i.date || '', 'MM/dd/yyyy', new Date()) }));
-    return weekSchedule;
-  },
-);
+  const weekSchedule = { ...res.data };
+  weekSchedule.startWeekDate = parse(weekSchedule.startWeekDate || '', 'MM/dd/yyyy', new Date());
+  weekSchedule.schedule = weekSchedule.schedule?.map((i: ScheduleResponse) => ({
+    ...i,
+    date: parse(i.date || '', 'MM/dd/yyyy', new Date()),
+  }));
+  return weekSchedule;
+});
 
 export const approveScheduleFx = createEffect(async (parish_id: string) => {
-  const res = await ParishAPI.update(parish_id, {});
+  const res = await ParishAPI.confirm(parish_id, {});
 
   if (!res?.data) throw new Error('Approve schedule has been failed');
 

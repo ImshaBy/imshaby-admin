@@ -35,6 +35,15 @@ const ParishAPI = {
   },
   update: async (parishId: string, parish: Parish | Object) => {
     const response = await apiInstance.request({
+      url: `parish/${parishId}`,
+      method: 'PUT',
+      data: parish,
+    });
+
+    return response;
+  },
+  confirm: async (parishId: string, parish: Parish | Object) => {
+    const response = await apiInstance.request({
       url: `parish/${parishId}/confirm-relevance`,
       method: 'POST',
       data: parish,
