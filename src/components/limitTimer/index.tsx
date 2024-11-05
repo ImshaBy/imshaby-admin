@@ -1,10 +1,10 @@
 import './style.scss';
 
-import { differenceInSeconds } from 'date-fns';
+import { differenceInSeconds, parse } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 
 interface props {
-  lastDate: Date;
+  lastDate: string;
   limitDays: number;
 }
 
@@ -26,7 +26,7 @@ const LimitTimer = ({ lastDate, limitDays } : props) => {
     // времени, которое прошло с момента последнего подтверждения,
     // надо использовать формулу
     // now() - lastDate
-    const secondsBetween = Math.abs(differenceInSeconds(new Date(), lastDate));
+    const secondsBetween = Math.abs(differenceInSeconds(new Date(), parse(lastDate, 'dd-MM-yyyy HH:mm:ss', new Date())));
 
     const days = Math.floor(secondsBetween / 3600 / 24);
     const hours = Math.floor((secondsBetween % (3600 * 24)) / 3600);
