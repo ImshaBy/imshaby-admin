@@ -1,8 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { parse } from 'date-fns';
-import {
-  attach, combine, createEffect, createEvent, createStore, sample,
-} from 'effector';
+import { attach, combine, createEffect, createEvent, createStore, sample } from 'effector';
 import { createGate } from 'effector-react';
 import moment from 'moment';
 
@@ -16,7 +14,10 @@ export const ParishGate = createGate();
 export const $parishes = createStore<Parish[]>([]);
 export const $selectParishes = createStore<Parish[]>([]);
 export const $parish = createStore<Parish | null>(null);
-export const $userParishes = createStore<{ defaultParish: string, parishes: string[] }>({ defaultParish: '', parishes: [] });
+export const $userParishes = createStore<{ defaultParish: string; parishes: string[] }>({
+  defaultParish: '',
+  parishes: [],
+});
 
 export const changeParish = createEvent<string>();
 export const updateParish = createEvent<Parish>();
@@ -27,7 +28,7 @@ export const fetchParishFx = createEffect(async (parish_id: string) => {
   if (!res?.data) throw new Error('Parish not found');
 
   const parish = { ...res.data };
-  console.log(parish)
+  console.log(parish);
   parish.lastMassActualDate = parse(parish.lastMassActualDate || '', DATE_MASK, new Date());
   parish.lastModifiedDate = parse(parish.lastModifiedDate || '', DATE_MASK, new Date());
   return parish;
@@ -46,16 +47,14 @@ export const fetchParishesFiltersFx = createEffect(async (filters: Filters) => {
   return parishes;
 });
 
-export const updateParishFx = createEffect(
-  async (params: { parish_id: string, parish: Parish }) => {
-    const { parish, parish_id } = params;
-    const res = await ParishAPI.update(parish_id, parish);
+export const updateParishFx = createEffect(async (params: { parish_id: string; parish: Parish }) => {
+  const { parish, parish_id } = params;
+  const res = await ParishAPI.update(parish_id, parish);
 
-    if (!res?.data) throw new Error('Parish not updated');
+  if (!res?.data) throw new Error('Parish not updated');
 
-    return res.data;
-  },
-);
+  return res.data;
+});
 
 export const getDefaultParishFx = sample({
   clock: $user,
@@ -63,10 +62,7 @@ export const getDefaultParishFx = sample({
     app: $app,
     user: $user,
   }),
-  filter: (sourceData) => (
-    moment(sourceData.app.expire_time).toDate() <= moment().toDate()
-     || !sourceData.app.parish_id
-  ),
+  filter: (sourceData) => moment(sourceData.app.expire_time).toDate() <= moment().toDate() || !sourceData.app.parish_id,
   target: attach({
     effect: fetchParishesFiltersFx,
     mapParams: (params) => ({ key: params.user.defaultParish }),

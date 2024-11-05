@@ -31,7 +31,7 @@ const Parish = () => {
           <div className="parish__txt">З моманту падцверджання актуальнасці раскладу прайшло</div>
           <div className="parishPeriod">
             <LimitTimer
-              lastDate={parish.lastModifiedDate}
+              lastDate={parish.lastConfirmRelevance}
               limitDays={parish.updatePeriodInDays}
             />
           </div>

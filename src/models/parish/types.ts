@@ -5,15 +5,16 @@ export type Parish = {
   name: string;
   address: string;
   gps: null;
-  key: string,
+  key: string;
   updatePeriodInDays: number;
   localizedInfo: {
     ru: Localization;
     en: Localization;
     pl: Localization;
-  },
+  };
   needUpdate: boolean;
   lastModifiedDate: Date;
+  lastConfirmRelevance: string;
   lastMassActualDate: Date;
   cityId: string;
   phone: string;
@@ -25,8 +26,8 @@ export type Parish = {
   _links: {
     self: {
       href: string;
-    }
-  }
+    };
+  };
 };
 
 type Localization = {
@@ -35,9 +36,9 @@ type Localization = {
 };
 
 export type Filters = {
-  key?: string[] | string,
-  cityId?: string,
-  address?: string,
-  name?: string,
-  id?: string[] | string,
+  key?: string[] | string;
+  cityId?: string;
+  address?: string;
+  name?: string;
+  id?: string[] | string;
 };
