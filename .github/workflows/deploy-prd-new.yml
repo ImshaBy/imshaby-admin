@@ -10,36 +10,43 @@ jobs:
     env:
       VITE_API_URL: ${{vars.VITE_API_URL}}
       VITE_AUTH_DOMAIN: ${{vars.VITE_AUTH_DOMAIN}}
-      VITE_AUTH_CLIENT_ID: ${{secrets.VITE_AUTH_CLIENT_ID}}
       VITE_FUSION_ADDRESS: ${{vars.VITE_FUSION_ADDRESS}}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
 
-      - name: Create ssh-key file
-        run: |
-          mkdir ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa github.com
-
-      - name: Use NodeJS v.18.19.0
-        uses: actions/setup-node@v4
+      # Runs a single command using the runners shell
+      - name: Yandex Cloud CR "Login" Action for GitHub Actions
+        uses: yc-actions/yc-cr-login@v0.1-alpha
         with:
-          node-version: 18.19.0
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
 
-      - name: NPM install
-        run: npm ci
 
-      - name: NPM build
-        run: CI='' npm run build
-
-      - name: List of files
-        run: cd ./dist && ls -la
-
-      - name: Copy to server
-        run: rsync -avz -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.STATIC_PATH }}
+      - name: Build, tag, and push image to Yandex Cloud Container Registry
+        env:
+          CR_REGISTRY: ${{secrets.CR_REGISTRY}}
+          CR_REPOSITORY: ${{vars.CR_REPOSITORY}}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build --build-arg VITE_API_URL=${{ vars.VITE_API_URL }} --build-arg VITE_FUSION_ADDRESS=${{ vars.VITE_FUSION_ADDRESS }} -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG .
+          docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
+      
+      - name: Purge YandexCloud CDN cache
+        id: purge-cache
+        uses: yc-actions/yc-cdn-cache@v1
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+          cdn-resource-id: bc8chbljdefyet2qnvbo
+      
+      - name: Pulling and starting new image
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          PORTAINER_URL: ${{ vars.PORTAINER_URL }}
+          WEBHOOK_ID: ${{ secrets.WEBHOOK_ID }}
+        run: |
+          curl -k -XPOST $PORTAINER_URL/api/webhooks/$WEBHOOK_ID?tag=$IMAGE_TAG
   
   create_release:
     runs-on: ubuntu-latest
