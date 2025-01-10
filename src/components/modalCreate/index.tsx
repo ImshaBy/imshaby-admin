@@ -16,6 +16,7 @@ import {
   changeMassMode,
   editMass,
 } from '../../models/mass';
+import { $parish } from '../../models/parish';
 import { Mass, MassMode } from '../../models/mass/types';
 import DateTimePicker from '../datapicker';
 import { CloseIcon, DeleteIcon, RoratyIcon, YoutubeIcon } from '../icons';
@@ -58,6 +59,7 @@ const CreateModal = () => {
   const massMode = useUnit($massMode);
   const massUpdated = useUnit($massUpdated);
   const massError = useUnit($massError);
+  const parish = useUnit($parish);
   const visible = massMode !== MassMode.HIDDEN && !massUpdated;
 
   const commentRef = useRef<HTMLTextAreaElement>(null);
@@ -317,9 +319,8 @@ const CreateModal = () => {
                   <section className="form__row form__row--small-margin">
                     <div className="form__col">
                       <div
-                        className={`form__label form__label--no-margin ${
-                          !daysValid && submitted ? 'form__label--invalid' : ''
-                        }`}
+                        className={`form__label form__label--no-margin ${!daysValid && submitted ? 'form__label--invalid' : ''
+                          }`}
                       >
                         Дзень паўтора
                       </div>
@@ -329,13 +330,12 @@ const CreateModal = () => {
                           <ul className="days__list">
                             {WEEK_DAYS.map((day) => (
                               <li
-                                className={`days__item ${
-                                  days.includes(day.value) && massError.errorDay && massError.errorDay === day.value
-                                    ? 'days__item--error'
-                                    : days.includes(day.value)
+                                className={`days__item ${days.includes(day.value) && massError.errorDay && massError.errorDay === day.value
+                                  ? 'days__item--error'
+                                  : days.includes(day.value)
                                     ? 'days__item--active'
                                     : ''
-                                }`}
+                                  }`}
                                 onClick={handleSelectDay(day.value)}
                               >
                                 {day.title}
@@ -396,13 +396,14 @@ const CreateModal = () => {
 
               <section className="form__row form__row--small-margin">
                 <div className="form__col">
-                  <div className="form__field">
+                  <div className={`form__field ${!parish?.broadcastUrl ? 'form__field_disabled' : ''}`}>
                     <label className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox__input"
                         checked={online}
                         onChange={() => setOnline(!online)}
+                        disabled={!parish?.broadcastUrl}
                       />
                       <span className="checkbox__text">
                         {' '}

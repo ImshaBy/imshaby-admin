@@ -19,7 +19,7 @@ const Header = ({ schedule = true, parish = true, select = true, logo = true }: 
         <section className="container header__container">
           {logo && (
             <section className="logo">
-              <a href="https:imsha.by" className="link">
+              <a href="https://imsha.by/" className="link">
                 <LogoIcon className="icon" />
                 <span className="logo__text">imsha.by</span>
               </a>
