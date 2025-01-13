@@ -1,6 +1,6 @@
 import './style.scss';
 
-import { format, fromUnixTime, getTime, parse, set } from 'date-fns';
+import { format, fromUnixTime, getTime, getUnixTime, parse, set } from 'date-fns';
 import { useUnit } from 'effector-react';
 import moment from 'moment';
 import { ChangeEvent, useEffect, useMemo, useRef, useState, SyntheticEvent } from 'react';
@@ -105,6 +105,25 @@ const CreateModal = () => {
       setNotesOverflowed(!commentExpanded && scrollHeight > INITIAL_COMMENT_HEIGHT);
     }
   }, [notes, commentExpanded]);
+
+  const isChanged = useMemo(() => {
+    let hasChanged = false;
+    if (mass) {
+      if (online !== mass.online || rorate !== mass.rorate || notes !== mass.notes || langCode !== mass.langCode || isMassPeriodic !== !!mass.days?.length) {
+        hasChanged = true;
+      } else if (isMassPeriodic === !!mass.days?.length && !isMassPeriodic) {
+        if ((!!startDate && (getUnixTime(startDate!) !== mass.singleStartTimestamp)) || (`0${fromUnixTime(mass.singleStartTimestamp!).getHours().toString()}`.slice(-2) !== hours) || (`0${fromUnixTime(mass.singleStartTimestamp!).getMinutes().toString()}`.slice(-2) !== minutes)) {
+          hasChanged = true;
+        }
+      } else if (isMassPeriodic === !!mass.days?.length && isMassPeriodic) {
+        const time = mass.time ? mass.time.split(':') : ['00', '00'];
+        if ((!!startDate && (getUnixTime(startDate) !== getUnixTime(parse(mass.startDate!, 'MM/dd/yyyy', new Date())))) || time[0] !== hours || time[1] !== minutes || (mass.days && mass.days[0] !== days[0]) || (!!mass.endDate !== !!endDate) || (!!mass.endDate && !!endDate && (getUnixTime(parse(mass.endDate, 'MM/dd/yyyy', new Date())) !== getUnixTime(endDate)))) {
+          hasChanged = true;
+        }
+      }
+    }
+    return hasChanged;
+  }, [mass, online, rorate, notes, langCode, isMassPeriodic, startDate, hours, minutes, days, endDate])
 
   useEffect(() => {
     if (!mass) {
@@ -429,7 +448,7 @@ const CreateModal = () => {
                 Дадаць Імшу
               </button>
             ) : (
-              <button type="button" className="btn" onClick={handleCreate} disabled={!isValid}>
+              <button type="button" className="btn" onClick={handleCreate} disabled={!isValid || !isChanged}>
                 Змяніць Імшу
               </button>
             )}
