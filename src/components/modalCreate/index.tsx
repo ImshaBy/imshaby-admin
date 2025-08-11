@@ -23,7 +23,7 @@ import { CloseIcon, DeleteIcon, RoratyIcon, YoutubeIcon } from '../icons';
 import Modal from '../modal';
 import TimePicker from '../timepicker';
 
-const NOTES_LIMIT = 300;
+const NOTES_LIMIT = 500;
 const INITIAL_COMMENT_HEIGHT = 42;
 const DEFAULT_LANG = 'беларуская';
 
