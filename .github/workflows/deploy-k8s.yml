@@ -47,7 +47,7 @@ jobs:
       uses: yc-actions/yc-cdn-cache@v1
       with:
         yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
-        cdn-resource-id: bc8chbljdefyet2qnvbo
+        cdn-resource-id: bc8r5pjqxruvfgle4inq
 
     - name: Setup Kubernetes tools
       run: |
