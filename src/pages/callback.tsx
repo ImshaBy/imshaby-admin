@@ -3,6 +3,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate } from 'react-router-dom';
+import * as Sentry from '@sentry/react';
 
 import PasswordlessAPI from '../common/api/passwordlessAPI';
 import Header from '../components/header';
@@ -29,6 +30,13 @@ const CallbackPage = () => {
         path: '/',
         expires: expire_time,
       });
+      // Привязываем ошибки к пользователю (FusionAuth JWT: sub = id, email)
+      try {
+        const payload = JSON.parse(atob(access_token.split('.')[1]));
+        Sentry.setUser({ id: payload.sub, email: payload.email });
+      } catch {
+        // токен не JWT — пропускаем
+      }
     }
   };
 
