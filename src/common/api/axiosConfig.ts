@@ -28,8 +28,11 @@ apiInstance.interceptors.request.use((config) => {
 apiInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Capture API error to Sentry
-    Sentry.captureException(error);
+    // В Sentry шлём только 5xx и сетевые ошибки, иначе 4xx спамят issues
+    const status = error?.response?.status;
+    if (!status || status >= 500) {
+      Sentry.captureException(error);
+    }
     return Promise.reject(error);
   },
 );
