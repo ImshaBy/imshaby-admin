@@ -277,9 +277,11 @@ const CreateModal = () => {
                 <>
                   <div className="modal__error">
                     <span className="modal__error-text">{massError.message} </span>
-                    <span className="modal__mass-link" onClick={changeExistingMass}>
-                      {massError.massLink}
-                    </span>
+                    {massError.existingMass && massError.massLink && (
+                      <span className="modal__mass-link" onClick={changeExistingMass}>
+                        {massError.massLink}
+                      </span>
+                    )}
                   </div>
                 </>
               )}

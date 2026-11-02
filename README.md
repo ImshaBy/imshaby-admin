@@ -1,4 +1,12 @@
 
+## Проверки
+
+- `npm run build` — проверка TypeScript и production-сборка Vite.
+- `npm test` — регрессия отображения ошибок сохранения Імшы через Effector:
+  разовые/повторяющиеся конфликты, nullable-поля API, Unix timestamp в секундах
+  и неизвестные ошибки. Использует обезличенные данные и часовой пояс Europe/Minsk;
+  запросы к API заменены обработчиками эффектов.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

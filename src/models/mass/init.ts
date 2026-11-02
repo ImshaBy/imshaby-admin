@@ -1,5 +1,4 @@
-import { format, fromUnixTime, parse, getDay } from 'date-fns';
-import { be } from 'date-fns/locale';
+import { format, fromUnixTime, isValid } from 'date-fns';
 import { attach, sample } from 'effector';
 
 import { $parish } from '../parish';
@@ -50,36 +49,41 @@ $massError
     errorDay: null,
     existingMass: null,
   }))
-  .on([createMassFx.fail, updateMassFx.fail], (_, { params, error }) => {
-    let message = 'Імша на гэты час ужо ёсць у раскладзе.';
+  .on([createMassFx.fail, updateMassFx.fail], (_, { error }) => {
+    let message = 'Не ўдалося захаваць Імшу. Паспрабуйце яшчэ раз.';
     let errorDay: number | null = null;
     let massLink = '';
     let existingMass = null;
-    if (error && error.response) {
-      const { data } = error.response;
-      const { payload } = data.errors[0];
-      const { duplicateMass } = payload;
-      existingMass = duplicateMass.id;
-      let day = new Date();
-      let weekDay!: number;
-      if (duplicateMass && !params?.days) {
-        day = fromUnixTime(params?.singleStartTimestamp || 0);
-        errorDay = getDay(duplicateMass.singleStartTimestamp);
-        weekDay = day.getDay();
-      } else if (duplicateMass && params?.days) {
-        day = parse(`${duplicateMass.startDate} ${duplicateMass.time}` || '', 'MM/dd/yyyy HH:mm', new Date());
-        const distance = (duplicateMass.days[0] + 7 - day.getDay()) % 7;
-        day.setDate(day.getDate() + distance);
-        errorDay = params.days[0];
-        weekDay = params.days[0];
+    const errors = error?.response?.data?.errors;
+    const conflict = Array.isArray(errors)
+      ? errors.find((item) => item?.code === 'MASS.011' && item?.payload?.duplicateMass)
+      : undefined;
+    const duplicateMass = conflict?.payload?.duplicateMass;
+
+    if (duplicateMass && typeof duplicateMass === 'object') {
+      message = 'Імша на гэты час ужо ёсць у раскладзе. Абярыце іншы час ці дзень.';
+      existingMass = typeof duplicateMass.id === 'string' ? duplicateMass.id : null;
+      let schedule = '';
+      const timestamp = duplicateMass.singleStartTimestamp;
+      if (typeof timestamp === 'number' && Number.isFinite(timestamp) && timestamp > 0) {
+        const date = fromUnixTime(timestamp);
+        if (isValid(date)) {
+          errorDay = date.getDay() || 7;
+          schedule = `${format(date, 'dd.MM.yyyy')} на ${format(date, 'HH:mm')}`;
+          message = `Адзінкавая Імша ${schedule} ужо ёсць у раскладзе. Абярыце іншы час ці дзень.`;
+        }
+      } else if (Array.isArray(duplicateMass.days)) {
+        const weekDay = duplicateMass.days[0];
+        const time = duplicateMass.time;
+        if (days.has(weekDay) && typeof time === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(time)) {
+          errorDay = weekDay || 7;
+          schedule = `на ${time}`;
+          message = `Імша ${schedule} ужо ёсць у раскладзе ў ${days.get(weekDay)}. Абярыце іншы час ці дзень.`;
+        }
       }
-      message = `Імша на ${format(day, 'HH:mm', { locale: be })} ужо ёсць у раскладзе ў ${days.get(
-        weekDay,
-      )}. Абярыце іншы час ці дзень.`;
-      massLink = `Змяніць існуючую Імшу на ${format(day, 'HH:mm', { locale: be })}`;
-      //   message = `Імша на ${format(day, 'HH:mm', { locale: be })} ужо ёсць у раскладзе ў ${days.get(day.getDay())} ${
-      //     !!duplicateMass.days ? 'з' : ''
-      //   } ${format(day, 'd MMMM yyyy года', { locale: be })}. Абярыце іншы час ці дзень.`;
+      if (existingMass) {
+        massLink = `Змяніць існуючую Імшу${schedule ? ` ${schedule}` : ''}`;
+      }
     }
     return {
       error: true,
